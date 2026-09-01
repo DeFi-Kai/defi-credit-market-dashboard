@@ -159,7 +159,8 @@ function deriveFundamentals(row) {
   const capitalRiskRate = parseNumber(row.capital_risk_rate) ?? 0.025;
   const capitalRiskAdjustment = parseNumber(row.capital_risk_adjustment) ?? 0;
   const capitalAtRisk = activeLoans === null ? null : (activeLoans * capitalRiskRate) + capitalRiskAdjustment;
-  const takeRate = revenue === null || activeLoans === null || activeLoans <= 0 ? null : revenue / activeLoans;
+  const takeRate = earnings === null || revenue === null || revenue <= 0 ? null : earnings / revenue;
+  const earningsMargin = revenue === null || activeLoans === null || activeLoans <= 0 ? null : revenue / activeLoans;
   const netEarnings = earnings === null || incentives === null ? null : earnings - incentives;
   const roic = netEarnings === null || capitalAtRisk === null || capitalAtRisk === 0 ? null : netEarnings / capitalAtRisk;
   const profitSpread = roic === null ? null : roic - 0.15;
@@ -176,6 +177,7 @@ function deriveFundamentals(row) {
     incentives,
     capitalAtRisk,
     takeRate,
+    earningsMargin,
     roic,
     profitSpread,
     economicProfit,
@@ -587,7 +589,7 @@ function scorecardMetricsFor(fundamentalsSnapshot, marketSnapshot, growthBaselin
       loanGrowth: scorecardLoanGrowth(fundamental.id, marketSnapshot, growthBaselineSnapshot),
       revenue,
       takeRate: fundamental.takeRate,
-      earningsMargin: earnings === null || revenue === null || revenue <= 0 ? null : earnings / revenue,
+      earningsMargin: fundamental.earningsMargin,
       economicProfit: fundamental.economicProfit,
       profitPoolShare: positiveEconomicProfit > 0 && fundamental.economicProfit !== null
         ? Math.max(0, fundamental.economicProfit) / positiveEconomicProfit

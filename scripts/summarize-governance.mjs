@@ -18,18 +18,23 @@ if (!baseUrl) {
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const data = JSON.parse(await fs.readFile(outputPath, 'utf8'));
 const topics = Array.isArray(data.topics) ? data.topics : [];
-const pending = topics.filter((topic) => !topic.proposal_summary || !topic.signal);
+const needsModel = topics.some((topic) => !topic.ai_model);
+const needsSynthesis = topics.some((topic) => !topic.proposal_summary || !topic.signal);
+const configuredModel = process.env.LM_STUDIO_MODEL;
+const model = topics.length > 0 && (needsModel || needsSynthesis || configuredModel)
+  ? (configuredModel || await getLoadedModel(baseUrl, { apiKey }))
+  : null;
+const pending = topics.filter((topic) => !topic.proposal_summary || !topic.signal || (model && topic.ai_model !== model));
 
 if (pending.length === 0) {
   console.log('No governance posts need AI synthesis.');
 } else {
-  const model = process.env.LM_STUDIO_MODEL || await getLoadedModel(baseUrl, { apiKey });
   let completed = 0;
 
   for (const topic of pending) {
     try {
       const synthesis = await synthesizeTopic(topic, { baseUrl, model, apiKey });
-      Object.assign(topic, synthesis);
+      Object.assign(topic, synthesis, { ai_model: model });
       completed += 1;
       console.log(`[${topic.protocol}] Synthesized ${topic.topic_id}: ${synthesis.signal}`);
     } catch (error) {

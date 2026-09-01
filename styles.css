@@ -826,6 +826,11 @@ h2 {
 .topic-ai-heading-row h4 { margin-bottom: 0; }
 .topic-ai-section .topic-detail-copy { margin-top: 15px; }
 .topic-detail-copy.is-pending { color: var(--muted-2); }
+.topic-ai-meta {
+  margin: 8px 0 0;
+  color: var(--muted-2);
+  font-size: 0.7rem;
+}
 .topic-ai-reason {
   margin: 12px 0 0;
   color: var(--muted-2);

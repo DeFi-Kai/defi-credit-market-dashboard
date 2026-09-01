@@ -126,7 +126,8 @@ Each topic is normalized to fields including:
 - `latest_comment_excerpt`
 - `proposal_summary` (scheduled AI output, persisted in the feed data)
 - `signal` (`scale`, `price`, `capture`, `security`, or `general`)
-- `signal_reason` (local AI explanation for the primary signal)
+- `signal_reason` (AI explanation for the primary signal)
+- `ai_model` (model ID used to generate the summary)
 - `latest_comment_summary` (reserved for AI)
 
 The local governance refresh command summarizes new or edited governance posts through an OpenAI-compatible LM Studio server. It writes `proposal_summary`, `signal`, and `signal_reason` into `data/governance.json`, then commits and pushes that file so GitHub Pages deploys the public result. The endpoint and optional model ID are never sent to the browser.

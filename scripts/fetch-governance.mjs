@@ -192,6 +192,7 @@ async function ingestProtocol(protocol) {
         signal: sameProposal ? previous.signal : null,
         signal_reason: sameProposal ? previous.signal_reason : null,
         ai_synthesized_at: sameProposal ? previous.ai_synthesized_at : null,
+        ai_model: sameProposal ? previous.ai_model : null,
         latest_comment_excerpt: hasComment ? excerpt(lastPost, 900) : null,
         latest_comment_summary: null,
         latest_comment_poster: hasComment ? lastPost.username : null,
