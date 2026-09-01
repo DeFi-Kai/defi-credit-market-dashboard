@@ -1,3 +1,5 @@
+import { SIGNALS } from './governance-signals.js';
+
 const state = {
   protocols: [],
   topics: [],
@@ -67,6 +69,15 @@ function relativeTime(value) {
 
 function protocolName(id) {
   return state.protocols.find((protocol) => protocol.id === id)?.name || id;
+}
+
+function signalTag(topic) {
+  if (!SIGNALS[topic.signal]) return null;
+  const tag = document.createElement('span');
+  tag.className = `signal-tag signal-${topic.signal}`;
+  tag.textContent = SIGNALS[topic.signal].label;
+  if (topic.signal_reason) tag.title = topic.signal_reason;
+  return tag;
 }
 
 function applyTheme(theme, persist = true) {
@@ -142,6 +153,8 @@ function topicMatchesFilters(topic) {
     topic.proposal_excerpt,
     topic.latest_comment_summary,
     topic.latest_comment_excerpt,
+    topic.signal,
+    topic.signal_reason,
   ]
     .filter(Boolean)
     .join(' ')
@@ -198,13 +211,32 @@ function renderTopicDetail(topic) {
   const postSection = document.createElement('section');
   postSection.className = 'topic-detail-section';
   const postHeading = document.createElement('h4');
-  postHeading.textContent = 'Post contents';
+  postHeading.textContent = 'Post excerpt';
   const postCopy = document.createElement('p');
   postCopy.className = 'topic-detail-copy';
-  postCopy.textContent = topic.proposal_summary || topic.proposal_excerpt || 'No post content available.';
+  postCopy.textContent = topic.proposal_excerpt || 'No post content available.';
   postSection.append(postHeading, postCopy);
 
-  content.append(kicker, title, meta, postSection);
+  const aiSection = document.createElement('section');
+  aiSection.className = 'topic-detail-section topic-ai-section';
+  const aiHeadingRow = document.createElement('div');
+  aiHeadingRow.className = 'topic-ai-heading-row';
+  const aiHeading = document.createElement('h4');
+  aiHeading.textContent = 'AI synthesis';
+  const tag = signalTag(topic);
+  if (tag) aiHeadingRow.append(aiHeading, tag);
+  else aiHeadingRow.appendChild(aiHeading);
+  const aiCopy = document.createElement('p');
+  aiCopy.className = `topic-detail-copy${topic.proposal_summary ? '' : ' is-pending'}`;
+  aiCopy.textContent = topic.proposal_summary || 'AI synthesis is pending the next scheduled refresh.';
+  aiSection.append(aiHeadingRow, aiCopy);
+  if (topic.signal_reason) {
+    const reason = document.createElement('p');
+    reason.className = 'topic-ai-reason';
+    reason.textContent = topic.signal_reason;
+    aiSection.appendChild(reason);
+  }
+  content.append(kicker, title, meta, postSection, aiSection);
 
   const latestComment = topic.latest_comment_summary || topic.latest_comment_excerpt;
   if (latestComment) {
@@ -273,10 +305,18 @@ function renderFeed() {
     title.className = 'feed-item-title';
     title.textContent = topic.title;
     titleRow.append(protocol, title);
+    const tag = signalTag(topic);
+    if (tag) titleRow.appendChild(tag);
     const submeta = document.createElement('span');
     submeta.className = 'feed-item-submeta';
     submeta.textContent = `@${topic.original_poster || 'unknown'} · ${topic.category || 'Governance'}`;
     main.append(titleRow, submeta);
+    if (topic.proposal_summary) {
+      const summary = document.createElement('span');
+      summary.className = 'feed-item-summary';
+      summary.textContent = topic.proposal_summary;
+      main.appendChild(summary);
+    }
 
     const meta = document.createElement('span');
     meta.className = 'feed-item-meta';

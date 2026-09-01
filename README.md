@@ -8,8 +8,8 @@ A static GitHub Pages dashboard for monthly lending fundamentals, with Governanc
 
 ```text
 capital at risk = active loans * capital risk rate + capital risk adjustment
-take rate = revenue / active loans
-earnings margin = earnings / revenue
+take rate = earnings / revenue
+earnings margin = revenue / active loans
 economic profit = earnings - token incentives - (15% * capital at risk)
 ```
 
@@ -44,7 +44,7 @@ The fundamentals snapshot command only prints CSV and never overwrites your hist
 
 ## Competitive scorecard
 
-The protocol competitive scorecard compares the selected cohort protocol with the sector median for the active snapshot. The protocol selector uses the eight venues in `data/fundamentals.csv`; the timeframe controls borrowed-TVL growth and market-share deltas over 30D, 90D, or 1Y. Take rate is revenue divided by active loans, earnings margin is earnings divided by revenue, and incentive intensity is incentives divided by revenue. Period deltas for the economic metrics require an earlier dated row in `data/fundamentals.csv`.
+The protocol competitive scorecard compares the selected cohort protocol with the sector median for the active snapshot. The protocol selector uses the eight venues in `data/fundamentals.csv`; the timeframe controls borrowed-TVL growth and market-share deltas over 30D, 90D, or 1Y. Take rate is earnings divided by revenue, earnings margin is revenue divided by active loans, and incentive intensity is incentives divided by revenue. Period deltas for the economic metrics require an earlier dated row in `data/fundamentals.csv`.
 
 ## Product model
 
@@ -122,11 +122,14 @@ Each topic is normalized to fields including:
 - `original_poster`
 - `latest_poster`
 - `proposal_excerpt`
+- `proposal_content` (up to 8,000 characters, used by the scheduled synthesis job)
 - `latest_comment_excerpt`
-- `proposal_summary` (reserved for AI)
+- `proposal_summary` (scheduled AI output, persisted in the feed data)
+- `signal` (`scale`, `price`, `capture`, `security`, or `general`)
+- `signal_reason` (local AI explanation for the primary signal)
 - `latest_comment_summary` (reserved for AI)
 
-The frontend already prefers the summary fields when present, so an AI summarization stage can be added later without redesigning the UI.
+The local governance refresh command summarizes new or edited governance posts through an OpenAI-compatible LM Studio server. It writes `proposal_summary`, `signal`, and `signal_reason` into `data/governance.json`, then commits and pushes that file so GitHub Pages deploys the public result. The endpoint and optional model ID are never sent to the browser.
 
 ## Adding another protocol
 
@@ -151,7 +154,7 @@ As long as the site is a standard Discourse instance, the same ingestion path sh
 ## Recommended next iterations
 
 1. Replace the market-data placeholders with generated DefiLlama/CoinGecko JSON and chart rendering.
-2. Add an AI stage that summarizes OP + latest reply after ingestion and caches the output by post ID.
+2. Move synthesis to managed inference if the dashboard outgrows the local cron job and LM Studio setup.
 3. Persist historical snapshots so you can chart governance activity and detect edits, new replies, and proposal status changes.
 4. Add proposal lifecycle/status normalization (`TEMP CHECK`, `ARFC`, `AIP`, risk update, parameter change, etc.).
 5. Add RSS/email/Telegram alerts only after the feed logic feels correct.
@@ -167,3 +170,11 @@ python3 -m http.server 8000
 Then open `http://localhost:8000` for the market dashboard or `http://localhost:8000/governance.html` for Governance.
 
 The committed `data/governance.json` contains mock data so the UI renders before the first live ingestion run.
+
+For local scheduled synthesis, configure the refresh process with `LM_STUDIO_BASE_URL`, an optional `LM_STUDIO_MODEL`, and an optional `LM_STUDIO_API_KEY`. The endpoint can be the remote computer's private IP, hostname, or a secured tunnel address. Configure Git credentials on this computer so `git push` works, then add a cron entry such as:
+
+```cron
+17 */6 * * * cd /absolute/path/to/defi-credit-market-dashboard && LM_STUDIO_BASE_URL=http://192.168.1.50:1234/v1 /usr/bin/flock -n /tmp/defi-governance-refresh.lock /usr/bin/npm run refresh:governance >> /absolute/path/to/defi-governance-refresh.log 2>&1
+```
+
+If the remote LM Studio server requires authentication, add `LM_STUDIO_API_KEY` to the command through a protected environment file rather than committing it. The GitHub Pages workflow is deploy-only: each successful push from the local refresh job triggers the public deployment.

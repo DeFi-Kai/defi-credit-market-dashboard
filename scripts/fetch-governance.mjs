@@ -9,6 +9,16 @@ const configPath = path.join(root, 'config', 'protocols.json');
 const outputPath = path.join(root, 'data', 'governance.json');
 
 const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
+const previousTopics = new Map();
+
+try {
+  const previousData = JSON.parse(await fs.readFile(outputPath, 'utf8'));
+  for (const topic of previousData.topics || []) {
+    previousTopics.set(`${topic.protocol}:${topic.topic_id}`, topic);
+  }
+} catch {
+  // The first ingestion has no prior AI output to carry forward.
+}
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -157,6 +167,10 @@ async function ingestProtocol(protocol) {
       const lastPost = await fetchLastPost(protocol, detail);
       const hasComment = lastPost && lastPost.post_number > 1;
       const slug = topic.slug || detail.slug || 'topic';
+      const proposalContent = excerpt(firstPost, 8000);
+      const previous = previousTopics.get(`${protocol.id}:${topic.id}`);
+      const previousContent = previous?.proposal_content || previous?.proposal_excerpt || null;
+      const sameProposal = previous && previousContent === proposalContent;
 
       output.push({
         protocol: protocol.id,
@@ -173,7 +187,11 @@ async function ingestProtocol(protocol) {
         reply_count: topic.reply_count ?? Math.max(0, (topic.posts_count || 1) - 1),
         views: topic.views ?? null,
         proposal_excerpt: excerpt(firstPost),
-        proposal_summary: null,
+        proposal_content: proposalContent,
+        proposal_summary: sameProposal ? previous.proposal_summary : null,
+        signal: sameProposal ? previous.signal : null,
+        signal_reason: sameProposal ? previous.signal_reason : null,
+        ai_synthesized_at: sameProposal ? previous.ai_synthesized_at : null,
         latest_comment_excerpt: hasComment ? excerpt(lastPost, 900) : null,
         latest_comment_summary: null,
         latest_comment_poster: hasComment ? lastPost.username : null,

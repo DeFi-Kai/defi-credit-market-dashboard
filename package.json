@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "fetch": "node scripts/fetch-governance.mjs",
+    "summarize": "node scripts/summarize-governance.mjs",
+    "refresh:governance": "node scripts/refresh-governance.mjs",
     "snapshot:fundamentals": "node scripts/snapshot-fundamentals.mjs",
     "snapshot:market-share": "node scripts/snapshot-market-share.mjs",
     "snapshot:lending-venues": "node scripts/snapshot-lending-venues.mjs"

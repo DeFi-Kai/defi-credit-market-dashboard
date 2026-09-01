@@ -585,6 +585,12 @@ h2 {
 }
 .feed-heading-row .eyebrow { margin-bottom: 7px; }
 .feed-count { flex: 0 0 auto; }
+.feed-heading-meta {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+}
+.feed-ai-note { color: var(--muted-2); font-size: 0.68rem; }
 .feed-controls {
   display: flex;
   align-items: center;
@@ -681,6 +687,25 @@ h2 {
   min-width: 0;
   gap: 11px;
 }
+.signal-tag {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 21px;
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 760;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.signal-scale { color: #16876a; }
+.signal-price { color: #ad7911; }
+.signal-capture { color: #635bff; }
+.signal-security { color: #ce5664; }
+.signal-general { color: var(--muted); }
 .feed-item-protocol {
   flex: 0 0 auto;
   color: var(--accent);
@@ -701,6 +726,15 @@ h2 {
 .feed-item-meta {
   color: var(--muted-2);
   font-size: 0.73rem;
+}
+.feed-item-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .feed-item-meta {
   display: flex;
@@ -782,6 +816,21 @@ h2 {
   font-weight: 760;
   letter-spacing: 0.11em;
   text-transform: uppercase;
+}
+.topic-ai-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.topic-ai-heading-row h4 { margin-bottom: 0; }
+.topic-ai-section .topic-detail-copy { margin-top: 15px; }
+.topic-detail-copy.is-pending { color: var(--muted-2); }
+.topic-ai-reason {
+  margin: 12px 0 0;
+  color: var(--muted-2);
+  font-size: 0.79rem;
+  line-height: 1.5;
 }
 .topic-detail-copy {
   margin: 0;
@@ -870,6 +919,7 @@ h2 {
   .feed-item-meta { gap: 12px; }
   .topic-detail-content { padding: 44px 22px 56px; }
   .topic-detail-navigation { align-items: flex-start; }
+  .feed-heading-meta { justify-items: start; }
 }
 
 /* Light analytics workspace theme */

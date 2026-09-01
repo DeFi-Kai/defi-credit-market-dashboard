@@ -3,8 +3,6 @@ name: Build and deploy governance dashboard
 on:
   push:
     branches: ["main"]
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -28,14 +26,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Refresh governance data
-        run: node scripts/fetch-governance.mjs
-        env:
-          DISCOURSE_API_KEY: ${{ secrets.DISCOURSE_API_KEY }}
-          DISCOURSE_API_USERNAME: ${{ secrets.DISCOURSE_API_USERNAME }}
-          AAVE_DISCOURSE_API_KEY: ${{ secrets.AAVE_DISCOURSE_API_KEY }}
-          AAVE_DISCOURSE_API_USERNAME: ${{ secrets.AAVE_DISCOURSE_API_USERNAME }}
 
       - name: Refresh all-venue lending data
         run: node scripts/snapshot-lending-venues.mjs
