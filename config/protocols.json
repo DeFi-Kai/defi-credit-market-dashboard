@@ -1,0 +1,25 @@
+[
+  {
+    "id": "aave",
+    "name": "Aave",
+    "forum": "https://governance.aave.com",
+    "enabled": true,
+    "latest_pages": 2,
+    "whitelist": {
+      "users": [
+        "AaveLabs",
+        "TokenLogic",
+        "ACI",
+        "bgdlabs",
+        "Babylon-Ecosystem"
+      ],
+      "groups": [
+        "Aave-Labs-SP",
+        "TokenLogic-Finance-SP",
+        "Certora-Security-SP",
+        "LlamaRisk-Risk-SP",
+        "Orbit-Delegate"
+      ]
+    }
+  }
+]

@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Monthly lending fundamentals and a focused feed of DeFi governance topics." />
+  <title>DeFi Credit Market Dashboard</title>
+  <link rel="stylesheet" href="./styles.css?v=20260901-39" />
+  <script>
+    (() => {
+      try {
+        const savedTheme = window.localStorage.getItem('defi-dashboard-theme');
+        document.documentElement.dataset.theme = savedTheme === 'dark' ? 'dark' : 'light';
+      } catch {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
+</head>
+<body>
+  <main class="shell">
+    <div class="workspace">
+      <aside class="side-nav" aria-label="Dashboard sections">
+        <a class="side-nav-brand" href="./index.html">
+          <span class="brand-mark" aria-hidden="true">D</span>
+          <span>
+            <strong>DeFi Credit</strong>
+            <small>Market dashboard</small>
+          </span>
+        </a>
+        <nav class="side-nav-links">
+          <a class="side-nav-page" href="./index.html" aria-current="page">Dashboard</a>
+          <div class="side-nav-subnav">
+            <a href="#market-summary">Overview</a>
+            <a href="#profit-pool-section">Profit pool</a>
+            <a href="#economics-section">Economics</a>
+            <a href="#scorecard-section">Competitive scorecard</a>
+            <a href="#market-share-section">Market share</a>
+          </div>
+          <a href="./governance.html">Governance</a>
+        </nav>
+      </aside>
+
+      <div class="content-column">
+        <header class="site-header">
+          <div>
+            <p class="eyebrow">DeFi credit markets</p>
+            <h1>Lending intelligence</h1>
+            <a
+              class="research-report-link"
+              href="https://defi-kai.github.io/kai-site/research/defi-lending-endgame/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read the DeFi Lending Endgame report
+              <svg class="external-link-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M9 2h5v5M14 2 7 9" />
+                <path d="M13 9v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3" />
+              </svg>
+            </a>
+          </div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+              <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle class="theme-sun" cx="12" cy="12" r="4" />
+                <path class="theme-sun" d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
+                <path class="theme-moon" d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z" />
+              </svg>
+            </button>
+            <div class="freshness" id="freshness">Loading market data…</div>
+          </div>
+        </header>
+
+    <section class="market-summary" id="market-summary" aria-label="All lending venue market summary">
+      <article class="metric-card">
+        <p class="eyebrow">All venues</p>
+        <h2>Total Active Loans</h2>
+        <p class="metric-value" id="total-active-loans">--</p>
+        <p class="metric-delta" id="total-active-loans-delta">--</p>
+        <p class="metric-detail" id="total-active-loans-detail">Loading all-venue snapshot...</p>
+      </article>
+      <article class="metric-card">
+        <p class="eyebrow">All venues</p>
+        <h2>TTM / Annualized Revenue</h2>
+        <p class="metric-value" id="total-revenue">--</p>
+        <p class="metric-delta" id="total-revenue-delta">--</p>
+        <p class="metric-detail" id="total-revenue-detail">TTM where available; annualized otherwise</p>
+      </article>
+      <article class="metric-card">
+        <p class="eyebrow">All venues</p>
+        <h2>TTM / Annualized Earnings</h2>
+        <p class="metric-value" id="total-earnings">--</p>
+        <p class="metric-delta" id="total-earnings-delta">--</p>
+        <p class="metric-detail" id="total-earnings-detail">TTM where available; annualized otherwise</p>
+      </article>
+      <article class="metric-card metric-card-ranking">
+        <p class="eyebrow">All venues</p>
+        <h2>Top 3 Market Share</h2>
+        <p class="metric-value" id="top-three-share">--</p>
+        <p class="metric-delta" id="top-three-share-delta">--</p>
+        <ol class="metric-rankings" id="top-three-share-list" aria-label="Top three lending venues by active loans"></ol>
+      </article>
+    </section>
+
+    <div class="dashboard-grid">
+      <section class="dashboard-panel profit-pool-panel" id="profit-pool-section" aria-labelledby="fundamentals-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Fundamentals | Monthly</p>
+            <h2 id="fundamentals-heading">DeFi lending profit pool</h2>
+          </div>
+          <span class="snapshot-badge" id="fundamentals-date">Loading snapshot...</span>
+        </div>
+
+        <p class="section-intro">The pool sizes each protocol by the capital exposed to its lending book, then compares returns with a 15% cost-of-capital hurdle.</p>
+
+        <div class="pool-legend" aria-label="Take type legend">
+          <span><i class="legend-swatch premium"></i>Defensible premium</span>
+          <span><i class="legend-swatch ancillary"></i>Ancillary take</span>
+          <span><i class="legend-swatch sacrifice"></i>Capture sacrificed for scale</span>
+          <span><i class="legend-swatch reserve"></i>Reserve-factor-dependent</span>
+        </div>
+
+        <div class="profit-pool" id="profit-pool" aria-live="polite">
+          <div class="pool-loading">Loading profit pool...</div>
+        </div>
+      </section>
+
+      <aside class="dashboard-panel methodology-panel" id="methodology-section" aria-labelledby="methodology-heading">
+        <div class="panel-heading">
+          <p class="eyebrow" id="methodology-heading">Methodology</p>
+        </div>
+        <div class="methodology-ep">
+          <h3>Economic profit</h3>
+          <p class="methodology-ep-copy">Calculating the Economic profit (EP) of each venue shows us where the real profit in lending actually sits. Economic profit (EP) is what a venue earns above its cost of capital. Specifically, the EP measures the profit the platform earned after subtracting the minimum profit that capital could have earned elsewhere.</p>
+          <p class="methodology-equation" aria-label="Economic profit equals earnings minus token incentives minus r times capital at risk">EP = earnings − token incentives − r × capital-at-risk</p>
+          <p class="methodology-rate">In this snapshot, <strong>r</strong> is the 15% cost-of-capital hurdle.</p>
+        </div>
+        <dl class="methodology-list">
+          <div>
+            <dt>Width</dt>
+            <dd>Capital at risk</dd>
+          </div>
+          <div>
+            <dt>Height</dt>
+            <dd>ROIC versus 15% hurdle</dd>
+          </div>
+          <div>
+            <dt>Area</dt>
+            <dd>Economic profit after incentives</dd>
+          </div>
+        </dl>
+        <div class="methodology-assumption">
+          <p class="methodology-assumption-label">Capital at risk assumption</p>
+          <p class="methodology-assumption-copy">Capital at risk = active loans × capital risk rate + capital risk adjustment.</p>
+          <p class="methodology-assumption-rate">Default capital risk rate: <strong>2.5%</strong></p>
+        </div>
+        <p class="methodology-note">Colors classify the protocol's take type. Hover a segment for the underlying spread, economic profit, and capital at risk.</p>
+      </aside>
+
+      <section class="dashboard-panel scorecard-panel" id="scorecard-section" aria-labelledby="scorecard-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Competitive analysis | MVP</p>
+            <h2 id="scorecard-heading">Protocol Competitive Scorecard</h2>
+          </div>
+          <p class="scorecard-context" id="scorecard-context">Loading scorecard...</p>
+        </div>
+        <div class="scorecard-controls" aria-label="Scorecard controls">
+          <label for="scorecard-protocol">Protocol</label>
+          <select id="scorecard-protocol" class="scorecard-select">
+            <option value="">Loading protocols...</option>
+          </select>
+          <label for="scorecard-timeframe">Timeframe</label>
+          <select id="scorecard-timeframe" class="scorecard-select">
+            <option value="30D">30D</option>
+            <option value="90D" selected>90D</option>
+            <option value="1Y">1Y</option>
+          </select>
+        </div>
+        <p class="section-intro">Direct-competitor comparison across the eight-venue cohort. Period deltas use the selected timeframe; loan growth is borrowed-TVL growth and share changes are percentage points.</p>
+        <div class="scorecard-layout">
+          <div class="scorecard-table-scroll">
+            <table class="scorecard-table">
+              <thead>
+                <tr>
+                  <th scope="col">Metric</th>
+                  <th scope="col">Protocol</th>
+                  <th scope="col">Sector Median</th>
+                  <th scope="col">Rank</th>
+                  <th scope="col">Period Δ</th>
+                </tr>
+              </thead>
+              <tbody id="scorecard-table-body"></tbody>
+            </table>
+          </div>
+          <div class="scorecard-visual">
+            <div class="scorecard-visual-heading">
+              <h3>Protocol vs Sector Benchmark</h3>
+              <p class="scorecard-visual-note">Values are normalized within the direct-competitor cohort. 100 marks the highest cohort value, not 100%.</p>
+            </div>
+            <div class="scorecard-chart" id="scorecard-chart" role="img" aria-label="Horizontal bars comparing the selected protocol with the sector median. Values are normalized within the direct-competitor cohort, where 100 is the highest cohort value rather than 100 percent.">
+              <div class="scorecard-loading">Loading benchmark...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-panel market-share-panel" id="market-share-section" aria-labelledby="market-share-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Market structure | Monthly</p>
+            <h2 id="market-share-heading">Active loan market share over time</h2>
+          </div>
+        </div>
+        <p class="section-intro">Each layer shows a venue's share of total active loans. The stack is normalized to 100% at every snapshot date.</p>
+        <div class="market-share-chart" id="market-share-chart" role="img" aria-label="100 percent stacked area chart showing active loan market share by lending venue over time.">
+          <div class="market-share-loading">Loading market share...</div>
+        </div>
+        <p class="market-share-note" id="market-share-note" hidden></p>
+      </section>
+
+      <section class="dashboard-panel fundamentals-panel" id="economics-section" aria-labelledby="fundamentals-table-heading">
+        <div class="fundamentals-table-heading">
+          <div>
+            <p class="eyebrow">Protocol fundamentals</p>
+            <h3 id="fundamentals-table-heading">TTM lending economics</h3>
+          </div>
+          <p class="table-note" id="fundamentals-source"></p>
+        </div>
+        <div class="table-scroll">
+          <table class="fundamentals-table">
+            <thead>
+              <tr>
+                <th scope="col">Protocol</th>
+                <th scope="col">Active loans</th>
+                <th scope="col">Loan share</th>
+                <th scope="col">Revenue</th>
+                <th scope="col">Earnings</th>
+                <th scope="col">Take rate</th>
+                <th scope="col" title="Change in borrowed TVL versus the nearest snapshot at or before 90 days ago">90d Δ Loans</th>
+                <th scope="col" title="Change in market share versus 90 days ago, in percentage points">Share Δ 90</th>
+              </tr>
+            </thead>
+            <tbody id="fundamentals-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+        <footer class="site-footer">
+          All data sourced from
+          <a class="site-footer-link" href="https://defillama.com/" target="_blank" rel="noopener noreferrer">
+            DeFiLlama
+            <svg class="external-link-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M9 2h5v5M14 2 7 9" />
+              <path d="M13 9v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3" />
+            </svg>
+          </a>
+        </footer>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+  <script type="module" src="./app.js?v=20260901-38"></script>
+</body>
+</html>

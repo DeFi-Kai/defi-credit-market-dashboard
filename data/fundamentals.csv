@@ -1,0 +1,9 @@
+date,protocol,active_loans,revenue_ttm,earnings_ttm,incentives_ttm,capital_risk_rate,capital_risk_adjustment,take_type
+2026-08-29,aave,18302936233,816251166,106287204,909280,0.025,155000000,defensible-premium
+2026-08-29,morpho,3728228822,208960872,0,13264410,0.025,0,capture-sacrificed-for-scale
+2026-08-29,spark-lend,1663303735,189940719,17437744,0,0.025,39300000,ancillary-take
+2026-08-29,kamino,1207187957,73819957,11130408,0,0.025,0,defensible-premium
+2026-08-29,jupiter-lend,689739147,31944188,1680538,0,0.025,0,reserve-factor-dependent
+2026-08-29,fluid,1158360639,67654952,11111091,11568960,0.025,0,reserve-factor-dependent
+2026-08-29,euler,964866666,56252701,3318469,2759050,0.025,0,ancillary-take
+2026-08-29,compound,766096225,31836014,2422790,0,0.025,0,reserve-factor-dependent

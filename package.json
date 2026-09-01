@@ -1,0 +1,12 @@
+{
+  "name": "defi-governance-monitor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/fetch-governance.mjs",
+    "snapshot:fundamentals": "node scripts/snapshot-fundamentals.mjs",
+    "snapshot:market-share": "node scripts/snapshot-market-share.mjs",
+    "snapshot:lending-venues": "node scripts/snapshot-lending-venues.mjs"
+  }
+}

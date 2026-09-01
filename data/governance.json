@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-08-29T20:45:00.000Z",
+  "topics": [
+    {
+      "protocol": "aave",
+      "topic_id": 25348,
+      "slug": "arfc-governance-framework-v2",
+      "url": "https://governance.aave.com/t/arfc-governance-framework-v2/25348",
+      "title": "[ARFC] Governance Framework v2",
+      "category": "Governance",
+      "category_id": null,
+      "topic_created_at": "2026-07-20T18:21:00.000Z",
+      "last_activity_at": "2026-08-29T18:04:00.000Z",
+      "original_poster": "TokenLogic",
+      "latest_poster": "delegate-example",
+      "reply_count": 14,
+      "views": 1200,
+      "proposal_excerpt": "This publication presents an overview of Aave DAO’s Governance Process v2 and is intended to replace the current governance process document. The framework consolidates the process into a single canonical reference and proposes a more streamlined path from forum discussion to execution.",
+      "proposal_summary": null,
+      "latest_comment_excerpt": "The latest discussion focuses on how the updated process should handle service-provider review and whether the shorter timeline leaves enough time for technical feedback before an AIP moves forward.",
+      "latest_comment_summary": null,
+      "latest_comment_poster": "delegate-example",
+      "latest_comment_created_at": "2026-08-29T18:04:00.000Z"
+    },
+    {
+      "protocol": "aave",
+      "topic_id": 24352,
+      "slug": "arfc-aave-will-win-framework",
+      "url": "https://governance.aave.com/t/arfc-aave-will-win-framework/24352",
+      "title": "[ARFC] Aave Will Win Framework",
+      "category": "Governance",
+      "category_id": null,
+      "topic_created_at": "2026-03-27T01:17:00.000Z",
+      "last_activity_at": "2026-08-28T15:30:00.000Z",
+      "original_poster": "AaveLabs",
+      "latest_poster": "AaveLabs",
+      "reply_count": 48,
+      "views": 6600,
+      "proposal_excerpt": "The proposal lays out a strategic framework for Aave’s next chapter, including revenue alignment between Aave-branded products and the DAO treasury, a one-year development budget, and an accountability framework for continued execution.",
+      "proposal_summary": null,
+      "latest_comment_excerpt": "A follow-up comment clarifies implementation details and responds to questions raised by delegates around sequencing, accountability, and the scope of the framework.",
+      "latest_comment_summary": null,
+      "latest_comment_poster": "AaveLabs",
+      "latest_comment_created_at": "2026-08-28T15:30:00.000Z"
+    }
+  ]
+}

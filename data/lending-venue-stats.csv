@@ -1,0 +1,709 @@
+date,protocol,name,category,active_loans,revenue_ttm,revenue_annualized,earnings_ttm,earnings_annualized,active_loans_90d_ago,revenue_90d_ago,earnings_90d_ago
+2026-08-29,0vix,0vix,Lending,0,,135923.6417033774,,39056.07669616519,0,,
+2026-08-29,0xlend,0xLend,Lending,176.03124787795713,,,,,171,,
+2026-08-29,246club,246Club,Lending,2800.070868703344,,,,,2787,,
+2026-08-29,3f,3F,RWA Lending,0,10481.02,30851.389516129035,9494.02,27946.107258064516,,5430.757575757576,5430.757575757576
+2026-08-29,3jane-lending,3Jane Lending,Uncollateralized Lending,66689176.56599634,327140,327140,0,0,19913828,277044.29090909095,0
+2026-08-29,40-acres,40 Acres,Lending,9329492.446897553,1451636.02,1451636.02,526091.02,526091.02,10223074,1784333,633532
+2026-08-29,88mph,88mph,Lending,0,,,,,,,
+2026-08-29,8lends,8lends,RWA Lending,11992532.651818568,,,,,9329885,,
+2026-08-29,aave-aptos,Aave Aptos,Lending,28937.07549168881,,,,,798242,,
+2026-08-29,aave-arc,Aave Arc,Lending,0,,,,,0,,
+2026-08-29,aave-horizon-rwa,Aave Horizon RWA,RWA Lending,124660272.2666045,,,,,173095504,,
+2026-08-29,aave-v1,Aave V1,Lending,58763.93285773433,,,,,47730,,
+2026-08-29,aave-v2,Aave V2,Lending,18881457.693736494,1581380,1581380,1383369,1383369,18444041,1503933,1259109
+2026-08-29,aave-v3,Aave V3,Lending,12362956708.09077,809152804,809152804,104090984,104090984,10478944533,941332121,124006899
+2026-08-29,aave-v4,Aave V4,Lending,208683513.86988947,859010,2049272.2222222222,118404,284325.39473684214,32737627,569288.1451612903,69579.59677419355
+2026-08-29,abel-finance,ABEL Finance,Lending,94806.71869392975,,,,,103538,,
+2026-08-29,accountable,Accountable,Uncollateralized Lending,307462287.1879824,11597261,15336957.481884057,456028.9600000001,603081.7768115944,195636682,10518159.621621622,395778.29945945943
+2026-08-29,accumulated-finance-lending,Accumulated Finance Lending,Lending,89233.51711764508,,,,,149771,,
+2026-08-29,acumen,Acumen,Lending,0,,,,,,,
+2026-08-29,affluent,Affluent,Lending,584998.0633497038,502107,520650.72443181823,7432.9400000000005,7707.451988636364,1916315,479196,6891
+2026-08-29,agave,Agave,Lending,5290.053836746672,,,,,5405,,
+2026-08-29,agile-finance,Agile Finance,Lending,0,,,,,0,,
+2026-08-29,agora,Agora,Lending,0,,,,,0,,
+2026-08-29,aimstrong,AImstrong,Lending,15.050807240018447,,,,,14,,
+2026-08-29,ajna-v1,Ajna V1,Lending,178280.62641763908,32753,32753,29959.5,29959.5,59,318.71376811594206,216.8840579710145
+2026-08-29,ajna-v2,Ajna V2,Lending,31869.45409020384,14743.43,14989.838300835656,7844.48,7975.585515320334,30112,14220,899
+2026-08-29,algofi-lend,Algofi Lend,Lending,345.52427736787354,,,,,401,,
+2026-08-29,alien-finance,Alien Finance,Lending,0,,,,,0,,
+2026-08-29,alkemi,Alkemi,Lending,0,,,,,,,
+2026-08-29,aloe,Aloe,Lending,0,,,,,0,,
+2026-08-29,alpaca-finance-2.0,Alpaca Finance 2.0,Lending,558291.7558590561,,,,,593648,,
+2026-08-29,alphafi-lending,AlphaFi Lending,Lending,54907374.905757405,2016413,4066247.209944751,434734,876673.5359116022,,3816087.1666666665,666275.0555555555
+2026-08-29,alphalend,AlphaLend,Lending,0,4266819,5832917.359550562,1008145,1378175.7490636704,59192710,4779421,1427859
+2026-08-29,alta-finance,ALTA Finance,RWA Lending,105617.15116741207,,,,,105587,,
+2026-08-29,altitude.fi,Altitude.Fi,Lending,258292.02491462612,,,,,2503933,,
+2026-08-29,altr-lend,Altr Lend,Lending,0,,,,,0,,
+2026-08-29,ambit-finance,Ambit Finance,Lending,11351.148061783366,,,,,12707,,
+2026-08-29,ammalgam-dlex,Ammalgam DLEX,Lending,52870.910025170284,128.65999999999997,886.0547169811318,1.3900000000000001,169.11666666666667,,,
+2026-08-29,amphora,Amphora,Lending,0,,,,,,,
+2026-08-29,amply-finance,Amply Finance,Lending,97249.07227202685,,,,,173659,,
+2026-08-29,amy-finance,Amy Finance,Lending,0,,,,,,,
+2026-08-29,anchor,Anchor,Lending,0,,,,,,,
+2026-08-29,annex,Annex,Lending,0,,,,,0,,
+2026-08-29,antihero-finance,AntiHero Finance,Lending,0,,,,,0,,
+2026-08-29,ape-finance,Ape Finance,Lending,0,,,,,,,
+2026-08-29,apebank,ApeBank,Lending,7230.187822362226,,,,,52069,,
+2026-08-29,apeswap-lending,ApeSwap Lending,Lending,31580.725696173038,,,,,33297,,
+2026-08-29,apricot-finance,Apricot Finance,Lending,0,,,,,,,
+2026-08-29,aptin-finance-v1,Aptin Finance V1,Lending,13379.572475437528,,,,,13379,,
+2026-08-29,aptin-finance-v2,Aptin Finance V2,Lending,4320983.611295324,,,,,4320983,,
+2026-08-29,aqualoan,AquaLoan,Lending,4766.421610587535,,,,,4719,,
+2026-08-29,aquarius-loan,Aquarius Loan,Lending,0,,,,,0,,
+2026-08-29,arbor-finance,Arbor Finance,Lending,0,,,,,,,
+2026-08-29,arcade.xyz,Arcade.xyz,NFT Lending,2491687.155252099,,,,,2399402,,
+2026-08-29,aries-markets,Aries Markets,Lending,0,333385,338015.34722222225,100969,102371.34722222222,3094700,266816,53360
+2026-08-29,arkis,Arkis,Lending,28244174.97919234,,,,,28737250,,
+2026-08-29,aso-finance,Aso Finance,Lending,186.48745527402403,,,,,388,,
+2026-08-29,astaria-v1,Astaria V1,NFT Lending,1.653208274040041,,,,,1,,
+2026-08-29,astaria-v2,Astaria V2,Lending,0,,,,,,,
+2026-08-29,astrol,Astrol,Lending,0.000831557076763791,,,,,0,,
+2026-08-29,atlantis-loans,Atlantis Loans,Lending,12250.781432610998,,,,,12250,,
+2026-08-29,atlendis-v1,Atlendis V1,Uncollateralized Lending,0,,,,,0,,
+2026-08-29,atlendis-v2,Atlendis V2,RWA Lending,5487207.093515845,,,,,5487207,,
+2026-08-29,augmented-finance,Augmented Finance,Lending,0,,,,,0,,
+2026-08-29,aurigami,Aurigami,Lending,234192.81576902047,,,,,202889,,
+2026-08-29,aurum-old,Aurum old,Lending,0,,,,,0,,
+2026-08-29,aurumswap,AurumSwap,Lending,0,,,,,,,
+2026-08-29,avalon-finance,Avalon Finance,Lending,647094.4299001321,39312,50702.75618374558,9435,12168.816254416963,396144,86879,18979
+2026-08-29,avalon-usdalend,Avalon USDaLend,Lending,70.72829178083802,,,,,64,,
+2026-08-29,avocado-fund,Avocado Fund,Uncollateralized Lending,43992.63633134655,,,,,,,
+2026-08-29,avolend,AvoLend,Lending,0,,,,,0,,
+2026-08-29,backed,Backed,NFT Lending,0,,,,,,,
+2026-08-29,baksdao,BaksDAO,Lending,0,,,,,,,
+2026-08-29,bamm,BAMM,Lending,951412.4422600156,,,,,4996795,,
+2026-08-29,bank-of-cronos-loans,Bank of Cronos Loans,Lending,0,,,,,,,
+2026-08-29,banx,Banx,NFT Lending,0,,,,,0,,
+2026-08-29,bao-markets,BAO Markets,Lending,0,,,,,0,,
+2026-08-29,basic,Basic,Lending,125617.22370150188,,,,,79940,,
+2026-08-29,basilisk,Basilisk,Lending,7442.503098477485,,,,,7031,,
+2026-08-29,bastion,Bastion,Lending,39372.594638801726,,,,,39946,,
+2026-08-29,bencufi,BencuFi,Lending,9.322397716703277,,,,,9,,
+2026-08-29,bend,BEND,Lending,7713918.328815463,165234,189655.37735849057,7157.460000000001,8215.323584905662,415504,196255.8370044053,9965.947136563876
+2026-08-29,benddao-lending-v1,BendDAO Lending V1,NFT Lending,3692886.4874805845,1287400,1287400,566856,566856,3103610,1483829,623678
+2026-08-29,benddao-lending-v2,BendDAO Lending V2,NFT Lending,0,632.1099999999996,632.1099999999996,94.09999999999998,94.09999999999998,,1489,209
+2026-08-29,benqi-lending,Benqi Lending,Lending,36541601.21158244,4207307,4207307,762188,762188,48937618,5658235,1027207
+2026-08-29,beta-finance-v1,Beta Finance V1,Lending,26525.70743641015,,,,,8863,,
+2026-08-29,beta-finance-v2,Beta Finance V2,Lending,5603.017942180495,,,,,5097,,
+2026-08-29,betterbank,BetterBank,Lending,0,,,,,0,,
+2026-08-29,betterlend,BetterLend,Lending,8380.858014356274,,,,,4896,,
+2026-08-29,bfly-finance,BFly Finance,Lending,0,,,,,,,
+2026-08-29,bifi,BiFi,Lending,0,,,,,,,
+2026-08-29,bitfire,BitFire,Lending,56.36549353895028,,,,,43,,
+2026-08-29,bitlen-finance,Bitlen Finance,Lending,3168.2270652084712,,,,,3006,,
+2026-08-29,bitlend,Bitlend,Lending,0,,,,,,,
+2026-08-29,bitty,Bitty,NFT Lending,0,,,,,7084,,
+2026-08-29,blend-finance,Blend Finance,Lending,0,,,,,0,,
+2026-08-29,blend-pools,Blend Pools,Lending,10478.066989209321,0,0,0,0,11993,3,0
+2026-08-29,blend-pools-v2,Blend Pools V2,Lending,39012709.00731981,4036552,4036552,0,0,40355435,3222104,0
+2026-08-29,blizz-finance,Blizz Finance,Lending,0,,,,,0,,
+2026-08-29,blume,Blume,Lending,0,,,,,0,,
+2026-08-29,blur-lending,Blur Lending,NFT Lending,0,,,,,,,
+2026-08-29,bnpl-pay,BNPL Pay,Lending,0,,,,,0,,
+2026-08-29,bodh-finance,Bodh Finance,Lending,0,,,,,0,,
+2026-08-29,bondappetit,BondAppetit,Lending,0,,,,,,,
+2026-08-29,bonqdao,BonqDAO,Lending,0,,,,,,,
+2026-08-29,bonzo-lend,Bonzo Lend,Lending,12768477.84666155,353415.53,353415.53,47001.399999999994,47001.399999999994,3690466,513049,49052
+2026-08-29,brainiac-finance,Brainiac Finance,Lending,0,,,,,8,,
+2026-08-29,c14,C14,Lending,213.82879704532328,,,,,213,,
+2026-08-29,canto-lending,Canto Lending,Lending,793175.6287949318,175263,185423.1739130435,0,0,792996,182699,0
+2026-08-29,cap,cap,Lending,63746881.98092477,7472632,7472632,447407.89,447407.89,43931512,8266990.035971223,566595.5395683453
+2026-08-29,capyfi,Capyfi,Lending,7862449.117581667,443370,443370,54307.26,54307.26,6705756,476506.33757961786,57639.7770700637
+2026-08-29,carrot-lend,Carrot Lend,Lending,109732.59036791512,,,,,109789,,
+2026-08-29,cashcow-finance,CashCow Finance,Lending,0,,,,,0,,
+2026-08-29,cat-in-a-box,Cat in a Box,Lending,0,,,,,,,
+2026-08-29,cerra,Cerra,Lending,0,,,,,,,
+2026-08-29,chainflip-lending,Chainflip Lending,Lending,1260399.9214446202,,,,,497836,,
+2026-08-29,channels-finance,Channels Finance,Lending,0,,,,,0,,
+2026-08-29,chedda-finance,Chedda Finance,Lending,3726.6297182212816,546,546,56,56,3490,460,46
+2026-08-29,chee-finance,Chee Finance,Lending,0,,,,,0,,
+2026-08-29,cherrylend,CherryLend,Lending,0,,,,,,,
+2026-08-29,chfry-finance,CHFRY Finance,Lending,0,,,,,,,
+2026-08-29,chimeradex-lend,Chimeradex Lend,Lending,0,,,,,0,,
+2026-08-29,citrus,Citrus,NFT Lending,345229.3552307537,,,,,258885,,
+2026-08-29,clawloan,Clawloan,Uncollateralized Lending,0,,,,,,,
+2026-08-29,clearpool-lending,Clearpool Lending,Uncollateralized Lending,10304238.243580522,49427,62209.8448275862,0,0,2077442,55346.105527638196,0
+2026-08-29,cog,Cog,Lending,25149.034265958566,,,,,21861,,
+2026-08-29,colend-protocol,Colend Protocol,Lending,306640.2283329407,3572158.83,3572158.83,725605.45,725605.45,1347353,4176546,902314
+2026-08-29,commodo,Commodo,Lending,155.11138675770349,,,,,155,,
+2026-08-29,compound-blue,Compound Blue,Lending,865750.6322368942,,,,,1733985,,
+2026-08-29,compound-v1,Compound V1,Lending,114560.79044371382,,,,,93506,,
+2026-08-29,compound-v2,Compound V2,Lending,11932403.96666056,3493576,3493576,2057635,2057635,13970419,5884766,2368563
+2026-08-29,compound-v3,Compound V3,Lending,620769712.662038,28271263,28271263,380064,1430137.7319587627,584549746,34283003,19702
+2026-08-29,cooler-loans,Cooler Loans,Lending,131322687.21377674,596460,596460,596460,596460,127274863,541480,541480
+2026-08-29,copra-finance,Copra Finance,Lending,0,,,,,,,
+2026-08-29,coslend,Coslend,Lending,0,,,,,0,,
+2026-08-29,coupon-finance,Coupon Finance,Lending,0,,,,,,,
+2026-08-29,covenant,Covenant,Lending,0,,,,,,,
+2026-08-29,cream-lending,CREAM Lending,Lending,3887.1668100365005,,,,,3801,,
+2026-08-29,credible-finance,Credible Finance,RWA Lending,14422465.36550877,,,,,,,
+2026-08-29,credit,Credit,Lending,665201.7187294838,,,,,752673,,
+2026-08-29,credit-coop,Credit Coop,RWA Lending,0,,,,,,,
+2026-08-29,credit-guild,Credit Guild,Lending,0,,,,,,,
+2026-08-29,credix,Credix,RWA Lending,10675675.707852324,,,,,10724351,,
+2026-08-29,crolend-finance,CroLend Finance,Lending,0,,,,,0,,
+2026-08-29,csigma-finance,cSigma Finance,RWA Lending,0,,,,,,,
+2026-08-29,current,Current,Lending,40801984.70915227,379027,875600.3481012658,96752,223509.3670886076,21064028,601291.1940298508,187887.83582089553
+2026-08-29,curvance,Curvance,Lending,81906094.29175909,1932036,2545823.6101083034,264751,348859.62093862816,22861538,2399115.564516129,378269.51612903224
+2026-08-29,curve-llamalend,Curve LlamaLend,Lending,44300224.90306815,447672.6600000001,447672.6600000001,0,0,42289237,514762,0
+2026-08-29,curve-llamalend-v2,Curve LlamaLend V2,Lending,1068544.3948013387,2432,63405.71428571429,243,6335.357142857143,,,
+2026-08-29,cygnusdao,CygnusDAO,Lending,1636.87853,,,,,3345,,
+2026-08-29,dahlia,Dahlia,Lending,6.811887615039161,,,,,5,,
+2026-08-29,damm-finance,dAMM Finance,Uncollateralized Lending,45970.51252989276,,,,,36246,,
+2026-08-29,daolama,DAOLama,Lending,17378.93099029495,,,,,361057,,
+2026-08-29,debtdao,DebtDAO,Lending,0,,,,,0,,
+2026-08-29,deepr-finance,Deepr Finance,Lending,40005.365454435276,61039.26000000001,61039.26000000001,12231.919999999996,12231.919999999996,103530,96921,19395
+2026-08-29,deerfi,DeerFi,Lending,0,,,,,,,
+2026-08-29,defil,DeFIL,Lending,0,,,,,,,
+2026-08-29,definer,DeFiner,Lending,0,,,,,,,
+2026-08-29,defituna-lending,DefiTuna Lending,Lending,269365.8969453334,,,,,671117,,
+2026-08-29,demeter,Demeter,Lending,3539.5139089907348,,,,,,,
+2026-08-29,dforce-lending,dForce Lending,Lending,8.252699603158758,,,,,8,,
+2026-08-29,dolomite,Dolomite,Lending,323451852.2746174,10972359,10972359,2207681,2207681,283029854,9672054,1994566
+2026-08-29,dorian,Dorian,Lending,0,,,,,0,,
+2026-08-29,dorkfi,DorkFi,Lending,49579.3603274514,,,,,48207,,
+2026-08-29,dough-finance,Dough Finance,Lending,0,,,,,,,
+2026-08-29,drops,Drops,NFT Lending,1829129.9434289578,,,,,1595799,,
+2026-08-29,dtrinity-dlend,dTRINITY dLEND,Lending,0,,,,,0,,
+2026-08-29,duckpools,duckpools,Lending,0,,,,,,,
+2026-08-29,echelon-market,Echelon Market,Lending,12106950.707333077,5283983,5283983,1522772,1522772,36706039,8328073,2408399
+2026-08-29,echo-lending,Echo Lending,Lending,182674.0501298325,347521,347521,50695.16,50695.16,354637,474377.1634615385,68710.08012820513
+2026-08-29,ecodefi,EcoDeFi,Lending,0,,,,,0,,
+2026-08-29,edel,Edel,Lending,0,47731,116145.43333333332,4767,14261.926229508197,426126,4008.813559322034,371.1864406779661
+2026-08-29,eden-finance,Eden Finance,Lending,0,,,,,0,,
+2026-08-29,edge-protocol,Edge Protocol,Lending,2074.1305021656303,,,,,2700,,
+2026-08-29,elara,Elara,Lending,697.481290753824,,,,,813,,
+2026-08-29,elma,ELMA,Lending,0,,,,,,,
+2026-08-29,elys-earn,Elys Earn,Lending,165.9361436800809,,,,,164,,
+2026-08-29,enclabs,Enclabs,Lending,0,,,,,0,,
+2026-08-29,enzo-finance,ENZO Finance,Lending,2657.8007755963645,,,,,2508,,
+2026-08-29,equilibrium-lending,Equilibrium Lending,Lending,0,,,,,,,
+2026-08-29,eralend,EraLend,Lending,18.82477234342428,,,,,347123,,
+2026-08-29,etherfi-borrowing-market,EtherFi Borrowing Market,Lending,29582263.224195678,674138,674138,674138,674138,21310238,499290,499290
+2026-08-29,ethichub,EthicHub,RWA Lending,1046473.4936714937,,,,,1046154,,
+2026-08-29,euler-v1,Euler V1,Lending,0,,,,,0,,
+2026-08-29,euler-v2,Euler V2,Lending,576151523.8738699,55676479,56924131.190476194,3295804,3369659.551820728,594760059,70153854,3960076
+2026-08-29,evaa-protocol,EVAA Protocol,Lending,4785619.543956703,,,,,6010505,,
+2026-08-29,everlend,Everlend,Lending,0,,,,,,,
+2026-08-29,everything,Everything,Lending,510697.03659286984,,,,,206375,,
+2026-08-29,evolve,Evolve,Lending,0,,,,,0,,
+2026-08-29,evoq-finance,Evoq Finance,Lending,0,,,,,0,,
+2026-08-29,exactly,Exactly,Lending,1457205.2803798218,,,,,523500,,
+2026-08-29,extra-finance-xlend,Extra Finance Xlend,Lending,778361.3464320638,392674.15,392674.15,39161.38,39161.38,785488,428226,42717
+2026-08-29,fathom-lending,Fathom Lending,Lending,223017.22491008462,,,,,54929,,
+2026-08-29,fenrir-finance,Fenrir Finance,Lending,0,,,,,0,,
+2026-08-29,figure-markets-democratized-prime,Figure Markets Democratized Prime,RWA Lending,575025939.4379944,,,,,342870977,,
+2026-08-29,filda,FilDA,Lending,284120.7011365793,,,,,353878,,
+2026-08-29,fira,Fira,Lending,437267452.9523781,254034.63,404902.357860262,0,0,422598258,380668.5507246377,0
+2026-08-29,firoza-finance,Firoza Finance,Lending,0,,,,,0,,
+2026-08-29,fisclend-finance,Fisclend Finance,Lending,0,,,,,0,,
+2026-08-29,flamingo-lend,Flamingo Lend,Lending,0,,,,,,,
+2026-08-29,flex,Flex,Lending,900972.2276019525,10531.1,36960.11057692308,105.92999999999999,371.77355769230763,802579,21422.69230769231,140.3846153846154
+2026-08-29,floe-labs,Floe Labs,Lending,1.8997794162366068,,,,,58,,
+2026-08-29,florence-finance,Florence Finance,RWA Lending,61971.28868136028,,,,,62222,,
+2026-08-29,fluid-lending,Fluid Lending,Lending,844890981.0624042,54639898,54639898,7519777,7519777,808083331,58876911,7980175
+2026-08-29,fluidtokens,FluidTokens,Lending,1299714.5481903849,31067.05,62649.02348066298,31067.05,62649.02348066298,1337249,66576,66576
+2026-08-29,flux-finance,Flux Finance,Lending,34477901.35227598,1651906,1651906,0,0,34032892,1663504,0
+2026-08-29,flux-protocol,Flux Protocol,Lending,0,,,,,0,,
+2026-08-29,flying-tulip-lend,Flying Tulip Lend,Lending,4260972.4529522825,14643,40799.19847328244,32.95,203.84322033898306,710917,12948.375,0
+2026-08-29,fmoney,fMoney,Lending,6007.944419175481,,,,,5378,,
+2026-08-29,folks-finance-lending,Folks Finance Lending,Lending,11054024.205975108,4002,730365,542,98915,14645093,,
+2026-08-29,folks-finance-xchain,Folks Finance xChain,Lending,1876384.2237085034,643211,643211,64341.08,64341.08,7300795,776361.6363636365,77641.47272727273
+2026-08-29,forlend,forlend,Lending,26556.844645407204,,,,,26556,,
+2026-08-29,fortress-loans,Fortress Loans,Lending,0,,,,,0,,
+2026-08-29,fortube,ForTube,Lending,0,,,,,,,
+2026-08-29,fountain-protocol,Fountain Protocol,Lending,0,,,,,0,,
+2026-08-29,frakt,FRAKT,NFT Lending,0,,,,,0,,
+2026-08-29,fraxlend,Fraxlend,Lending,6054463.517859288,962990.68,962990.68,85863.6,85863.6,7246107,1273040.6,104573.87000000002
+2026-08-29,freeliquid,FreeLiquid,Lending,0,,,,,,,
+2026-08-29,friendly-market,Friendly Market,Lending,83.85505109730435,,,,,88,,
+2026-08-29,fringe-v1,Fringe V1,Lending,246.21749463804792,,,,,246,,
+2026-08-29,fringe-v2,Fringe V2,Lending,9357.648420718968,,,,,9517,,
+2026-08-29,fuji-v1,Fuji V1,Lending,0,,,,,,,
+2026-08-29,fuji-v2,Fuji V2,Lending,261.4124540088674,,,,,259,,
+2026-08-29,fungify,Fungify,Lending,401446.6532378504,,,,,317398,,
+2026-08-29,fusefi-lending,Fusefi Lending,Lending,0,,,,,0,,
+2026-08-29,gearbox,Gearbox,Lending,13023372.342757404,1182492,1182492,348530.06000000006,348530.06000000006,6915227,1905361,479199
+2026-08-29,geist-finance,Geist Finance,Lending,0,,27655070.232371796,,13827537.748397436,0,,
+2026-08-29,genshiro,Genshiro,Lending,0,,,,,,,
+2026-08-29,ghost,Ghost,Lending,0,,,,,9073,,
+2026-08-29,gloop,Gloop,Lending,0.010223947931481087,,,,,0,,
+2026-08-29,glori-finance,Glori Finance,Lending,0,,,,,0,,
+2026-08-29,glyph,Glyph,Lending,1948.0812331361217,,,,,974,,
+2026-08-29,goldbank-finance,Goldbank Finance,Lending,0,,,,,0,,
+2026-08-29,goldfinch,Goldfinch,RWA Lending,0,1572535.6199999994,1572535.6199999994,188439.61999999997,188439.61999999997,56141837,1566891,182795
+2026-08-29,goledo,Goledo,Lending,0,,,,,0,,
+2026-08-29,gondi-v1,Gondi V1,NFT Lending,0,,,,,,,
+2026-08-29,gondi-v2,Gondi V2,NFT Lending,0,,,,,,,
+2026-08-29,gondi-v3,Gondi V3,NFT Lending,0,2740818,2740818,309907,361393.1469648562,,2842237,214718
+2026-08-29,grace,Grace,Lending,423.52858652361584,,,,,421,,
+2026-08-29,granary-finance,Granary Finance,Lending,465600.12491524895,,,,,246649,,
+2026-08-29,granite,Granite,Lending,0,,,,,,,
+2026-08-29,green-planet,Green Planet,Lending,111201.5411382574,,,,,46544,,
+2026-08-29,hadouken-lend,Hadouken Lend,Lending,0,,,,,0,,
+2026-08-29,hakura-protocol,Hakura Protocol,Lending,7073.212011014035,,,,,6564,,
+2026-08-29,hana-finance,Hana Finance,Lending,19474.315783901424,,,,,18252,,
+2026-08-29,harbor-market,Harbor Market,Lending,147073.79850603084,,,,,68224,,
+2026-08-29,harvest-flow,HARVEST FLOW,RWA Lending,0,,,,,,,
+2026-08-29,hashstack,Hashstack,Lending,442.70226035023444,,,,,442,,
+2026-08-29,hatom-lending,Hatom Lending,Lending,2000250.9602350167,,,,,2023648,,
+2026-08-29,haven1-hlend,Haven1 hLend,Lending,99.95456283432785,,,,,99,,
+2026-08-29,hector-lending,Hector Lending,Lending,0,,,,,0,,
+2026-08-29,helix-finance,HELIX Finance,RWA Lending,5499410.290451631,,,,,5497945,,
+2026-08-29,hodltree,Hodltree,Lending,0,,,,,,,
+2026-08-29,hope-lend,HOPE Lend,Lending,0,,,,,,,
+2026-08-29,hover,Hover,Lending,8376.317850697742,1034,1034,387,387,8537,12442,4666
+2026-08-29,huckleberry-lending,Huckleberry Lending,Lending,0,,,,,2457,,
+2026-08-29,hundred-finance,Hundred Finance,Lending,0,,,,,709226,,
+2026-08-29,hydration-lending,Hydration Lending,Lending,16970590.52521577,1719713,1729188.002754821,648810,652384.7107438017,20383316,1665027,310841
+2026-08-29,hydro-lending,Hydro Lending,Lending,1708368.1587132604,4608,49468.23529411765,462.40999999999997,4964.107352941176,2030241,,
+2026-08-29,hyperbeat-usd,Hyperbeat USD,Lending,0,48931,73195.9631147541,48931,73195.9631147541,,44563.39869281046,44563.39869281046
+2026-08-29,hyperdrive-hl-lending,Hyperdrive HL Lending,Lending,399645.87521061476,,,,,525857,,
+2026-08-29,hyperlend-isolated,HyperLend Isolated,Lending,159065.04838762744,64780.54,64780.54,10477.240000000003,10477.240000000003,178650,90737,14768
+2026-08-29,hyperlend-pooled,HyperLend Pooled,Lending,303151326.404573,9965596,9965596,1524668,1524668,261365744,9634743,1638826
+2026-08-29,hyperloan,HyperLoan,Lending,0.5786042699617254,,,,,0,,
+2026-08-29,hyperyield,HyperYield,Lending,80414.67095902852,1525.51,1525.51,368.01000000000005,368.01000000000005,68357,13322,3869
+2026-08-29,hypurrfi-isolated,HypurrFi Isolated,Lending,271517.92377374996,367377.61999999994,367377.61999999994,57143.78,57143.78,263557,355921,68390
+2026-08-29,hypurrfi-pooled,HypurrFi Pooled,Lending,3084875.2853204734,2189672,2189672,574145,574145,7831155,3608402,944309
+2026-08-29,ilend-v1,iLend V1,Lending,2984.1654268157185,,,,,1449,,
+2026-08-29,ilend-v2,iLend V2,Lending,717.1824671154922,,,,,628,,
+2026-08-29,illuminate,Illuminate,Lending,0,,,,,,,
+2026-08-29,iloop,ILoop,Lending,20587.537165797374,,,,,16105,,
+2026-08-29,impermax-v2,Impermax V2,Lending,0,2798663,7296514.25,540646,1409541.357142857,0,4830021.195652174,904247.8260869565
+2026-08-29,impermax-v3,Impermax V3,Lending,5485.237427858354,25929,104000.93406593407,2587,10376.42857142857,41810,104000.93406593407,10376.42857142857
+2026-08-29,increment-lending,Increment Lending,Lending,297899.73399832,,,,,50147,,
+2026-08-29,inertia,INERTIA,Lending,637452.9812488647,,,,,731006,,
+2026-08-29,infy-protocol,Infy Protocol,NFT Lending,0,,,,,,,
+2026-08-29,init-capital,INIT Capital,Lending,0,,,,,702784,,
+2026-08-29,interlay-lending,Interlay Lending,Lending,19770.415578016033,,,,,65063,,
+2026-08-29,iolend,IOLEND,Lending,46568.31468831764,,,,,33927,,
+2026-08-29,ion-protocol,Ion Protocol,Lending,22855.958907849857,,,,,17064,,
+2026-08-29,ionic-protocol,Ionic Protocol,Lending,0,,,,,0,,
+2026-08-29,ionise,Ionise,Lending,8.151930640979623,,,,,12,,
+2026-08-29,iron-bank,Iron Bank,Lending,326221.3956440294,160139.87000000002,160139.87000000002,25729.249999999996,25729.249999999996,254170,135328,21995
+2026-08-29,ironclad-finance,Ironclad Finance,Lending,0,,,,,0,,
+2026-08-29,isle-finance,Isle Finance,RWA Lending,0,,,,,,,
+2026-08-29,jax-finance,Jax Finance,Lending,0,,,,,0,,
+2026-08-29,jet-fixed-term,Jet Fixed Term,Lending,0,,,,,,,
+2026-08-29,jet-margin,Jet Margin,Lending,0,,,,,,,
+2026-08-29,jet-v1,Jet V1,Lending,42900.29299475221,,,,,41332,,
+2026-08-29,jewelswap-nft-lending,JewelSwap NFT Lending,NFT Lending,20.243962689501636,,,,,18,,
+2026-08-29,jiblend,JIBLEND,Lending,9201.754942105828,,,,,9188,,
+2026-08-29,joe-lend,Joe Lend,Lending,0,25366,25366,3330,3330,0,38126,5040
+2026-08-29,jolt,Jolt,Lending,15.862503528254406,,,,,15,,
+2026-08-29,joltify-lend,Joltify Lend,Lending,0,,,,,0,,
+2026-08-29,joltify-rwa,Joltify RWA,RWA Lending,0,,,,,0,,
+2026-08-29,joule-finance,Joule Finance,Lending,45076.582936458246,,,,,309155,,
+2026-08-29,jpegd,JPEG'd,NFT Lending,0,,,,,,,
+2026-08-29,jupiter-lend,Jupiter Lend,Lending,937844685.9959937,32145671,32145671,1690808,1690808,915953349,27806520.334448162,1491294.7826086958
+2026-08-29,jupiter-offerbook,Jupiter Offerbook,Lending,418147.0449434925,13651,39233.188976377955,5976,17175.11811023622,,9571.111111111111,4227.916666666667
+2026-08-29,juris-protocol,Juris Protocol,Lending,25.107677075745702,,,,,13,,
+2026-08-29,justlend-v1,JustLend V1,Lending,192609004.81014496,11912694,11912694,516065,516065,150782873,8163300,513461
+2026-08-29,justlend-v2,JustLend V2,Lending,473984.07044648036,,,,,,,
+2026-08-29,k613,K613,Lending,932.1670261458693,,,,,58174,,
+2026-08-29,kamino-lend,Kamino Lend,Lending,1001725050.8661599,69225642,69225642,10046317,10046317,1086464173,85461964,13426669
+2026-08-29,karura-dollar-(kusd),Karura Dollar (kUSD),Lending,0,,,,,,,
+2026-08-29,kaskad,Kaskad,Lending,132434.10598090544,13400,49908.163265306124,1319.43,4964.865463917526,536091,12827.142857142859,1251.4285714285716
+2026-08-29,kasu,Kasu,RWA Lending,0,803354,805561.0164835165,80793,81014.95879120879,,643334,64809
+2026-08-29,kava-lend,Kava Lend,Lending,184127.2566207392,,,,,314458,,
+2026-08-29,kawa-finance,Kawa Finance,Lending,4.4156114186097195,,,,,6,,
+2026-08-29,keom-protocol,Keom Protocol,Lending,32699.82826210406,,13747.146341463415,,2809.1646341463415,61923,0,0
+2026-08-29,kilolend,KiloLend,Lending,267.6123481463209,,,,,167,,
+2026-08-29,kinetic,Kinetic,Lending,12265213.979218297,1278624,1368615.1319648093,213879,228932.06744868038,13835263,1453834.42,244993.84
+2026-08-29,kinza-finance,Kinza Finance,Lending,1350398.1231743433,201849,201849,28476.459999999995,28476.459999999995,1862510,226691,32274
+2026-08-29,klap,Klap,Lending,0,,,,,0,,
+2026-08-29,klaybank,KlayBank,Lending,167165.8245447203,,,,,148511,,
+2026-08-29,klend,KLend,Lending,0,,,,,0,,
+2026-08-29,knightswap-lending,KnightSwap Lending,Lending,0,,,,,154029,,
+2026-08-29,kokomo-finance,Kokomo Finance,Lending,1006.0680000000001,,,,,1006,,
+2026-08-29,kona-lend,Kona Lend,Lending,237847.9890828078,,,,,460581,,
+2026-08-29,kyros-finance,Kyros Finance,Lending,58.67118696587865,,,,,,,
+2026-08-29,l2finance,L2FINANCE,Lending,6.9397551571448615,,,,,6,,
+2026-08-29,lander,Lander,Lending,9028.25851579678,,,,,7894,,
+2026-08-29,larix,Larix,Lending,0,,,,,0,,
+2026-08-29,lava,Lava,Lending,0,168711,168711,33742,33742,0,1968233,217636
+2026-08-29,layerbank,LayerBank,Lending,952446.0820370133,,,,,9647896,,
+2026-08-29,leaper-finance,Leaper Finance,Lending,241048.6876533513,,,,,241048,,
+2026-08-29,lendao,Lendao,Lending,0,,,,,,,
+2026-08-29,lendexe-finance,LendeXe Finance,Lending,9560.621066005153,,,,,8617,,
+2026-08-29,lendflare,LendFlare,Lending,0,,,,,,,
+2026-08-29,lendhub,LendHub,Lending,0,,,,,0,,
+2026-08-29,lending-pond,Lending Pond,Lending,0,,,,,,,
+2026-08-29,lendle-isolated-markets,Lendle Isolated Markets,Lending,30.94996162033637,,,,,25,,
+2026-08-29,lendle-pooled-markets,Lendle Pooled Markets,Lending,90640.84824817894,108409,108409,23090,23090,270809,100300,24973
+2026-08-29,lendlord,LendLord,Lending,127.3672116431236,,,,,124,,
+2026-08-29,lendora-protocol,Lendora Protocol,Lending,0,,,,,0,,
+2026-08-29,lendos,lendOS,Lending,202.51039150816308,,,,,1670,,
+2026-08-29,lenen,Lenen,Lending,0,,,,,0,,
+2026-08-29,lenfi,Lenfi,Lending,0,,,,,,,
+2026-08-29,levvy-for-nfts,Levvy for NFTs,NFT Lending,957.0486973853161,8764,96935.1515151515,3962,43822.121212121216,1304,104235.69105691057,45156.13821138211
+2026-08-29,levvy-for-tokens,Levvy for Tokens,Lending,10359.438423600133,28005,309752.2727272727,9425,104246.21212121213,14173,500860.1219512195,168377.76422764227
+2026-08-29,lila-finance,Lila Finance,Lending,0,,,,,,,
+2026-08-29,linx-app,Linx App,Lending,21482.16811051349,,,,,50129,,
+2026-08-29,liqee,Liqee,Lending,8.252761019215354,,,,,8,,
+2026-08-29,liquidium,Liquidium,Lending,1730170.6366596587,8279.320000000002,16513.397814207656,1098.59,4773.635119047619,198289,1159.5494565217396,0
+2026-08-29,liquidops,LiquidOps,Lending,25809.161135847557,85612,651007.9166666666,8559,65084.0625,25809,397395.90551181097,39733.26771653543
+2026-08-29,liqwid,Liqwid,Lending,5271710.835359593,1120862,1697571.0788381742,182446,276318.6307053942,7198459,1988106.3333333333,351801.6
+2026-08-29,lista-lending,Lista Lending,Lending,70003630.18639846,9768826,9768826,340804,340804,212404434,11564179,24603
+2026-08-29,llamalend,Llamalend,NFT Lending,4640.82430406507,28775.729999999996,28775.729999999996,0,0,3792,46926,0
+2026-08-29,lnd,LND,Lending,0,,,,,0,,
+2026-08-29,loanshark-core,Loanshark Core,Lending,7530.772787988542,,,,,7696,,
+2026-08-29,lodestar-v0,Lodestar V0,Lending,1493.855810920683,,,,,1478,,
+2026-08-29,lodestar-v1,Lodestar V1,Lending,3375.1146684075643,,,,,4219,,
+2026-08-29,loopscale,Loopscale,Lending,55045824.77589445,1060162,3279314.661016949,0,0,55533164,3458037.0370370373,0
+2026-08-29,lore-finance,Lore Finance,Lending,192990.14283034543,,,,,78764,,
+2026-08-29,lucky-peaches,Lucky Peaches,Lending,30802.43814216382,,,,,30044,,
+2026-08-29,lumen-money,Lumen Money,Lending,129.50854043049657,,,,,9806,,
+2026-08-29,lumin-finance,Lumin Finance,Lending,0,,,,,0,,
+2026-08-29,machfi,MachFi,Lending,28286.135295439217,28074.04,28074.04,21696.04,21696.04,28264,43259,24419
+2026-08-29,mage-finance,Mage Finance,Lending,360.8774926731371,,,,,414,,
+2026-08-29,magnate-finance,Magnate Finance,Lending,0,,,,,0,,
+2026-08-29,magnify-cash,Magnify Cash,Lending,9169.152228675872,,,,,9166,,
+2026-08-29,magpie-capital,Magpie Capital,Lending,0,,,,,,,
+2026-08-29,magsinio,Magsinio,Lending,0.5396213178215445,,,,,0,,
+2026-08-29,mahalend,MahaLend,Lending,61754.39874101439,,,,,32274,,
+2026-08-29,mantra-dao,MANTRA DAO,Lending,0,,,,,0,,
+2026-08-29,mantra-protocol,Mantra Protocol,NFT Lending,0,,,,,,,
+2026-08-29,maple,Maple,Lending,1846709589.0677114,110722490.05,110722490.05,14422671.01,14422671.01,1831691228,102816145.45,15190400.45
+2026-08-29,mare-finance-v1,Mare Finance V1,Lending,0,,,,,0,,
+2026-08-29,mare-finance-v2,Mare Finance V2,Lending,0,,,,,0,,
+2026-08-29,marginfi-lending,marginfi Lending,Lending,0,,965425,,33215,,,
+2026-08-29,marinus,Marinus,Lending,0,,,,,,,
+2026-08-29,market,Market,Lending,8755.626472328177,,,,,8755,,
+2026-08-29,mars-lend,Mars Lend,Lending,0,,,,,,,
+2026-08-29,meld,Meld,Lending,0,,,,,,,
+2026-08-29,mendi-finance,Mendi Finance,Lending,281972.71551363106,44657,44657,6773.339999999997,6773.339999999997,302658,79250,11681
+2026-08-29,mensa-protocol,Mensa Protocol,Lending,0,,,,,,,
+2026-08-29,meow-protocol,Meow Protocol,Lending,3347.396271781355,,,,,3347,,
+2026-08-29,merchant-finance,Merchant Finance,Lending,0,,,,,0,,
+2026-08-29,meridian-lend,Meridian Lend,Lending,17084.33804889639,,,,,14994,,
+2026-08-29,mesher,Mesher,Lending,37733.08091406137,,,,,1543648,,
+2026-08-29,meso-finance,Meso Finance,Lending,33268.46267403238,101593.46,111691.60512048194,85506.76999999999,94005.93689759035,43131,250123,132805
+2026-08-29,metalend,MetaLend,Lending,3765.640871863341,,,,,4528,,
+2026-08-29,metalx-lending,MetalX Lending,Lending,12663632.529992891,,,,,12511496,,
+2026-08-29,metapoly,Metapoly,Lending,0,,,,,0,,
+2026-08-29,methlab,MethLab,Lending,0,,,,,,,
+2026-08-29,micro-credit-project,Micro Credit Project,Uncollateralized Lending,0,,,,,,,
+2026-08-29,midas-capital,Midas Capital,Lending,57465.25126495298,,,,,27248,,
+2026-08-29,milk-finance,Milk Finance,Lending,89651.85303000314,,,,,254278,,
+2026-08-29,milkyway-protocol-milkomeda,MilkyWay Protocol Milkomeda,Lending,0,,,,,0,,
+2026-08-29,mimas-finance,Mimas Finance,Lending,0,,,,,0,,
+2026-08-29,minterest,Minterest,Lending,20386.988232570184,,,,,20272,,
+2026-08-29,mmo-finance,MMO Finance,NFT Lending,12136.804994507744,,,,,9932,,
+2026-08-29,mochifi,MochiFi,Lending,0,,,,,,,
+2026-08-29,molend,Molend,Lending,14828.395946278604,,,,,9626,,
+2026-08-29,monolend,MonoLend,Lending,128.06887402946936,,,,,125,,
+2026-08-29,moola-market,Moola Market,Lending,158775.8988468638,,,,,52329,,
+2026-08-29,mooncake-finance,Mooncake Finance,Lending,1206.6912360476103,,,,,1138,,
+2026-08-29,moono-protocol,Moono Protocol,Lending,54075.66470728967,,,,,,,
+2026-08-29,moonwell-apollo,Moonwell Apollo,Lending,0,40166,69812.33333333334,14060,24437.619047619046,93288,38098.257575757576,13337.708333333334
+2026-08-29,moonwell-lending,Moonwell Lending,Lending,34686686.59737012,7238446,7238446,1693348,1693348,32166242,9440717,2077174
+2026-08-29,more-markets,MORE Markets,Lending,3770162.168548327,447875,447875,57029.99,57029.99,3819808,468050,62214
+2026-08-29,moremoney,Moremoney,Lending,0,,,,,,,
+2026-08-29,morpho-blue,Morpho Blue,Lending,4804409512.998578,208768137,208768137,0,0,3856217175,195823181,0
+2026-08-29,morpho-midnight,Morpho Midnight,Lending,2392057.626362409,9300.419999999998,72226.66595744679,0,0,,,
+2026-08-29,morpho-optimizer-aavev2,Morpho Optimizer AaveV2,Lending,6045.469159860399,,,,,8193,,
+2026-08-29,morpho-optimizer-aavev3,Morpho Optimizer AaveV3,Lending,841.3811585461432,,,,,687,,
+2026-08-29,morpho-optimizer-compoundv2,Morpho Optimizer CompoundV2,Lending,2022.2455645389566,,,,,1882,,
+2026-08-29,mortgagefi,MortgageFi,Lending,0,,,,,,,
+2026-08-29,moveposition,MovePosition,Lending,2130183.650987595,,,,,3952876,,
+2026-08-29,multichainz,MultichainZ,Lending,44366.60900006142,,,,,51624,,
+2026-08-29,multiplier,Multiplier,Lending,2047.3009781556964,,,,,1917,,
+2026-08-29,myso-v1,MYSO V1,Lending,0,,,,,,,
+2026-08-29,myso-v2,MYSO V2,Lending,0,,,,,,,
+2026-08-29,mystic-finance-lending,Mystic Finance Lending,Lending,0,2173632,2173632,425472,425472,,2371625,460495
+2026-08-29,native-credit-pool,Native Credit Pool,Lending,9699611.021643627,679538,679538,5.069999999999999,22.03035714285714,10923502,584265.3412969284,0
+2026-08-29,navi-lending,NAVI Lending,Lending,66297170.134114064,21118258,21176275.192307692,10617170,10646338.049450548,84859451,25506054,11872097
+2026-08-29,nearlend-dao,Nearlend DAO,Lending,9.894173271848965,,,,,10,,
+2026-08-29,nebula-lending,Nebula Lending,Lending,84.02174371485167,,,,,94,,
+2026-08-29,neku,Neku,Lending,620091.2378530568,,,,,620091,,
+2026-08-29,neptune-finance,Neptune Finance,Lending,1202542.3187508313,,,,,1939637,,
+2026-08-29,nereus-finance,Nereus Finance,Lending,0,,,,,,,
+2026-08-29,netweave-lending,NetWeave Lending,Lending,6806.515688627534,,,,,6497,,
+2026-08-29,neverland,Neverland,Lending,6572546.537834144,3451823.5300000003,4499698.530178572,1512132.1400000001,1971172.2539285717,86343961,5616182.6373015875,2408364.9000000004
+2026-08-29,nexion-lending,Nexion Lending,Lending,855.828425439205,,,,,7523,,
+2026-08-29,nftfi,NFTfi,NFT Lending,0,,,,,,,
+2026-08-29,nimbora-lending,Nimbora Lending,Lending,0,,,,,,,
+2026-08-29,nolus-protocol,Nolus Protocol,Lending,0,,,,,,,
+2026-08-29,norekt,NoRekt,Lending,2056.5153406882473,,,,,,,
+2026-08-29,nostra-money-market,Nostra Money Market,Lending,851745.7653825327,,,,,1028732,,
+2026-08-29,nostra-money-market-alpha,Nostra Money Market Alpha,Lending,23857.050827980172,,,,,22198,,
+2026-08-29,notional-v2,Notional V2,Lending,0,,,,,,,
+2026-08-29,notional-v3,Notional V3,Lending,0,,,,,,,
+2026-08-29,novation,Novation,Lending,14.208713173133665,,,,,12,,
+2026-08-29,nusa,Nusa,Lending,39248.41300211892,,,,,35502,,
+2026-08-29,nxfi-protocol,NxFi Protocol,Lending,1137.477413447556,,,,,1135,,
+2026-08-29,nyke-finance,Nyke Finance,Lending,124.73224831856939,,,,,139,,
+2026-08-29,ocp-finance,OCP Finance,Lending,0.45922852896589483,,,,,0,,
+2026-08-29,omm,Omm,Lending,53188.11046206014,,,,,54295,,
+2026-08-29,omni-protocol,Omni Protocol,Lending,0,,,,,0,,
+2026-08-29,omnibtc,OmniBTC,Lending,78269.49774441143,,,,,79539,,
+2026-08-29,omnidex-lend,Omnidex Lend,Lending,0,,,,,0,,
+2026-08-29,omnipair,Omnipair,Lending,61656.323139723034,15852,30452.526315789473,1579.3100000000004,3033.937631578948,49986,19038.989898989897,1880.3030303030303
+2026-08-29,onyx-protocol,Onyx Protocol,Lending,0,,,,,0,,
+2026-08-29,onyx-v2,Onyx V2,Lending,0,,,,,0,,
+2026-08-29,ooki,Ooki,Lending,0,,,,,0,,
+2026-08-29,openfi,OpenFi,RWA Lending,8.826399896870852,,,,,8,,
+2026-08-29,opensky-finance,OpenSky Finance,NFT Lending,0,,,,,0,,
+2026-08-29,orbit-protocol,Orbit Protocol,Lending,0,,,,,0,,
+2026-08-29,orbiter-one,Orbiter One,Lending,0,,,,,53456,,
+2026-08-29,orcadao,OrcaDAO,Lending,15194.249879095292,,,,,15257,,
+2026-08-29,orchai-money-market,Orchai Money Market,Lending,0,,,,,,,
+2026-08-29,owna,Owna,Lending,0,,,,,0,,
+2026-08-29,oxygen,Oxygen,Lending,0,,,,,0,,
+2026-08-29,pac-finance,Pac Finance,Lending,6567852.214761739,571542,571542,457493,457493,6567852,701464,561431
+2026-08-29,paladin-vote,Paladin Vote,Lending,0,,,,,,,
+2026-08-29,palmy-finance,Palmy Finance,Lending,250.97880877550352,,,,,831,,
+2026-08-29,palomino-finance,Palomino Finance,Lending,0,,,,,0,,
+2026-08-29,pando-rings,Pando Rings,Lending,365875.5056742688,,,,,368255,,
+2026-08-29,paperdao,PaperDAO,Lending,0,,,,,0,,
+2026-08-29,parallel-lending,Parallel Lending,Lending,551139.6300553483,,,,,551139,,
+2026-08-29,parallel-polkadot-lending,Parallel Polkadot Lending,Lending,0,,,,,0,,
+2026-08-29,paraspace-lending-v1,ParaSpace Lending V1,Lending,423805.9954612402,,,,,373815,,
+2026-08-29,pareto-credit,Pareto Credit,RWA Lending,0,,,,,,,
+2026-08-29,paribus,Paribus,Lending,0,,,,,0,,
+2026-08-29,pawnfi-lending,Pawnfi Lending,NFT Lending,1745174.40318029,,,,,1496800,,
+2026-08-29,pencil-finance,Pencil Finance,RWA Lending,0,,,,,,,
+2026-08-29,percent-finance,Percent Finance,Lending,0,,,,,0,,
+2026-08-29,percentme,Percentme,Lending,0,,,,,0,,
+2026-08-29,peridot,Peridot,Lending,13557.49459329061,,,,,12148,,
+2026-08-29,permapod,Permapod,Lending,0,230122,792401.2264150945,69041.67,237737.8259433962,1021199,231872.3333333333,69536.63666666666
+2026-08-29,phiat-protocol,Phiat Protocol,Lending,1729925.7988812206,,,,,326701,,
+2026-08-29,pholend,PhoLend,Lending,0.5667980443360657,,,,,1,,
+2026-08-29,pike-v1,Pike V1,Lending,1984.9913146447466,,,,,1984,,
+2026-08-29,pike-v2,Pike V2,Lending,8206.834758143601,,,,,6673,,
+2026-08-29,pilot-protocol,Pilot Protocol,Lending,0,,,,,,,
+2026-08-29,pine-protocol,Pine Protocol,NFT Lending,259857.58488199377,,,,,212983,,
+2026-08-29,pinjam-labs,Pinjam Labs,Lending,9210.898358397944,,,,,9210,,
+2026-08-29,pizza,Pizza,Lending,0,,,,,,,
+2026-08-29,ploutos-money,Ploutos Money,Lending,0,,,,,0,,
+2026-08-29,polter-finance,Polter Finance,Lending,0,16544,21413.333333333332,8266,10698.900709219857,0,28269,14127
+2026-08-29,polylend,PolyLend,Lending,0,,,,,0,,
+2026-08-29,poof-cash,Poof Cash,Lending,0,,,,,,,
+2026-08-29,poppie,Poppie,Lending,0,,,,,,,
+2026-08-29,port-finance,Port Finance,Lending,0,,,,,,,
+2026-08-29,prime-protocol,Prime Protocol,Lending,-29173.38342636212,,,,,-24990,,
+2026-08-29,primefi,PrimeFi,Lending,0,762575.12,840906.0990936556,256709.74000000002,283078.7163141994,0,845204.6458333333,306520.9166666666
+2026-08-29,project-0,Project 0,Lending,22101826.783479117,92688,867464.6153846155,3069,28722.69230769231,44530387,,
+2026-08-29,promethium,Promethium,Lending,0,,,,,,,
+2026-08-29,pu239,Pu239,Lending,0,,,,,0,,
+2026-08-29,purrlend,Purrlend,Lending,0,31344,56357.43842364532,5649,10157.068965517241,0,102147.85714285714,18409.6875
+2026-08-29,puzzle-lend,Puzzle Lend,Lending,5051.23739409845,,,,,18259,,
+2026-08-29,pwn,PWN,Lending,0,,,,,,,
+2026-08-29,pyron,Pyron,Lending,146429.07777601216,,,,,383281,,
+2026-08-29,q-borrowing,Q Borrowing,Lending,0,,,,,,,
+2026-08-29,qielend,QIELend,Lending,887.030615865403,0,0,0,0,6445,,
+2026-08-29,quantus-lend,Quantus Lend,Lending,0,,,,,0,,
+2026-08-29,qubit,Qubit,Lending,0,,,,,,,
+2026-08-29,quickswap-lend,Quickswap Lend,Lending,0,,,,,0,,
+2026-08-29,quokkalend,QuokkaLend,Lending,37.58999097488806,,,,,31,,
+2026-08-29,rabbit-finance,Rabbit Finance,Lending,0,,,,,,,
+2026-08-29,radiant-v1,Radiant V1,Lending,154735.29328125512,,,,,150254,,
+2026-08-29,radiant-v2,Radiant V2,Lending,263672.9860171762,52167.91000000002,52167.91000000002,44502.91000000002,44502.91000000002,708975,61386,52163
+2026-08-29,rain.fi,Rain.fi,Lending,0,262764.32,262764.32,57718.32,57718.32,29894,374412,176886
+2026-08-29,ram-protocol,Ram Protocol,Lending,0,,,,,0,,
+2026-08-29,reactorfusion,ReactorFusion,Lending,111512.3967931248,,,,,103777,,
+2026-08-29,realt-rmm-marketplace,RealT RMM Marketplace,Lending,0,32,32,32,32,0,62,62
+2026-08-29,realt-rmm-marketplace-v2,RealT RMM Marketplace V2,Lending,14759706.814278647,1993837,1993837,199380,199380,14681960,2177345,217732
+2026-08-29,reax-lending,Reax Lending,Lending,68851.48119198719,,,,,68851,,
+2026-08-29,rebalance-finance,Rebalance Finance,Lending,0,,,,,,,
+2026-08-29,renec-lend,Renec Lend,Lending,0,,,,,0,,
+2026-08-29,resupply,Resupply,Lending,0,1958677,1958677,1469012,1469012,,3304970,2478725
+2026-08-29,revert-lend,Revert Lend,Lending,0,,,,,,,
+2026-08-29,revest-finance,Revest Finance,NFT Lending,0,,,,,,,
+2026-08-29,rex-staking,REX Staking,Lending,0,,,,,,,
+2026-08-29,rezerve-lending,Rezerve Lending,Lending,0,,,,,,,
+2026-08-29,rhea-lend,Rhea Lend,Lending,18850170.03932043,3048478,3048478,768338,768338,35265072,4326864,1083796
+2026-08-29,rheo,Rheo,Lending,0,12410,12410,12410,12410,1184,18921,18921
+2026-08-29,rho-markets,Rho Markets,Lending,0,,,,,0,,
+2026-08-29,rhombus-protocol,Rhombus Protocol,Lending,12812.28904988998,,,,,21208,,
+2026-08-29,ribbon-lend,Ribbon Lend,Uncollateralized Lending,62.182292537359245,,,,,59,,
+2026-08-29,rikkei-finance,Rikkei Finance,Lending,0,,,,,0,,
+2026-08-29,ripe-protocol,Ripe Protocol,Lending,0,,,,,,,
+2026-08-29,rocifi-v1,RociFi V1,Lending,0,,,,,0,,
+2026-08-29,rocifi-v2,RociFi V2,Lending,2196.627323824814,,,,,2116,,
+2026-08-29,roe-finance,Roe Finance,Lending,3076.9370678337764,,,,,2220,,
+2026-08-29,root-finance,Root Finance,Lending,0,,,,,0,,
+2026-08-29,rujira-money-market,Rujira Money Market,Lending,316401.9199278202,,,,,,,
+2026-08-29,ruler,Ruler,Lending,0,,,,,,,
+2026-08-29,sakefinance,SakeFinance,Lending,345402.14138369187,219780,219780,17215.469999999994,17215.469999999994,531147,271818,26257
+2026-08-29,save,Save,Lending,155358393.25337702,3236346,3236346,856516,856516,143580228,4608389,1143949
+2026-08-29,scallop-lend,Scallop Lend,Lending,2182417.6572907404,2029041,2029041,579864,579864,8449334,3947097,1218336
+2026-08-29,scream,Scream,Lending,0,,,,,0,,
+2026-08-29,sculptor-finance,Sculptor Finance,Lending,2312.8952034974486,,,,,2322,,
+2026-08-29,seamless-v1,Seamless V1,Lending,67029.11163723358,6132.229999999999,6132.229999999999,518.4300000000001,518.4300000000001,65429,58425,5460
+2026-08-29,seamless-v2,Seamless V2,Lending,9337087.724357136,480,585.9531772575251,480,585.9531772575251,13944818,842.3076923076923,842.3076923076923
+2026-08-29,secured-finance-lending,Secured Finance Lending,Lending,0,,,,,,,
+2026-08-29,segment-finance,Segment Finance,Lending,123282.3022318238,33685.130000000005,33870.72300275482,3984.75,4006.704545454545,107609,31598,4138
+2026-08-29,seismic,Seismic,Lending,319.6279682288276,,,,,265,,
+2026-08-29,sendit,Sendit,Lending,6182.3366616654985,,,,,4917,,
+2026-08-29,sentiment,Sentiment,Lending,342748.5472447535,,,,,342748,,
+2026-08-29,shadelend,ShadeLend,Lending,350902.8135292386,,,,,439120,,
+2026-08-29,shadex,ShadeX,Lending,857.7907571451852,,,,,2344,,
+2026-08-29,sharewoods,Sharewoods,RWA Lending,0,,,,,,,
+2026-08-29,sharky,Sharky,NFT Lending,280425.6495427174,85526.06,85526.06,85526.06,85526.06,247952,84558,84558
+2026-08-29,shoebill-v1,Shoebill V1,Lending,6674.903601199557,,,,,6674,,
+2026-08-29,shoebill-v2,Shoebill V2,Lending,466011.9264307767,148678,148678,131814,131814,60793,87403,75663
+2026-08-29,shroomy-protocol-lending,Shroomy Protocol Lending,Lending,6885.7865251875555,,,,,6885,,
+2026-08-29,siennalend,SiennaLend,Lending,6761.732795053966,,,,,11147,,
+2026-08-29,sigmafi,SigmaFi,Lending,0,,,,,,,
+2026-08-29,silo-v1,Silo V1,Lending,512409.6170468306,131467.45999999996,131467.45999999996,,,947975,171609,
+2026-08-29,silo-v2,Silo V2,Lending,2177566.7712447634,8169904,9777098.229508197,1391447,1665174.2786885246,27986898,11397918,1855233
+2026-08-29,silo-v3,Silo V3,Lending,582999.1869363075,62377,145016.5923566879,6243.73,14515.678025477706,2094754,218878.33333333334,21911.060606060604
+2026-08-29,sio2-finance,SiO2 Finance,Lending,20150.02918850803,,,,,26963,,
+2026-08-29,sirio-finance,Sirio Finance,Lending,0,,,,,0,,
+2026-08-29,size-lending,Size Lending,Lending,0,,,,,,,
+2026-08-29,slender,Slender,Lending,14.492219370317828,,,,,15,,
+2026-08-29,smardex-p2p-lending,SMARDEX P2P Lending,Lending,0,10162,10162,10,10,0,11727,14
+2026-08-29,smartcredit,SmartCredit,Lending,185840.01857277175,,,,,178965,,
+2026-08-29,snail-finance,Snail Finance,Lending,0,,,,,0,,
+2026-08-29,soda-protocol,Soda Protocol,Lending,0,,,,,,,
+2026-08-29,sohei,Sohei,Lending,0,,,,,0,,
+2026-08-29,solera,Solera,Lending,0,0,0,0,0,,,
+2026-08-29,solidlizard-lending,SolidLizard Lending,Lending,1831.5375510652666,,,,,1889,,
+2026-08-29,somnialend,SomniaLend,Lending,80902.79210409711,33472.20999999997,36469.72134328355,4105.970000000002,4514.093524096388,344395,43915.18442622951,5524.364754098361
+2026-08-29,sonne-finance,Sonne Finance,Lending,10304.3959488856,32114.15,32114.15,4080.1800000000003,4080.1800000000003,74739,38785,4918
+2026-08-29,sorta-finance,Sorta Finance,Lending,25498.235665411605,,,,,24895,,
+2026-08-29,sovryn-lend,Sovryn Lend,Lending,0,,,,,1402796,,
+2026-08-29,sparklend,SparkLend,Lending,2028625953.8749738,62001420,62001420,4427977,4427977,1750515485,67008855,4735430
+2026-08-29,spiritswap-lending,SpiritSwap Lending,Lending,0,,,,,0,,
+2026-08-29,spreads-finance-leverage,Spreads Finance Leverage,Lending,0.00001299866240677302,,,,,139163,,
+2026-08-29,srwa-lending,SRWA Lending,Lending,0.13446800400093734,,,,,0,,
+2026-08-29,ssap,SSAP,Lending,0,,,,,0,,
+2026-08-29,stackfi,StackFi,Lending,76.60020149555518,,,,,78,,
+2026-08-29,stake1,Stake1,Lending,0,,,,,,,
+2026-08-29,starlay-finance,Starlay Finance,Lending,0,,,,,1890147,,
+2026-08-29,stockfi,StockFi,Lending,0,459.02,891.1824468085107,459.02,891.1824468085107,,1655.6701030927834,1655.6701030927834
+2026-08-29,strike,Strike,Lending,0,87798,87798,15696,15696,0,201687,30573
+2026-08-29,sturdy-v1,Sturdy V1,Lending,0,,,,,0,,
+2026-08-29,sturdy-v2,Sturdy V2,Lending,86214.90564805381,,,,,65339,,
+2026-08-29,suilend,Suilend,Lending,62238598.84356942,14304211,14304211,3488644,3488644,55390055,22176687,5038743
+2026-08-29,sukukfi,SukukFi,RWA Lending,0,,,,,,,
+2026-08-29,sumer.money,Sumer.money,Lending,89440.78664293964,54251.89,54251.89,9720.060000000001,9720.060000000001,168476,59752,14044
+2026-08-29,superlend,Superlend,Lending,0,279942.7599999999,286215.98711484583,76040.43,77744.41722689074,477426,811765,221691
+2026-08-29,superposition,Superposition,Lending,87276.16380442299,54899.08000000001,59460.42789317508,,,83145,98675,
+2026-08-29,supralend,Supralend,Lending,21009.263521344983,,,,,30488,,
+2026-08-29,surf-lending,Surf Lending,Lending,0,,,,,,,
+2026-08-29,surge,Surge,Lending,4465.763267834025,,,,,4252,,
+2026-08-29,surge-credit,Surge Credit,Lending,442744.6531792547,13175.07,30629.9398089172,2286.4899999999993,5315.725159235667,,15418.816666666666,1697.526515151515
+2026-08-29,sushi-kashi,Sushi Kashi,Lending,0,,,,,0,,
+2026-08-29,swaylend,Swaylend,Lending,121488.16950604651,,,,,129538,,
+2026-08-29,swirllend,SwirlLend,Lending,0,,,,,0,,
+2026-08-29,sync-network,SYNC Network,NFT Lending,0,,,,,,,
+2026-08-29,syno-finance,SYNO Finance,Lending,86814.19478375827,,,,,86814,,
+2026-08-29,takara-lend,Takara Lend,Lending,2732498.0147209098,1211990,1211990,399078,399078,3525848,1642206,553298
+2026-08-29,takotako,TakoTako,Lending,55560.897302003585,,,,,14929,,
+2026-08-29,tangent-finance,Tangent Finance,Lending,0,,,,,,,
+2026-08-29,tarot,Tarot,Lending,280083.95638591936,0,0,0,0,259952,0,0
+2026-08-29,tashi,Tashi,Lending,0,,,,,0,,
+2026-08-29,tectonic,Tectonic,Lending,184447.99554189655,3087786,3087786,312085,312085,82248549,2771133,280623
+2026-08-29,teller,Teller,Lending,166570.122975073,,,,,151836,,
+2026-08-29,tempest-capital,Tempest Capital,Lending,0,,,,,0,,
+2026-08-29,templar-protocol,Templar Protocol,Lending,9270367.582292967,,,,,6995832,,
+2026-08-29,tender-finance,Tender Finance,Lending,621485.4942341091,,,,,506961,,
+2026-08-29,teralend,Teralend,Lending,0,,,,,0,,
+2026-08-29,termfinance-lend,TermFinance Lend,Lending,3774128.124889328,,,,,3462286,,
+2026-08-29,termmax,TermMax,Lending,27537744.38432624,313661.92000000004,313661.92000000004,311953.92000000004,311953.92000000004,17106075,333491,328703
+2026-08-29,tetu-pawnshop,Tetu Pawnshop,NFT Lending,0,,,,,,,
+2026-08-29,tezfin,TezFin,Lending,4917.4469230679215,,,,,3052,,
+2026-08-29,themis-protocol,Themis Protocol,Lending,0,,,,,,,
+2026-08-29,timeswap-v1,Timeswap V1,Lending,0,,,,,,,
+2026-08-29,timeswap-v2,Timeswap V2,Lending,0,,,,,,,
+2026-08-29,tinlake,Tinlake,RWA Lending,76010766.83506997,,,,,81331605,,
+2026-08-29,tonpound,Tonpound,Lending,0.5991465154142175,,,,,0,,
+2026-08-29,torches,Torches,Lending,304.67121921904084,,,,,350,,
+2026-08-29,toreus,Toreus,Lending,0,,,,,0,,
+2026-08-29,townsquare-lending,TownSquare Lending,Lending,321546.25276376563,,,,,1272488,,
+2026-08-29,tranquil-finance,Tranquil Finance,Lending,26261.303773260093,,,,,64618,,
+2026-08-29,trava-finance,Trava Finance,Lending,9707.956079899992,,,,,10084,,
+2026-08-29,travessia-credit,Travessia Credit,RWA Lending,0,,,,,,,
+2026-08-29,tropykus-rsk,Tropykus RSK,Lending,5666.2967197484895,,,,,3602021,,
+2026-08-29,tropykus-zkevm,Tropykus zkEVM,Lending,0,,,,,6,,
+2026-08-29,truefi,TrueFi,Uncollateralized Lending,7665887.54953917,,,,,7663342,,
+2026-08-29,trustin-finance,Trustin Finance,Lending,214.13893052125314,,,,,207,,
+2026-08-29,twyne,Twyne,Lending,17437002.346884225,,,,,1418434,,
+2026-08-29,tydro,Tydro,Lending,48136471.660324514,5975970,6837708.620689655,670541,767233.4326018809,123955672,7025747.324561403,805028.3114035088
+2026-08-29,u235,U235,Lending,2888.981420599082,,,,,1698,,
+2026-08-29,udonfi-lending,UdonFi Lending,Lending,53005.595294783845,,,,,95581,,
+2026-08-29,ultraswap,Ultraswap,Lending,48263.13409052328,,,,,5452,,
+2026-08-29,umee,Umee,Lending,0,,,,,1126814,,
+2026-08-29,unblock-equity,Unblock Equity,RWA Lending,0,,,,,,,
+2026-08-29,unclesam-protocol,UncleSam Protocol,Lending,0,,,,,0,,
+2026-08-29,unfederalreserve,unFederalReserve,Lending,0,,,,,0,,
+2026-08-29,unilend-protocol,Unilend Protocol,Lending,166780.16043206785,,,,,449701,,
+2026-08-29,unilend-v1,Unilend V1,Lending,0,,,,,,,
+2026-08-29,unilend-v2,Unilend V2,Lending,0,,,,,0,,
+2026-08-29,union-protocol,Union Protocol,Uncollateralized Lending,65622.5135065135,,,,,65581,,
+2026-08-29,unitus,Unitus,Lending,2248370.760745582,,,,,2464736,,
+2026-08-29,unleash-protocol,Unleash Protocol,Lending,0,0,0,0,0,0,,
+2026-08-29,unlockd-v1,Unlockd V1,Lending,7.15862001650763,,,,,5,,
+2026-08-29,unlockd-v2,Unlockd V2,Lending,131.32986723201157,,,,,131,,
+2026-08-29,untitledbank,UntitledBank,Lending,24482.859995673123,,,,,57461,,
+2026-08-29,usd-ai,USD AI,RWA Lending,264171780.70534253,23450249,23450249,7141077.09,7141077.09,103841086,16681257,3680216
+2026-08-29,usdfi-lending,USDFI Lending,Lending,498.6233569725642,,,,,1219,,
+2026-08-29,usury-finance,Usury Finance,Lending,0,,,,,0,,
+2026-08-29,uwu-lend,UwU Lend,Lending,28047.132456226977,,,,,30634,,
+2026-08-29,valas-finance,Valas Finance,Lending,0,310325,310325,155154,155154,0,261815,130898
+2026-08-29,vaulta-rex,Vaulta REX,Lending,0,4815.23,6759.842115384615,4815.23,6759.842115384615,,9626.065088757397,9626.065088757397
+2026-08-29,vee-finance,Vee Finance,Lending,0,,,,,0,,
+2026-08-29,velkonix,Velkonix,Lending,52.16636379296446,0,0,0,0,,,
+2026-08-29,vena-finance,Vena Finance,Lending,2637148.32837468,104455,307468.3467741936,37739,111086.57258064517,8997893,192144.84848484848,55690.15151515151
+2026-08-29,vendor-v1,Vendor V1,Lending,0,,,,,,,
+2026-08-29,vendor-v2,Vendor V2,Lending,0,,,,,,,
+2026-08-29,venus-core-pool,Venus Core Pool,Lending,440363115.87372625,18752667,18752667,3519250,3519250,453531747,22991729,3681618
+2026-08-29,venus-flux,Venus Flux,Lending,2242150.025290265,437986,799324.45,45687.74000000002,83799.12110552768,9600578,1327019.4495412845,140149.95412844038
+2026-08-29,venus-isolated-pools,Venus Isolated Pools,Lending,69372.30348410149,,,,,587248,,
+2026-08-29,vesu,Vesu,Lending,5539457.418191998,,,,,7108731,,
+2026-08-29,vicuna-lending,Vicuna Lending,Lending,29929.35258575493,4910.179999999999,4910.179999999999,544.9599999999999,544.9599999999999,35646,5377,593
+2026-08-29,vigor,Vigor,Lending,0,,,,,,,
+2026-08-29,vinufinance,VinuFinance,Lending,0,0,0,,,,0,
+2026-08-29,vires-finance,Vires Finance,Lending,14500846.54280364,,,,,14540507,,
+2026-08-29,vivacity-finance,Vivacity Finance,RWA Lending,0,,,,,0,,
+2026-08-29,vmex-finance,VMEX Finance,Lending,721.3698781908181,,,,,657,,
+2026-08-29,voltage-lending,Voltage Lending,Lending,6738.088848931368,,,,,6724,,
+2026-08-29,votre,Votre,Lending,3966.450911908952,554,554,0,0,3714,1970,207
+2026-08-29,w3bank,w3bank,Lending,0,,,,,0,,
+2026-08-29,wanlend,WanLend,Lending,48948.05135227427,,,,,81182,,
+2026-08-29,warp-protocol,Warp Protocol,Lending,0,,,,,,,
+2026-08-29,waterloan,WaterLoan,Lending,0,,,,,0,,
+2026-08-29,wefi,wefi,Lending,132884.10240422966,,,,,124002,,
+2026-08-29,weft-v1,Weft V1,Lending,433.9408854616712,,,,,778,,
+2026-08-29,weft-v2,Weft V2,Lending,97322.65973053867,,,,,54581,,
+2026-08-29,wemix.fi-lend,WEMIX.FI Lend,Lending,48848.53202695021,,,,,104472,,
+2026-08-29,wepiggy,WePiggy,Lending,785567.4932077054,,,,,1124470,,
+2026-08-29,whitehole-finance,Whitehole Finance,Lending,0,,,,,91252,,
+2026-08-29,wild-credit,Wild Credit,Lending,25776.121943509108,,,,,21117,,
+2026-08-29,wildcat-protocol,Wildcat Protocol,Uncollateralized Lending,176044047.22523752,18906104,18906104,945310,945310,195793690,19059366,952971
+2026-08-29,wing-finance,Wing Finance,Lending,14219863.304383926,,,,,13100140,,
+2026-08-29,wise-lending-v1,Wise Lending V1,Lending,0,,,,,,,
+2026-08-29,wise-lending-v2,Wise Lending V2,Lending,0,43,43,,,0,74,
+2026-08-29,world-liberty-financial,World Liberty Financial,Lending,0,120083309,120083309,120083309,120083309,,104956216,104956216
+2026-08-29,x2y2,X2Y2,NFT Lending,0,0,0,0,0,,0,0
+2026-08-29,xbank-finance,xBank Finance,Lending,0,,,,,0,,
+2026-08-29,xcarnival,XCarnival,NFT Lending,1625.8300047607931,,,,,1329,,
+2026-08-29,xensa,Xensa,Lending,0,,,,,,,
+2026-08-29,xoxno-lending,XOXNO Lending,Lending,0,44845.55,50834.24145962733,7723.049999999999,8754.38897515528,,58104.52380952381,9486.523809523807
+2026-08-29,xpert,Xpert,Lending,43.26217906054658,41,103.20689655172414,1,3.093220338983051,13641,277.1296296296296,6.7592592592592595
+2026-08-29,yamfore,Yamfore,Lending,0,0,0,0,0,,7891.266968325792,7891.266968325792
+2026-08-29,yeilend,YeiLend,Lending,5950713.121120447,2745428,2745428,931562,931562,10894586,5593584,1915974
+2026-08-29,yield-protocol,Yield Protocol,Lending,0,,,,,,,
+2026-08-29,yieldlend,YieldLend,Lending,809.7914078897139,,,,,1017,,
+2026-08-29,yldr,YLDR,Lending,47215.01160398833,,,,,58816,,
+2026-08-29,yupana,Yupana,Lending,1958.8453210552057,,,,,2122,,
+2026-08-29,yusan,Yusan,Lending,6011.963631628112,127.24,197.628085106383,62.52,97.10553191489363,6011,288.95833333333337,157.15277777777777
+2026-08-29,yuzu-market,Yuzu Market,Lending,0,,,,,0,,
+2026-08-29,zarban,Zarban,Lending,3157.9518448159943,7903.539999999999,7903.539999999999,7469.849999999999,7469.849999999999,3090,6442.97,6197.22
+2026-08-29,zebradao,ZebraDAO,Lending,169063.74040801305,,,,,155855,,
+2026-08-29,zenolend,ZenoLend,Lending,93.52811552588977,,,,,66458,,
+2026-08-29,zentra-finance,Zentra Finance,Lending,1519927.1653149747,13868,36155.857142857145,1554.56,4052.9599999999996,153316,8238.57142857143,819.3877551020408
+2026-08-29,zenydex,ZenyDex,Lending,0,,,,,,,
+2026-08-29,zerolend-lending,ZeroLend Lending,Lending,0,1268478.25,1271963.080357143,683289.0499999998,685166.21771978,4954834,1287370,647349
+2026-08-29,zest-v1,Zest V1,Lending,91149.69134659655,141260.84000000003,143222.79611111112,35509.1,36002.28194444445,309779,196525,35097
+2026-08-29,zest-v2,Zest V2,Lending,6702179.100619991,46257,88396.88481675393,18108,34604.293193717276,9828480,51339.857142857145,18698.428571428572
+2026-08-29,zharta,Zharta,NFT Lending,0,,,,,,,
+2026-08-29,zkfinance,zkFinance,Lending,0,,,,,0,,
+2026-08-29,zklend,zkLend,Lending,0,,,,,0,,
+2026-08-29,zodial,Zodial,Lending,94172.80694069216,,,,,,,
+2026-08-29,zona,Zona,Lending,2.7064572043584314,0,0,0,0,438,,
+2026-08-29,zoro-protocol,Zoro Protocol,Lending,130.97168778881863,,,,,108,,
