@@ -5,16 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Sector overview of DeFi lending activity, economics, and market share." />
   <title>Sector Overview | DeFi Credit Market Dashboard</title>
-  <link rel="stylesheet" href="./styles.css?v=20260903-20" />
+  <link rel="stylesheet" href="./styles.css?v=20260903-21" />
   <script>
-    (() => {
-      try {
-        const savedTheme = window.localStorage.getItem('defi-dashboard-theme');
-        document.documentElement.dataset.theme = savedTheme === 'dark' ? 'dark' : 'light';
-      } catch {
-        document.documentElement.dataset.theme = 'light';
-      }
-    })();
+    document.documentElement.dataset.theme = 'light';
   </script>
 </head>
 <body class="sector-overview-page">
@@ -57,13 +50,6 @@
             </a>
           </div>
           <div class="header-actions">
-            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
-              <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <circle class="theme-sun" cx="12" cy="12" r="4" />
-                <path class="theme-sun" d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
-                <path class="theme-moon" d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z" />
-              </svg>
-            </button>
             <div class="freshness" id="freshness">Loading market data…</div>
           </div>
         </header>
@@ -218,6 +204,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
-  <script type="module" src="./app.js?v=20260903-20"></script>
+  <script type="module" src="./app.js?v=20260903-21"></script>
 </body>
 </html>
