@@ -3,11 +3,23 @@ import { SIGNALS } from './governance-signals.js';
 const state = {
   protocols: [],
   topics: [],
-  enabledProtocols: new Set(),
+  selectedProtocolId: null,
   selectedTopicId: null,
   topicSearch: '',
   topicCategory: 'all',
   returnScrollY: null,
+  returnFeedScrollTop: null,
+};
+
+const protocolDisplayNames = {
+  aave: 'Aave',
+  morpho: 'Morpho',
+  'spark-lend': 'SparkLend',
+  kamino: 'Kamino',
+  'jupiter-lend': 'Jupiter Lend',
+  fluid: 'Fluid',
+  euler: 'Euler',
+  compound: 'Compound',
 };
 
 const els = {
@@ -16,6 +28,7 @@ const els = {
   count: document.querySelector('#feed-count'),
   freshness: document.querySelector('#freshness'),
   filters: document.querySelector('#protocol-filters'),
+  selectedProtocol: document.querySelector('#feed-protocol'),
   feedHeading: document.querySelector('#feed-heading-row'),
   feedControls: document.querySelector('#feed-controls'),
   topicSearch: document.querySelector('#topic-search'),
@@ -68,7 +81,15 @@ function relativeTime(value) {
 }
 
 function protocolName(id) {
-  return state.protocols.find((protocol) => protocol.id === id)?.name || id;
+  return state.protocols.find((protocol) => protocol.id === id)?.name || protocolDisplayNames[id] || id;
+}
+
+function readSelectedProtocol() {
+  try {
+    return window.localStorage.getItem('defi-dashboard-selected-protocol');
+  } catch {
+    return null;
+  }
 }
 
 function signalTag(topic) {
@@ -83,8 +104,8 @@ function signalTag(topic) {
 function applyTheme(theme, persist = true) {
   const nextTheme = theme === 'dark' ? 'dark' : 'light';
   document.documentElement.dataset.theme = nextTheme;
-  els.themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
-  els.themeToggle.setAttribute('aria-label', `Switch to ${nextTheme === 'dark' ? 'light' : 'dark'} mode`);
+  els.themeToggle?.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
+  els.themeToggle?.setAttribute('aria-label', `Switch to ${nextTheme === 'dark' ? 'light' : 'dark'} mode`);
 
   if (persist) {
     try {
@@ -96,6 +117,7 @@ function applyTheme(theme, persist = true) {
 }
 
 function renderFilters() {
+  if (!els.filters) return;
   els.filters.replaceChildren();
 
   for (const protocol of state.protocols) {
@@ -104,23 +126,24 @@ function renderFilters() {
     button.className = 'protocol-filter';
     button.textContent = protocol.name;
     button.dataset.protocol = protocol.id;
-    button.setAttribute('aria-pressed', state.enabledProtocols.has(protocol.id) ? 'true' : 'false');
-    button.addEventListener('click', () => {
-      if (state.enabledProtocols.has(protocol.id)) {
-        state.enabledProtocols.delete(protocol.id);
-      } else {
-        state.enabledProtocols.add(protocol.id);
-      }
-      state.selectedTopicId = null;
-      renderFilters();
-      renderFeed();
-    });
+     button.setAttribute('aria-pressed', protocol.id === state.selectedProtocolId ? 'true' : 'false');
+     button.addEventListener('click', () => {
+       state.selectedProtocolId = protocol.id;
+       state.selectedTopicId = null;
+       renderFilters();
+       renderCategoryFilter();
+       renderFeed();
+     });
     els.filters.appendChild(button);
   }
 }
 
 function renderCategoryFilter() {
-  const categories = [...new Set(state.topics.map((topic) => topic.category).filter(Boolean))].sort();
+  if (!els.topicCategory) return;
+  const categories = [...new Set(state.topics
+    .filter((topic) => topic.protocol === state.selectedProtocolId)
+    .map((topic) => topic.category)
+    .filter(Boolean))].sort();
   els.topicCategory.replaceChildren();
 
   const allOption = document.createElement('option');
@@ -139,7 +162,7 @@ function renderCategoryFilter() {
 }
 
 function topicMatchesFilters(topic) {
-  if (!state.enabledProtocols.has(topic.protocol)) return false;
+  if (topic.protocol !== state.selectedProtocolId) return false;
   if (state.topicCategory !== 'all' && topic.category !== state.topicCategory) return false;
 
   const query = state.topicSearch.trim().toLowerCase();
@@ -174,12 +197,15 @@ function renderTopicDetail(topic) {
   backButton.textContent = '← Back to feed';
   backButton.addEventListener('click', () => {
     const returnScrollY = state.returnScrollY;
+    const returnFeedScrollTop = state.returnFeedScrollTop;
     state.selectedTopicId = null;
     renderFeed();
     state.returnScrollY = null;
-    if (returnScrollY !== null) {
-      requestAnimationFrame(() => window.scrollTo({ top: returnScrollY, left: 0, behavior: 'auto' }));
-    }
+    state.returnFeedScrollTop = null;
+    requestAnimationFrame(() => {
+      if (returnScrollY !== null) window.scrollTo({ top: returnScrollY, left: 0, behavior: 'auto' });
+      if (returnFeedScrollTop !== null) els.feed.scrollTop = returnFeedScrollTop;
+    });
   });
   const breadcrumb = document.createElement('span');
   breadcrumb.className = 'topic-breadcrumb';
@@ -266,10 +292,15 @@ function renderTopicDetail(topic) {
 function renderFeed() {
   const selectedTopic = state.topics.find((topic) => String(topic.topic_id) === String(state.selectedTopicId));
   const isDetail = Boolean(selectedTopic);
-  els.feedHeading.hidden = isDetail;
-  els.feedControls.hidden = isDetail;
+  els.feedHeading?.toggleAttribute('hidden', isDetail);
+  els.feedControls?.toggleAttribute('hidden', isDetail);
   els.empty.hidden = true;
   els.feed.replaceChildren();
+  if (els.selectedProtocol) {
+    els.selectedProtocol.textContent = state.selectedProtocolId
+      ? protocolName(state.selectedProtocolId)
+      : 'Select a protocol in the scorecard';
+  }
 
   if (isDetail) {
     els.count.textContent = '';
@@ -331,15 +362,16 @@ function renderFeed() {
     item.append(main, meta);
     item.addEventListener('click', () => {
       state.returnScrollY = window.scrollY;
+      state.returnFeedScrollTop = els.feed.scrollTop;
       state.selectedTopicId = topic.topic_id;
       renderFeed();
-      requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }));
     });
     els.feed.appendChild(item);
   }
 }
 
 function bindFeedControls() {
+  if (!els.topicSearch || !els.topicCategory || !els.clearFilters) return;
   els.topicSearch.addEventListener('input', () => {
     state.topicSearch = els.topicSearch.value;
     state.selectedTopicId = null;
@@ -355,7 +387,6 @@ function bindFeedControls() {
   els.clearFilters.addEventListener('click', () => {
     state.topicSearch = '';
     state.topicCategory = 'all';
-    state.enabledProtocols = new Set(state.protocols.map((protocol) => protocol.id));
     state.selectedTopicId = null;
     els.topicSearch.value = '';
     els.topicCategory.value = 'all';
@@ -366,6 +397,7 @@ function bindFeedControls() {
 
 function bindThemeToggle() {
   applyTheme(document.documentElement.dataset.theme, false);
+  if (!els.themeToggle) return;
   els.themeToggle.addEventListener('click', () => {
     applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
   });
@@ -385,7 +417,10 @@ async function init() {
     const data = await dataResponse.json();
     state.protocols = protocolConfig.filter((protocol) => protocol.enabled !== false);
     state.topics = Array.isArray(data.topics) ? data.topics : [];
-    state.enabledProtocols = new Set(state.protocols.map((protocol) => protocol.id));
+    state.selectedProtocolId = readSelectedProtocol()
+      || state.protocols[0]?.id
+      || state.topics[0]?.protocol
+      || null;
     els.freshness.textContent = data.generated_at
       ? `Updated ${relativeTime(data.generated_at)}`
       : 'Feed loaded';
@@ -400,6 +435,16 @@ async function init() {
   }
 }
 
-bindThemeToggle();
+window.addEventListener('protocol-selection-changed', (event) => {
+  const protocolId = event.detail?.protocolId;
+  if (!protocolId || protocolId === state.selectedProtocolId) return;
+  state.selectedProtocolId = protocolId;
+  state.selectedTopicId = null;
+  renderCategoryFilter();
+  renderFeed();
+});
+
+// The competitive page owns the shared theme toggle; the feed is also reusable alone.
+if (!document.querySelector('#scorecard-protocol')) bindThemeToggle();
 bindFeedControls();
 init();

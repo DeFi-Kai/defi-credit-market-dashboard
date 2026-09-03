@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Monthly lending fundamentals and a focused feed of DeFi governance topics." />
-  <title>DeFi Credit Market Dashboard</title>
-  <link rel="stylesheet" href="./styles.css?v=20260901-40" />
+  <meta name="description" content="Sector overview of DeFi lending activity, economics, and market share." />
+  <title>Sector Overview | DeFi Credit Market Dashboard</title>
+  <link rel="stylesheet" href="./styles.css?v=20260903-20" />
   <script>
     (() => {
       try {
@@ -17,7 +17,7 @@
     })();
   </script>
 </head>
-<body>
+<body class="sector-overview-page">
   <main class="shell">
     <div class="workspace">
       <aside class="side-nav" aria-label="Dashboard sections">
@@ -29,15 +29,12 @@
           </span>
         </a>
         <nav class="side-nav-links">
-          <a class="side-nav-page" href="./index.html" aria-current="page">Dashboard</a>
+          <a class="side-nav-page" href="./index.html" aria-current="page">Sector overview</a>
           <div class="side-nav-subnav">
-            <a href="#market-summary">Overview</a>
-            <a href="#profit-pool-section">Profit pool</a>
-            <a href="#economics-section">Economics</a>
-            <a href="#scorecard-section">Competitive scorecard</a>
-            <a href="#market-share-section">Market share</a>
+            <a href="#market-summary">Market summary</a>
+            <a href="#economics-section">Protocol fundamentals</a>
           </div>
-          <a href="./governance.html">Governance</a>
+          <a class="side-nav-page" href="./competitive-analysis.html">Competitive analysis</a>
         </nav>
       </aside>
 
@@ -45,7 +42,7 @@
         <header class="site-header">
           <div>
             <p class="eyebrow">DeFi credit markets</p>
-            <h1>Lending intelligence</h1>
+            <h1>Sector overview</h1>
             <a
               class="research-report-link"
               href="https://defi-kai.github.io/kai-site/research/defi-lending-endgame/"
@@ -86,13 +83,6 @@
         <p class="metric-delta" id="total-revenue-delta">--</p>
         <p class="metric-detail" id="total-revenue-detail">TTM where available; annualized otherwise</p>
       </article>
-      <article class="metric-card">
-        <p class="eyebrow">All venues</p>
-        <h2>TTM / Annualized Earnings</h2>
-        <p class="metric-value" id="total-earnings">--</p>
-        <p class="metric-delta" id="total-earnings-delta">--</p>
-        <p class="metric-detail" id="total-earnings-detail">TTM where available; annualized otherwise</p>
-      </article>
       <article class="metric-card metric-card-ranking">
         <p class="eyebrow">All venues</p>
         <h2>Top 3 Market Share</h2>
@@ -102,8 +92,22 @@
       </article>
     </section>
 
+    <section class="dashboard-panel utilization-panel" id="utilization-section" aria-labelledby="utilization-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Market activity | Last 2 years</p>
+          <h2 id="utilization-heading">Active loans in use</h2>
+        </div>
+      </div>
+      <p class="section-intro">Borrow utilization is total borrowed TVL across lending venues divided by their total protocol TVL. Rising utilization means more supplied liquidity is in use; falling utilization can signal a shift toward derisking.</p>
+      <div class="market-utilization-chart" id="market-utilization-chart" role="img" aria-label="Daily aggregate borrow utilization, calculated as total borrowed TVL divided by total protocol TVL across lending venues.">
+        <div class="market-utilization-loading">Loading market utilization...</div>
+      </div>
+      <p class="market-utilization-note">Utilization is a risk-on and liquidity-use proxy, not a direct measure of speculation. Tooltip values show the borrowed and total TVL used in the ratio.</p>
+    </section>
+
     <div class="dashboard-grid">
-      <section class="dashboard-panel profit-pool-panel" id="profit-pool-section" aria-labelledby="fundamentals-heading">
+      <section class="dashboard-panel profit-pool-panel" id="profit-pool-section" aria-labelledby="fundamentals-heading" hidden>
         <div class="section-heading">
           <div>
             <p class="eyebrow">Fundamentals | Monthly</p>
@@ -126,7 +130,7 @@
         </div>
       </section>
 
-      <aside class="dashboard-panel methodology-panel" id="methodology-section" aria-labelledby="methodology-heading">
+      <aside class="dashboard-panel methodology-panel" id="methodology-section" aria-labelledby="methodology-heading" hidden>
         <div class="panel-heading">
           <p class="eyebrow" id="methodology-heading">Methodology</p>
         </div>
@@ -158,55 +162,7 @@
         <p class="methodology-note">Colors classify the protocol's take type. Hover a segment for the underlying spread, economic profit, and capital at risk.</p>
       </aside>
 
-      <section class="dashboard-panel scorecard-panel" id="scorecard-section" aria-labelledby="scorecard-heading">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Competitive analysis | MVP</p>
-            <h2 id="scorecard-heading">Protocol Competitive Scorecard</h2>
-          </div>
-          <p class="scorecard-context" id="scorecard-context">Loading scorecard...</p>
-        </div>
-        <div class="scorecard-controls" aria-label="Scorecard controls">
-          <label for="scorecard-protocol">Protocol</label>
-          <select id="scorecard-protocol" class="scorecard-select">
-            <option value="">Loading protocols...</option>
-          </select>
-          <label for="scorecard-timeframe">Timeframe</label>
-          <select id="scorecard-timeframe" class="scorecard-select">
-            <option value="30D">30D</option>
-            <option value="90D" selected>90D</option>
-            <option value="1Y">1Y</option>
-          </select>
-        </div>
-        <p class="section-intro">Direct-competitor comparison across the eight-venue cohort. Period deltas use the selected timeframe; loan growth is borrowed-TVL growth and share changes are percentage points.</p>
-        <div class="scorecard-layout">
-          <div class="scorecard-table-scroll">
-            <table class="scorecard-table">
-              <thead>
-                <tr>
-                  <th scope="col">Metric</th>
-                  <th scope="col">Protocol</th>
-                  <th scope="col">Sector Median</th>
-                  <th scope="col">Rank</th>
-                  <th scope="col">Period Δ</th>
-                </tr>
-              </thead>
-              <tbody id="scorecard-table-body"></tbody>
-            </table>
-          </div>
-          <div class="scorecard-visual">
-            <div class="scorecard-visual-heading">
-              <h3>Protocol vs Sector Benchmark</h3>
-              <p class="scorecard-visual-note">Values are normalized within the direct-competitor cohort. 100 marks the highest cohort value, not 100%.</p>
-            </div>
-            <div class="scorecard-chart" id="scorecard-chart" role="img" aria-label="Horizontal bars comparing the selected protocol with the sector median. Values are normalized within the direct-competitor cohort, where 100 is the highest cohort value rather than 100 percent.">
-              <div class="scorecard-loading">Loading benchmark...</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="dashboard-panel market-share-panel" id="market-share-section" aria-labelledby="market-share-heading">
+      <section class="dashboard-panel market-share-panel" id="market-share-section" aria-labelledby="market-share-heading" hidden>
         <div class="section-heading">
           <div>
             <p class="eyebrow">Market structure | Monthly</p>
@@ -232,14 +188,14 @@
           <table class="fundamentals-table">
             <thead>
               <tr>
-                <th scope="col">Protocol</th>
-                <th scope="col">Active loans</th>
-                <th scope="col">Loan share</th>
-                <th scope="col">Revenue</th>
-                <th scope="col">Earnings</th>
-                <th scope="col">Take rate</th>
-                <th scope="col" title="Change in borrowed TVL versus the nearest snapshot at or before 90 days ago">90d Δ Loans</th>
-                <th scope="col" title="Change in market share versus 90 days ago, in percentage points">Share Δ 90</th>
+                <th scope="col" data-column="protocol"><span>Protocol</span><button class="table-sort" type="button" data-sort-key="protocol" aria-label="Sort Protocol">Sort</button></th>
+                <th scope="col" data-column="activeLoans"><span>Active loans</span><button class="table-sort" type="button" data-sort-key="activeLoans" aria-label="Sort Active loans">Sort</button></th>
+                <th scope="col" data-column="loanShare"><span>Loan share</span><button class="table-sort" type="button" data-sort-key="loanShare" aria-label="Sort Loan share">Sort</button></th>
+                <th scope="col" data-column="revenue"><span>Revenue</span><button class="table-sort" type="button" data-sort-key="revenue" aria-label="Sort Revenue">Sort</button></th>
+                <th scope="col" data-column="earnings"><span>Earnings</span><button class="table-sort" type="button" data-sort-key="earnings" aria-label="Sort Earnings">Sort</button></th>
+                <th scope="col" data-column="takeRate"><span>Take rate</span><button class="table-sort" type="button" data-sort-key="takeRate" aria-label="Sort Take rate">Sort</button></th>
+                <th scope="col" data-column="loanDelta" title="Change in borrowed TVL versus the nearest snapshot at or before 90 days ago"><span>90d Δ Loans</span><button class="table-sort" type="button" data-sort-key="loanDelta" aria-label="Sort 90d Delta Loans">Sort</button></th>
+                <th scope="col" data-column="shareDelta" title="Change in market share versus 90 days ago, in percentage points"><span>Share Δ 90</span><button class="table-sort" type="button" data-sort-key="shareDelta" aria-label="Sort Share Delta 90">Sort</button></th>
               </tr>
             </thead>
             <tbody id="fundamentals-table-body"></tbody>
@@ -262,6 +218,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
-  <script type="module" src="./app.js?v=20260901-38"></script>
+  <script type="module" src="./app.js?v=20260903-20"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
     "refresh:governance": "node scripts/refresh-governance.mjs",
     "snapshot:fundamentals": "node scripts/snapshot-fundamentals.mjs",
     "snapshot:market-share": "node scripts/snapshot-market-share.mjs",
-    "snapshot:lending-venues": "node scripts/snapshot-lending-venues.mjs"
+    "snapshot:lending-venues": "node scripts/snapshot-lending-venues.mjs",
+    "snapshot:utilization": "node scripts/snapshot-market-utilization.mjs"
   }
 }

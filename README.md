@@ -1,6 +1,6 @@
 # DeFi Credit Market Dashboard - MVP
 
-A static GitHub Pages dashboard for monthly lending fundamentals, with Governance available as a separate feed page.
+A static GitHub Pages dashboard for monthly lending fundamentals, competitive benchmarking, and protocol-specific governance activity.
 
 ## Fundamentals snapshot
 
@@ -13,7 +13,7 @@ earnings margin = revenue / active loans
 economic profit = earnings - token incentives - (15% * capital at risk)
 ```
 
-The four cards above the cohort dashboard use `data/lending-venue-stats.csv`, which is generated from every DefiLlama venue tagged `Lending`, `NFT Lending`, `RWA Lending`, or `Uncollateralized Lending`. They are intentionally separate from the eight-venue cohort in `data/fundamentals.csv`. Market-wide `active_loans` is the current borrowed TVL, which keeps the total and market-share ranking on the same basis; the snapshot also stores each venue's active loans, revenue, and earnings 90 days earlier for KPI deltas. The cohort's `active_loans` remains its trailing 365-day average.
+The three cards above the cohort dashboard use `data/lending-venue-stats.csv`, which is generated from every DefiLlama venue tagged `Lending`, `NFT Lending`, `RWA Lending`, or `Uncollateralized Lending`. They are intentionally separate from the eight-venue cohort in `data/fundamentals.csv`. Market-wide `active_loans` is the current borrowed TVL, which keeps the total and market-share ranking on the same basis; the snapshot also stores each venue's active loans, revenue, and earnings 90 days earlier for KPI deltas. The cohort's `active_loans` remains its trailing 365-day average.
 
 Economic profit (EP) shows where the real profit in lending sits. It is what a venue earns above its cost of capital, after subtracting the minimum profit that capital could have earned elsewhere:
 
@@ -29,6 +29,8 @@ The committed August snapshot contains active loans, revenue, and earnings retri
 
 The active-loan market-share chart uses `data/active-loan-market-share.csv`, which stores each protocol's historical borrowed TVL and its share of the total for that date. Run `npm run snapshot:market-share` to refresh it from DefiLlama.
 
+The sector overview's active-loans-in-use chart uses `data/market-utilization.csv`. Its utilization line is total borrowed TVL divided by total protocol TVL across lending venues, a risk-on and liquidity-use proxy rather than a direct speculation measure. Run `npm run snapshot:utilization` to refresh the historical all-venue series from DefiLlama.
+
 `capital_risk_adjustment` captures pledged/slashable backstops that are not represented by loan-book risk. The starting values are $155M for Aave Umbrella and $39.3M for Spark Risk Capital; all other rows start at zero. Change these when the underlying capital changes.
 
 ### Monthly update workflow
@@ -37,19 +39,25 @@ The active-loan market-share chart uses `data/active-loan-market-share.csv`, whi
 2. Copy the eight data rows (not the repeated header) into `data/fundamentals.csv`; do not replace previous snapshots.
 3. Paste the verified `incentives_ttm` numbers, using `0` for protocols without incentives, and revise capital-risk adjustments if needed.
 4. Run `npm run snapshot:market-share` to refresh the historical borrowed-TVL table used by the active-loan market-share chart.
-5. Run `npm run snapshot:lending-venues -- 2026-09-30` to refresh the all-venue KPI snapshot used by the cards.
-6. Commit and deploy. The dashboard selects the newest snapshot automatically.
+5. Run `npm run snapshot:utilization` to refresh the historical all-venue utilization series.
+6. Run `npm run snapshot:lending-venues -- 2026-09-30` to refresh the all-venue KPI snapshot used by the cards.
+7. Commit and deploy. The dashboard selects the newest snapshot automatically.
 
 The fundamentals snapshot command only prints CSV and never overwrites your historical file. It defaults incentives to `0`, so replace those values for protocols with active incentive programs before publishing the snapshot. The all-venue snapshot writes `data/lending-venue-stats.csv`.
 
 ## Competitive scorecard
 
-The protocol competitive scorecard compares the selected cohort protocol with the sector median for the active snapshot. The protocol selector uses the eight venues in `data/fundamentals.csv`; the timeframe controls borrowed-TVL growth and market-share deltas over 30D, 90D, or 1Y. Take rate is earnings divided by revenue, earnings margin is revenue divided by active loans, and incentive intensity is incentives divided by revenue. Period deltas for the economic metrics require an earlier dated row in `data/fundamentals.csv`.
+The protocol competitive scorecard compares the selected cohort protocol with the sector median for the active snapshot. The protocol selector uses the eight venues in `data/fundamentals.csv`; the timeframe controls active-loan growth and market-share growth over 60D, 90D, or 1Y. Take rate is earnings divided by revenue, earnings margin is revenue divided by active loans, and incentive intensity is incentives divided by revenue. Other period deltas for the economic metrics require an earlier dated row in `data/fundamentals.csv`.
+
+The scorecard driver charts use `data/scorecard-drivers.csv` for monthly borrow interest and gross profit. Scale is sourced from the DefiLlama borrowed-TVL history in `data/active-loan-market-share.csv`; its monthly average is also the Price denominator. Price is trailing-three-month borrow interest divided by monthly-average borrowed TVL, annualized. The Take rate driver is trailing-three-month gross profit divided by borrow interest, while the scorecard's Take Rate is TTM earnings divided by revenue, so the two views can legitimately differ.
+
+The competitive scorecard also shows each protocol's share of total borrows over time. It normalizes the per-protocol borrowed-TVL series in `data/active-loan-market-share.csv` to 100% for each date and highlights the selected protocol.
 
 ## Product model
 
-- **Separate Governance page.** The market dashboard lives at `index.html`; Governance lives at `governance.html` so feed browsing does not compete with market analysis.
-- **Topic = feed row.** The original post contains the proposal/context and remains the canonical object; selecting a row opens a full-width detail view on the Governance page.
+- **Two-page workspace.** The sector overview lives at `index.html`; competitive benchmarking and the selected protocol's governance feed live at `competitive-analysis.html`.
+- **Selected protocol = feed scope.** The governance feed on the competitive analysis page follows the protocol selected in the scorecard and never combines proposals from multiple protocols.
+- **Topic = feed row.** The original post contains the proposal/context and remains the canonical object; selecting a row opens a full-width detail view in the competitive analysis feed.
 - **Latest post = activity signal.** A topic moves up the feed when `last_posted_at` changes.
 - **Whitelist = original author.** A topic is admitted only when its OP is a whitelisted username or belongs to a whitelisted public Discourse group. An approved user merely commenting on someone else's topic does not admit it.
 - **Detail view.** The selected topic shows its post contents, latest comment, metadata, and a link to the canonical forum post.
@@ -150,7 +158,7 @@ Append another object to `config/protocols.json`:
 }
 ```
 
-As long as the site is a standard Discourse instance, the same ingestion path should work. Protocol toggle buttons are created automatically from the config.
+As long as the site is a standard Discourse instance, the same ingestion path should work. The competitive analysis feed scopes itself to the protocol selected in the scorecard.
 
 ## Recommended next iterations
 
@@ -168,7 +176,7 @@ From the project directory:
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000` for the market dashboard or `http://localhost:8000/governance.html` for Governance.
+Then open `http://localhost:8000` for the sector overview or `http://localhost:8000/competitive-analysis.html` for competitive analysis.
 
 The committed `data/governance.json` contains mock data so the UI renders before the first live ingestion run.
 

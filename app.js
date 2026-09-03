@@ -2,16 +2,42 @@ const state = {
   fundamentals: [],
   fundamentalsHistory: [],
   marketShareHistory: [],
+  marketUtilizationHistory: [],
+  scorecardDriverHistory: [],
   allVenueStats: [],
   allVenueStatsDate: null,
   fundamentalsDate: null,
   scorecardProtocolId: null,
   scorecardTimeframe: '90D',
+  fundamentalsSortKey: null,
+  fundamentalsSortDirection: 'asc',
 };
+
+const SELECTED_PROTOCOL_KEY = 'defi-dashboard-selected-protocol';
+
+function readSelectedProtocol() {
+  try {
+    return window.localStorage.getItem(SELECTED_PROTOCOL_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function publishSelectedProtocol(protocolId) {
+  try {
+    window.localStorage.setItem(SELECTED_PROTOCOL_KEY, protocolId);
+  } catch {
+    // The in-memory selection still synchronizes the two panels for this session.
+  }
+  window.dispatchEvent(new CustomEvent('protocol-selection-changed', { detail: { protocolId } }));
+}
 
 let profitPoolChart = null;
 let scorecardChart = null;
+let scorecardBorrowShareChart = null;
 let marketShareChart = null;
+let marketUtilizationChart = null;
+const scorecardDriverCharts = { scale: null, price: null, capture: null };
 
 const els = {
   freshness: document.querySelector('#freshness'),
@@ -20,10 +46,21 @@ const els = {
   scorecardProtocol: document.querySelector('#scorecard-protocol'),
   scorecardTimeframe: document.querySelector('#scorecard-timeframe'),
   scorecardContext: document.querySelector('#scorecard-context'),
-  scorecardTable: document.querySelector('#scorecard-table-body'),
+  scorecardHero: document.querySelector('#scorecard-hero'),
+  scorecardBorrowShareChart: document.querySelector('#scorecard-borrow-share-chart'),
   scorecardChart: document.querySelector('#scorecard-chart'),
+  scorecardScaleChart: document.querySelector('#scorecard-scale-chart'),
+  scorecardPriceChart: document.querySelector('#scorecard-price-chart'),
+  scorecardCaptureChart: document.querySelector('#scorecard-capture-chart'),
+  scorecardScaleCurrent: document.querySelector('#scorecard-scale-current'),
+  scorecardScaleRank: document.querySelector('#scorecard-scale-rank'),
+  scorecardPriceCurrent: document.querySelector('#scorecard-price-current'),
+  scorecardPriceRank: document.querySelector('#scorecard-price-rank'),
+  scorecardCaptureCurrent: document.querySelector('#scorecard-capture-current'),
+  scorecardCaptureRank: document.querySelector('#scorecard-capture-rank'),
   marketShareChart: document.querySelector('#market-share-chart'),
   marketShareNote: document.querySelector('#market-share-note'),
+  marketUtilizationChart: document.querySelector('#market-utilization-chart'),
   fundamentalsDate: document.querySelector('#fundamentals-date'),
   fundamentalsSource: document.querySelector('#fundamentals-source'),
   fundamentalsTable: document.querySelector('#fundamentals-table-body'),
@@ -34,9 +71,6 @@ const els = {
   totalRevenue: document.querySelector('#total-revenue'),
   totalRevenueDelta: document.querySelector('#total-revenue-delta'),
   totalRevenueDetail: document.querySelector('#total-revenue-detail'),
-  totalEarnings: document.querySelector('#total-earnings'),
-  totalEarningsDelta: document.querySelector('#total-earnings-delta'),
-  totalEarningsDetail: document.querySelector('#total-earnings-detail'),
   topThreeShare: document.querySelector('#top-three-share'),
   topThreeShareDelta: document.querySelector('#top-three-share-delta'),
   topThreeShareList: document.querySelector('#top-three-share-list'),
@@ -49,10 +83,10 @@ function chartColor(variable, fallback) {
 
 function chartColors() {
   return {
-    text: chartColor('--text', '#252b36'),
-    muted: chartColor('--muted', '#697386'),
-    muted2: chartColor('--muted-2', '#8a94a6'),
-    accent: chartColor('--accent', '#635bff'),
+    text: chartColor('--text', '#242424'),
+    muted: chartColor('--muted', '#6f6f6f'),
+    muted2: chartColor('--muted-2', '#969696'),
+    accent: chartColor('--accent', '#1677f2'),
     chartGrid: chartColor('--chart-grid', 'rgba(116, 128, 151, 0.16)'),
     chartAxis: chartColor('--chart-axis', '#c4ccd9'),
     chartBorder: chartColor('--chart-border', 'rgba(113, 125, 148, 0.34)'),
@@ -81,6 +115,17 @@ const fundamentalsProtocolNames = {
   fluid: 'Fluid',
   euler: 'Euler',
   compound: 'Compound',
+};
+
+const scorecardProtocolColors = {
+  aave: '#1677f2',
+  morpho: '#8d63d2',
+  'spark-lend': '#e08a33',
+  kamino: '#2b9d77',
+  'jupiter-lend': '#d35c7a',
+  fluid: '#2799b8',
+  euler: '#6875c7',
+  compound: '#b18a2c',
 };
 
 const takeTypeColors = {
@@ -208,8 +253,8 @@ function formatSnapshotMonth(value) {
 function applyTheme(theme, persist = true) {
   const nextTheme = theme === 'dark' ? 'dark' : 'light';
   document.documentElement.dataset.theme = nextTheme;
-  els.themeToggle.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
-  els.themeToggle.setAttribute('aria-label', `Switch to ${nextTheme === 'dark' ? 'light' : 'dark'} mode`);
+  els.themeToggle?.setAttribute('aria-pressed', nextTheme === 'dark' ? 'true' : 'false');
+  els.themeToggle?.setAttribute('aria-label', `Switch to ${nextTheme === 'dark' ? 'light' : 'dark'} mode`);
 
   if (persist) {
     try {
@@ -220,9 +265,9 @@ function applyTheme(theme, persist = true) {
   }
 
   if (state.fundamentals.length > 0) {
-    renderProfitPool();
-    renderScorecard();
-    renderMarketShare();
+    if (els.profitPool) renderProfitPool();
+    if (els.scorecardProtocol) renderScorecard();
+    if (els.marketShareChart) renderMarketShare();
   }
 }
 
@@ -252,6 +297,7 @@ function setKpiDelta(element, value, formatter = formatPercent) {
 }
 
 function renderMarketSummary() {
+  if (!els.totalActiveLoans) return;
   const snapshotDate = state.allVenueStatsDate;
   const rows = state.allVenueStats.filter((row) => row.date === snapshotDate);
   const activeRows = rows.filter((row) => row.activeLoans !== null && row.activeLoans > 0);
@@ -259,8 +305,6 @@ function renderMarketSummary() {
   const totalActiveLoans90dAgo = sumAvailable(rows, (row) => row.activeLoans90dAgo);
   const totalRevenue = sumAvailable(rows, (row) => effectiveVenueMetric(row, 'revenueTtm', 'revenueAnnualized'));
   const totalRevenue90dAgo = sumAvailable(rows, (row) => row.revenue90dAgo);
-  const totalEarnings = sumAvailable(rows, (row) => effectiveVenueMetric(row, 'earningsTtm', 'earningsAnnualized'));
-  const totalEarnings90dAgo = sumAvailable(rows, (row) => row.earnings90dAgo);
   const topThree = [...activeRows]
     .sort((a, b) => b.activeLoans - a.activeLoans)
     .slice(0, 3)
@@ -280,10 +324,7 @@ function renderMarketSummary() {
   setKpiDelta(els.totalActiveLoansDelta, relativeDelta(totalActiveLoans, totalActiveLoans90dAgo));
   els.totalRevenue.textContent = formatUsd(totalRevenue);
   setKpiDelta(els.totalRevenueDelta, relativeDelta(totalRevenue, totalRevenue90dAgo));
-  els.totalEarnings.textContent = formatUsd(totalEarnings);
-  setKpiDelta(els.totalEarningsDelta, relativeDelta(totalEarnings, totalEarnings90dAgo));
   els.totalRevenueDetail.textContent = 'TTM where available; annualized otherwise';
-  els.totalEarningsDetail.textContent = 'TTM where available; annualized otherwise';
   els.topThreeShare.textContent = formatPercent(topThreeShare, 1);
   setKpiDelta(els.topThreeShareDelta, priorTopThreeShare === null ? null : topThreeShare - priorTopThreeShare, formatKpiPointsDelta);
   els.topThreeShareList.replaceChildren();
@@ -300,15 +341,13 @@ function renderMarketSummary() {
 }
 
 function renderMarketSummaryError() {
+  if (!els.totalActiveLoans) return;
   els.totalActiveLoans.textContent = '--';
   els.totalActiveLoansDetail.textContent = 'All-venue snapshot unavailable';
   setKpiDelta(els.totalActiveLoansDelta, null);
   els.totalRevenue.textContent = '--';
   setKpiDelta(els.totalRevenueDelta, null);
-  els.totalEarnings.textContent = '--';
-  setKpiDelta(els.totalEarningsDelta, null);
   els.totalRevenueDetail.textContent = 'All-venue snapshot unavailable';
-  els.totalEarningsDetail.textContent = 'All-venue snapshot unavailable';
   els.topThreeShare.textContent = '--';
   setKpiDelta(els.topThreeShareDelta, null, formatKpiPointsDelta);
   els.topThreeShareList.replaceChildren();
@@ -344,7 +383,10 @@ function syncMethodologyHeight() {
 window.addEventListener('resize', () => {
   profitPoolChart?.resize();
   scorecardChart?.resize();
+  scorecardBorrowShareChart?.resize();
   marketShareChart?.resize();
+  marketUtilizationChart?.resize();
+  Object.values(scorecardDriverCharts).forEach((chart) => chart?.resize());
   syncMethodologyHeight();
 });
 
@@ -358,12 +400,30 @@ function disposeScorecardChart() {
   scorecardChart = null;
 }
 
+function disposeScorecardBorrowShareChart() {
+  scorecardBorrowShareChart?.dispose();
+  scorecardBorrowShareChart = null;
+}
+
 function disposeMarketShareChart() {
   marketShareChart?.dispose();
   marketShareChart = null;
 }
 
+function disposeMarketUtilizationChart() {
+  marketUtilizationChart?.dispose();
+  marketUtilizationChart = null;
+}
+
+function disposeScorecardDriverCharts() {
+  Object.keys(scorecardDriverCharts).forEach((key) => {
+    scorecardDriverCharts[key]?.dispose();
+    scorecardDriverCharts[key] = null;
+  });
+}
+
 function renderProfitPool() {
+  if (!els.profitPool) return;
   disposeProfitPoolChart();
   els.profitPool.replaceChildren();
   const completeRows = state.fundamentals
@@ -526,19 +586,46 @@ function renderProfitPool() {
   syncMethodologyHeight();
 }
 
-const SCORECARD_TIMEFRAMES = { '30D': 30, '90D': 90, '1Y': 365 };
+const SCORECARD_TIMEFRAMES = { '60D': 60, '90D': 90, '1Y': 365 };
 const SCORECARD_METRICS = [
   { key: 'activeLoans', label: 'Active Loans', type: 'usd', higherIsBetter: true },
   { key: 'marketShare', label: 'Market Share', type: 'percent', higherIsBetter: true },
   { key: 'loanGrowth', label: 'Loan Growth', type: 'percent', higherIsBetter: true },
   { key: 'revenue', label: 'Revenue', type: 'usd', higherIsBetter: true },
+  { key: 'earnings', label: 'Earnings', type: 'usd', higherIsBetter: true },
   { key: 'takeRate', label: 'Take Rate', type: 'percent', digits: 2, higherIsBetter: true },
   { key: 'earningsMargin', label: 'Earnings Margin', type: 'percent', higherIsBetter: true },
   { key: 'economicProfit', label: 'Economic Profit', type: 'usd', higherIsBetter: true },
   { key: 'profitPoolShare', label: 'Profit Pool Share', type: 'percent', higherIsBetter: true },
   { key: 'incentiveIntensity', label: 'Incentive Intensity', type: 'percent', higherIsBetter: false },
 ];
-const SCORECARD_BENCHMARK_KEYS = new Set(['marketShare', 'loanGrowth', 'takeRate', 'earningsMargin', 'profitPoolShare']);
+const SCORECARD_BENCHMARK_METRICS = [
+  { ...SCORECARD_METRICS.find((metric) => metric.key === 'activeLoans'), label: 'Scale', detail: 'Active loans' },
+  { key: 'grossBorrowYield', label: 'Price', detail: 'Borrow yield', type: 'percent', higherIsBetter: true },
+  { ...SCORECARD_METRICS.find((metric) => metric.key === 'takeRate'), label: 'Capture', detail: 'Take rate' },
+];
+const SCORECARD_BENCHMARK_KEYS = new Set(SCORECARD_BENCHMARK_METRICS.map((metric) => metric.key));
+const SCORECARD_HERO_METRICS = ['loanGrowth', 'marketShare'].map((key) => ({
+  ...SCORECARD_METRICS.find((metric) => metric.key === key),
+  label: key === 'loanGrowth' ? 'Active Loan Growth' : 'Market Share Growth',
+}));
+const SCORECARD_DRIVER_CONFIG = {
+  scale: {
+    label: 'Scale',
+    type: 'usd',
+    empty: 'Active-loan history unavailable.',
+  },
+  price: {
+    label: 'Price',
+    type: 'percent',
+    empty: 'Add monthly borrow-interest and gross-profit rows to data/scorecard-drivers.csv.',
+  },
+  capture: {
+    label: 'Take rate',
+    type: 'percent',
+    empty: 'Add monthly gross-profit and borrow-interest rows to data/scorecard-drivers.csv.',
+  },
+};
 
 function median(values) {
   const sorted = values.filter((value) => value !== null && value !== undefined).sort((a, b) => a - b);
@@ -588,6 +675,7 @@ function scorecardMetricsFor(fundamentalsSnapshot, marketSnapshot, growthBaselin
       marketShare,
       loanGrowth: scorecardLoanGrowth(fundamental.id, marketSnapshot, growthBaselineSnapshot),
       revenue,
+      earnings,
       takeRate: fundamental.takeRate,
       earningsMargin: fundamental.earningsMargin,
       economicProfit: fundamental.economicProfit,
@@ -599,6 +687,42 @@ function scorecardMetricsFor(fundamentalsSnapshot, marketSnapshot, growthBaselin
         : fundamental.incentives / revenue,
     }];
   }));
+}
+
+function scorecardApiMetrics() {
+  const protocolPatterns = {
+    aave: /^aave(?:-|$)/,
+    morpho: /^morpho(?:-|$)/,
+    'spark-lend': /^(?:spark|sparklend)(?:-|$)/,
+    kamino: /^kamino(?:-|$)/,
+    'jupiter-lend': /^jupiter-lend(?:-|$)/,
+    fluid: /^fluid(?:-|$)/,
+    euler: /^euler(?:-|$)/,
+    compound: /^compound(?:-|$)/,
+  };
+  const rowsByProtocol = new Map();
+
+  for (const [protocolId, pattern] of Object.entries(protocolPatterns)) {
+    const rows = state.allVenueStats.filter((row) => row.date === state.allVenueStatsDate && pattern.test(row.id));
+    if (rows.length === 0) continue;
+    const revenue = sumAvailable(rows, (row) => row.revenue90dAgo);
+    const earnings = sumAvailable(rows, (row) => row.earnings90dAgo);
+    const activeLoans = sumAvailable(rows, (row) => row.activeLoans90dAgo);
+    rowsByProtocol.set(protocolId, {
+      revenue,
+      earnings,
+      takeRate: revenue > 0 && earnings !== null ? earnings / revenue : null,
+      earningsMargin: activeLoans > 0 && revenue !== null ? revenue / activeLoans : null,
+    });
+  }
+
+  return rowsByProtocol;
+}
+
+function scorecardGrossBorrowYieldMetrics() {
+  const history = trailingDriverHistory(monthlyDriverHistory(), 'price', SCORECARD_TIMEFRAMES[state.scorecardTimeframe], monthlyScaleHistory());
+  const latestMonth = [...history.keys()].sort().at(-1);
+  return new Map(state.fundamentals.map((row) => [row.id, history.get(latestMonth)?.get(row.id) ?? null]));
 }
 
 function scorecardFormatValue(value, metric) {
@@ -613,27 +737,243 @@ function scorecardFormatDelta(value, metric) {
   return `${prefix}${(value * 100).toFixed(1)} pp`;
 }
 
+function scorecardPriorMetrics(metric, context) {
+  if (metric.key === 'activeLoans' || metric.key === 'marketShare') {
+    return context.priorMarketMetrics;
+  }
+  if (metric.key === 'loanGrowth') {
+    return context.priorMarketMetrics;
+  }
+  if (['revenue', 'earnings', 'takeRate', 'earningsMargin'].includes(metric.key)) {
+    return context.priorApiMetrics;
+  }
+  return context.priorFundamentalsMetrics;
+}
+
 function scorecardPeriodDelta(metric, protocolId, context) {
   const current = context.currentMetrics.get(protocolId)?.[metric.key];
-  let prior;
-  if (metric.key === 'activeLoans' || metric.key === 'marketShare') {
-    prior = context.priorMarketMetrics.get(protocolId)?.[metric.key];
-  } else if (metric.key === 'loanGrowth') {
-    prior = context.priorMarketMetrics.get(protocolId)?.loanGrowth;
-  } else {
-    prior = context.priorFundamentalsMetrics.get(protocolId)?.[metric.key];
-  }
+  const prior = scorecardPriorMetrics(metric, context).get(protocolId)?.[metric.key];
   if (current === null || current === undefined || prior === null || prior === undefined) return null;
   return current - prior;
 }
 
-function scorecardRank(metric, protocolId, metrics) {
+function scorecardHeroGrowth(metric, protocolId, context) {
+  const current = context.currentMetrics.get(protocolId)?.[metric.key];
+  const prior = scorecardPriorMetrics(metric, context).get(protocolId)?.[metric.key];
+  if (current === null || current === undefined || prior === null || prior === undefined) return null;
+  if (metric.key === 'marketShare') return current - prior;
+  return prior === 0 ? null : (current - prior) / Math.abs(prior);
+}
+
+function scorecardMarketGrowth(context) {
+  const current = sumAvailable([...context.currentMetrics.values()], (metrics) => metrics.activeLoans);
+  const prior = sumAvailable([...context.priorMarketMetrics.values()], (metrics) => metrics.activeLoans);
+  return relativeDelta(current, prior);
+}
+
+function scorecardFormatHeroGrowth(value, metric) {
+  if (value === null || value === undefined) return '--';
+  return metric.key === 'marketShare'
+    ? scorecardFormatDelta(value, metric)
+    : formatPercent(value, 1, true);
+}
+
+function scorecardRankDetails(metric, protocolId, metrics) {
   const ranked = [...metrics.entries()]
     .map(([id, values]) => ({ id, value: values[metric.key] }))
     .filter((item) => item.value !== null && item.value !== undefined)
     .sort((a, b) => metric.higherIsBetter ? b.value - a.value : a.value - b.value);
   const index = ranked.findIndex((item) => item.id === protocolId);
-  return index === -1 ? '--' : `${index + 1}/${ranked.length}`;
+  return index === -1 ? null : { position: index + 1, total: ranked.length };
+}
+
+function scorecardRankChange(metric, protocolId, context) {
+  const current = scorecardRankDetails(metric, protocolId, context.currentMetrics);
+  const prior = scorecardRankDetails(metric, protocolId, scorecardPriorMetrics(metric, context));
+  if (!current || !prior) return null;
+  return prior.position - current.position;
+}
+
+function scorecardHeroTrend(metricKey, protocolId, days) {
+  const endDate = state.fundamentalsDate || [...new Set(state.marketShareHistory.map((row) => row.date))].sort().at(-1);
+  const endSnapshot = findMarketShareSnapshot(endDate);
+  const trendEndDate = endSnapshot?.date || endDate;
+  const baselineSnapshot = findMarketShareSnapshot(dateDaysAgo(trendEndDate, days));
+  const cutoff = dateDaysAgo(trendEndDate, days);
+  const dates = [...new Set(state.marketShareHistory.map((row) => row.date))]
+    .filter((date) => date && date >= cutoff && date <= trendEndDate)
+    .sort();
+  return dates.map((date) => {
+    const currentSnapshot = findMarketShareSnapshot(date);
+    const currentRow = currentSnapshot?.rowsByProtocol.get(protocolId);
+    const baselineRow = baselineSnapshot?.rowsByProtocol.get(protocolId);
+    if (!currentRow || !baselineRow) return null;
+    if (metricKey === 'loanGrowth') {
+      return { date, value: baselineRow.activeLoans > 0 ? (currentRow.activeLoans - baselineRow.activeLoans) / baselineRow.activeLoans : null };
+    }
+    const currentShare = snapshotMarketShare(currentRow, currentSnapshot);
+    const baselineShare = snapshotMarketShare(baselineRow, baselineSnapshot);
+    return { date, value: currentShare === null || baselineShare === null ? null : currentShare - baselineShare };
+  }).filter((point) => point?.value !== null && point?.value !== undefined);
+}
+
+function formatScorecardHeroAxisValue(value, metricKey) {
+  const signed = value > 0 ? '+' : '';
+  return metricKey === 'marketShare'
+    ? `${signed}${(value * 100).toFixed(0)} pp`
+    : `${signed}${(value * 100).toFixed(0)}%`;
+}
+
+function formatScorecardHeroDate(value) {
+  const date = new Date(`${value}T12:00:00Z`);
+  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(date);
+}
+
+function renderScorecardHeroSparkline(metricKey, protocolId, days) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'scorecard-hero-sparkline';
+  const points = scorecardHeroTrend(metricKey, protocolId, days);
+  if (points.length === 0) {
+    wrapper.className += ' is-empty';
+    wrapper.textContent = 'Trend unavailable';
+    return wrapper;
+  }
+  const latestValue = points.at(-1).value;
+  wrapper.classList.add(latestValue > 0 ? 'is-positive' : latestValue < 0 ? 'is-negative' : 'is-neutral');
+
+  const maximum = Math.max(...points.map((point) => Math.abs(point.value)), metricKey === 'marketShare' ? 0.01 : 0.1);
+  const domain = metricKey === 'marketShare'
+    ? Math.ceil(maximum * 100) / 100
+    : Math.ceil(maximum * 10) / 10;
+  const yLabels = document.createElement('div');
+  yLabels.className = 'scorecard-hero-sparkline-axis';
+  for (const value of [domain, 0, -domain]) {
+    const label = document.createElement('span');
+    label.textContent = formatScorecardHeroAxisValue(value, metricKey);
+    yLabels.appendChild(label);
+  }
+
+  const chart = document.createElement('div');
+  chart.className = 'scorecard-hero-sparkline-chart';
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 300 72');
+  svg.setAttribute('preserveAspectRatio', 'none');
+  svg.setAttribute('aria-hidden', 'true');
+  for (const y of [0, 36, 72]) {
+    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    gridLine.setAttribute('x1', '0');
+    gridLine.setAttribute('x2', '300');
+    gridLine.setAttribute('y1', String(y));
+    gridLine.setAttribute('y2', String(y));
+    gridLine.setAttribute('class', 'scorecard-hero-sparkline-grid');
+    svg.appendChild(gridLine);
+  }
+  const coordinates = points.map((point, index) => {
+    const x = points.length === 1 ? 150 : (index / (points.length - 1)) * 300;
+    const y = 36 - ((point.value / domain) * 36);
+    return `${x},${Math.max(0, Math.min(72, y))}`;
+  });
+  const area = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+  area.setAttribute('points', `0,36 ${coordinates.join(' ')} 300,36`);
+  area.setAttribute('class', 'scorecard-hero-sparkline-area');
+  svg.appendChild(area);
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+  line.setAttribute('points', coordinates.join(' '));
+  line.setAttribute('class', 'scorecard-hero-sparkline-line');
+  svg.appendChild(line);
+  chart.appendChild(svg);
+
+  const dates = document.createElement('div');
+  dates.className = 'scorecard-hero-sparkline-dates';
+  const firstDate = document.createElement('span');
+  firstDate.textContent = formatScorecardHeroDate(points[0].date);
+  const lastDate = document.createElement('span');
+  lastDate.textContent = formatScorecardHeroDate(points.at(-1).date);
+  dates.append(firstDate, lastDate);
+  chart.appendChild(dates);
+
+  wrapper.append(yLabels, chart);
+  return wrapper;
+}
+
+function renderScorecardHero(context) {
+  if (!els.scorecardHero) return;
+  els.scorecardHero.replaceChildren();
+
+  if (state.fundamentals.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'scorecard-empty';
+    empty.textContent = 'Scorecard data unavailable.';
+    els.scorecardHero.appendChild(empty);
+    return;
+  }
+
+  const heroRankMetric = { key: 'growth', higherIsBetter: true };
+  const heroGrowthMetrics = new Map([...context.currentMetrics.keys()].map((protocolId) => [protocolId, {
+    activeLoanGrowth: context.currentMetrics.get(protocolId)?.loanGrowth ?? null,
+    marketShareGrowth: scorecardHeroGrowth(SCORECARD_METRICS.find((metric) => metric.key === 'marketShare'), protocolId, context),
+  }]));
+  const days = SCORECARD_TIMEFRAMES[state.scorecardTimeframe];
+  for (const metric of SCORECARD_HERO_METRICS) {
+    const card = document.createElement('article');
+    card.className = 'scorecard-hero-metric';
+
+    const copy = document.createElement('div');
+    copy.className = 'scorecard-hero-copy';
+    const label = document.createElement('p');
+    label.className = 'eyebrow';
+    label.textContent = metric.label;
+    copy.appendChild(label);
+
+    const value = document.createElement('strong');
+    value.className = 'scorecard-hero-value';
+    const growthKey = metric.key === 'loanGrowth' ? 'activeLoanGrowth' : 'marketShareGrowth';
+    const growthValue = heroGrowthMetrics.get(state.scorecardProtocolId)?.[growthKey];
+    value.textContent = scorecardFormatHeroGrowth(growthValue, metric);
+    copy.appendChild(value);
+
+    const meta = document.createElement('div');
+    meta.className = 'scorecard-hero-meta';
+
+    const rank = scorecardRankDetails({ ...heroRankMetric, key: growthKey }, state.scorecardProtocolId, heroGrowthMetrics);
+    const rankLabel = document.createElement('span');
+    rankLabel.textContent = rank ? `Rank ${rank.position} / ${rank.total}` : 'Rank --';
+    meta.appendChild(rankLabel);
+
+    const periodDelta = growthValue;
+    const deltaLabel = document.createElement('span');
+    deltaLabel.className = deltaClass(periodDelta);
+    const formattedDelta = metric.key === 'marketShare'
+      ? scorecardFormatDelta(periodDelta, metric)
+      : formatPercent(periodDelta, 1, true);
+    deltaLabel.textContent = `Period delta ${formattedDelta}`;
+    meta.appendChild(deltaLabel);
+    copy.appendChild(meta);
+
+    card.append(copy, renderScorecardHeroSparkline(metric.key, state.scorecardProtocolId, days));
+    els.scorecardHero.appendChild(card);
+  }
+
+  const marketGrowth = scorecardMarketGrowth(context);
+  const marketCard = document.createElement('article');
+  marketCard.className = 'scorecard-hero-metric scorecard-hero-market-metric';
+  const marketCopy = document.createElement('div');
+  const marketLabel = document.createElement('p');
+  marketLabel.className = 'eyebrow';
+  marketLabel.textContent = 'Market Growth';
+  marketCopy.appendChild(marketLabel);
+  const marketValue = document.createElement('strong');
+  marketValue.className = 'scorecard-hero-value';
+  marketValue.textContent = formatPercent(marketGrowth, 1, true);
+  marketCopy.appendChild(marketValue);
+  const marketMeta = document.createElement('div');
+  marketMeta.className = 'scorecard-hero-meta';
+  const marketScope = document.createElement('span');
+  marketScope.textContent = `All ${context.currentMetrics.size} protocols | Period change`;
+  marketMeta.appendChild(marketScope);
+  marketCopy.appendChild(marketMeta);
+  marketCard.appendChild(marketCopy);
+  els.scorecardHero.appendChild(marketCard);
 }
 
 function scorecardNormalizedValue(value, values) {
@@ -646,26 +986,18 @@ function scorecardNormalizedValue(value, values) {
 }
 
 function renderScorecardChart(scorecardRows, context, selectedName) {
+  if (!els.scorecardChart) return;
+  disposeScorecardChart();
   els.scorecardChart.replaceChildren();
-  if (!window.echarts) {
-    const empty = document.createElement('div');
-    empty.className = 'pool-empty';
-    empty.textContent = 'Could not load the ECharts library.';
-    els.scorecardChart.appendChild(empty);
-    return;
-  }
-
   const chartMetrics = scorecardRows
     .filter((row) => SCORECARD_BENCHMARK_KEYS.has(row.metric.key) && row.protocolValue !== null && row.sectorMedian !== null)
-    .map((row) => {
-      const values = [...context.currentMetrics.values()].map((metrics) => metrics[row.metric.key]);
-      return {
-        ...row,
-        protocolNormalized: scorecardNormalizedValue(row.protocolValue, values),
-        medianNormalized: scorecardNormalizedValue(row.sectorMedian, values),
-      };
-    })
-    .filter((row) => row.protocolNormalized !== null && row.medianNormalized !== null);
+    .map((row) => ({
+      ...row,
+      values: [...context.currentMetrics.values()]
+        .map((metrics) => metrics[row.metric.key])
+        .filter((value) => value !== null && value !== undefined),
+    }))
+    .filter((row) => row.values.length > 0);
 
   if (chartMetrics.length === 0) {
     const empty = document.createElement('div');
@@ -675,14 +1007,22 @@ function renderScorecardChart(scorecardRows, context, selectedName) {
     return;
   }
 
+  if (!window.echarts) {
+    const empty = document.createElement('div');
+    empty.className = 'pool-empty';
+    empty.textContent = 'Could not load the ECharts library.';
+    els.scorecardChart.appendChild(empty);
+    return;
+  }
+
   const colors = chartColors();
-  els.scorecardChart.setAttribute('aria-label', `Horizontal benchmark bars comparing ${selectedName} with the sector median. Values are normalized within the direct-competitor cohort, where 100 is the highest cohort value rather than 100 percent.`);
+  els.scorecardChart.setAttribute('aria-label', `Horizontal benchmark bars comparing ${selectedName} with the sector median across scale, price, and capture. Values are normalized within the direct-competitor cohort.`);
   scorecardChart = window.echarts.init(els.scorecardChart, null, { renderer: 'canvas' });
   scorecardChart.setOption({
     animation: false,
-    grid: { top: 48, right: 16, bottom: 38, left: 8, containLabel: true },
+    grid: { top: 42, right: 16, bottom: 38, left: 8, containLabel: true },
     legend: {
-      top: 4,
+      top: 2,
       left: 18,
       itemWidth: 12,
       itemHeight: 8,
@@ -698,7 +1038,7 @@ function renderScorecardChart(scorecardRows, context, selectedName) {
         return [
           metric.metric.label,
           ...params.map((item) => `${item.marker}${item.seriesName}: ${scorecardFormatValue(item.data.raw, metric.metric)}`),
-          'Bars normalized within the cohort',
+          'Values normalized within the cohort',
         ].join('<br>');
       },
     },
@@ -728,21 +1068,397 @@ function renderScorecardChart(scorecardRows, context, selectedName) {
         name: selectedName,
         type: 'bar',
         barMaxWidth: 15,
-        data: chartMetrics.map((row) => ({ value: row.protocolNormalized, raw: row.protocolValue })),
+        data: chartMetrics.map((row) => ({ value: scorecardNormalizedValue(row.protocolValue, row.values), raw: row.protocolValue })),
         itemStyle: { color: colors.accent, borderRadius: [0, 3, 3, 0] },
       },
       {
         name: 'Sector median',
         type: 'bar',
         barMaxWidth: 15,
-        data: chartMetrics.map((row) => ({ value: row.medianNormalized, raw: row.sectorMedian })),
+        data: chartMetrics.map((row) => ({ value: scorecardNormalizedValue(row.sectorMedian, row.values), raw: row.sectorMedian })),
         itemStyle: { color: colors.chartMedian, borderRadius: [0, 3, 3, 0] },
       },
     ],
   });
 }
 
+function monthKey(value) {
+  return value?.slice(0, 7) || null;
+}
+
+function monthDate(value) {
+  const date = new Date(`${value}-01T12:00:00Z`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function formatDriverValue(value, type) {
+  return type === 'usd' ? formatUsd(value) : formatPercent(value, 1);
+}
+
+function ordinal(value) {
+  const suffix = value % 100 >= 11 && value % 100 <= 13
+    ? 'th'
+    : ({ 1: 'st', 2: 'nd', 3: 'rd' }[value % 10] || 'th');
+  return `${value}${suffix}`;
+}
+
+function monthlyScaleHistory() {
+  const groups = new Map();
+  for (const row of state.marketShareHistory) {
+    const month = monthKey(row.date);
+    if (!month || row.activeLoans === null) continue;
+    const key = `${month}|${row.id}`;
+    const group = groups.get(key) || { month, id: row.id, total: 0, count: 0 };
+    group.total += row.activeLoans;
+    group.count += 1;
+    groups.set(key, group);
+  }
+
+  const months = new Map();
+  for (const group of groups.values()) {
+    if (!months.has(group.month)) months.set(group.month, new Map());
+    months.get(group.month).set(group.id, group.total / group.count);
+  }
+  return months;
+}
+
+function monthlyDriverHistory() {
+  const groups = new Map();
+  for (const row of state.scorecardDriverHistory) {
+    const month = monthKey(row.date);
+    if (!month) continue;
+    const key = `${month}|${row.id}`;
+    const group = groups.get(key) || { month, id: row.id, borrowInterest: 0, averageActiveLoans: 0, grossProfit: 0 };
+    group.borrowInterest += row.borrowInterest || 0;
+    group.averageActiveLoans += row.averageActiveLoans || 0;
+    group.grossProfit += row.grossProfit || 0;
+    groups.set(key, group);
+  }
+
+  const months = new Map();
+  for (const group of groups.values()) {
+    if (!months.has(group.month)) months.set(group.month, new Map());
+    months.get(group.month).set(group.id, {
+      borrowInterest: group.borrowInterest,
+      averageActiveLoans: group.averageActiveLoans,
+      grossProfit: group.grossProfit,
+    });
+  }
+  return months;
+}
+
+function renderScorecardBorrowShareChart(selectedId, selectedName) {
+  if (!els.scorecardBorrowShareChart) return;
+  disposeScorecardBorrowShareChart();
+  els.scorecardBorrowShareChart.replaceChildren();
+
+  const protocolIds = state.fundamentals.map((row) => row.id);
+  const latestMarketDate = findMarketShareSnapshot(state.fundamentalsDate)?.date
+    || [...new Set(state.marketShareHistory.map((row) => row.date).filter(Boolean))].sort().at(-1);
+  const cutoffDate = dateDaysAgo(latestMarketDate, SCORECARD_TIMEFRAMES[state.scorecardTimeframe]);
+  const rowsByDate = new Map();
+  for (const row of state.marketShareHistory) {
+    if (!row.date || row.date < cutoffDate || row.date > latestMarketDate || !protocolIds.includes(row.id)) continue;
+    if (!rowsByDate.has(row.date)) rowsByDate.set(row.date, new Map());
+    rowsByDate.get(row.date).set(row.id, row);
+  }
+  const snapshots = [...rowsByDate.entries()]
+    .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
+    .map(([date, rows]) => {
+      const totalActiveLoans = protocolIds.reduce((sum, id) => sum + Math.max(0, rows.get(id)?.activeLoans || 0), 0);
+      if (totalActiveLoans <= 0) return null;
+      return {
+        date,
+        totalActiveLoans,
+        shares: new Map(protocolIds.map((id) => [id, Math.max(0, rows.get(id)?.activeLoans || 0) / totalActiveLoans])),
+      };
+    })
+    .filter(Boolean);
+
+  if (snapshots.length === 0 || protocolIds.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'pool-empty';
+    empty.textContent = 'Borrow-share history unavailable.';
+    els.scorecardBorrowShareChart.appendChild(empty);
+    return;
+  }
+
+  if (!window.echarts) {
+    const empty = document.createElement('div');
+    empty.className = 'pool-empty';
+    empty.textContent = 'Could not load the ECharts library.';
+    els.scorecardBorrowShareChart.appendChild(empty);
+    return;
+  }
+
+  const colors = chartColors();
+  const orderedProtocolIds = protocolIds
+    .filter((id) => id !== selectedId)
+    .concat(protocolIds.includes(selectedId) ? [selectedId] : []);
+  const series = orderedProtocolIds.map((id) => {
+    const selected = id === selectedId;
+    const protocolColor = scorecardProtocolColors[id] || colors.accent;
+    return {
+      name: fundamentalsProtocolNames[id] || id,
+      type: 'line',
+      stack: 'borrow-share',
+      smooth: 0.12,
+      showSymbol: false,
+      symbol: 'none',
+      connectNulls: false,
+      z: selected ? 10 : 2,
+      emphasis: { focus: 'series' },
+      lineStyle: { color: protocolColor, width: selected ? 2.2 : 0.8, opacity: selected ? 1 : 0.9 },
+      areaStyle: { color: protocolColor, opacity: selected ? 0.9 : 0.58 },
+      itemStyle: { color: protocolColor },
+      data: snapshots.map((snapshot) => [snapshot.date, snapshot.shares.get(id) || 0]),
+    };
+  });
+
+  els.scorecardBorrowShareChart.setAttribute('aria-label', `100 percent normalized stacked area chart of share of borrows by protocol, with ${selectedName} highlighted.`);
+  scorecardBorrowShareChart = window.echarts.init(els.scorecardBorrowShareChart, null, { renderer: 'canvas' });
+  scorecardBorrowShareChart.setOption({
+    animation: false,
+    legend: {
+      type: 'scroll',
+      orient: 'horizontal',
+      top: 4,
+      height: 22,
+      left: 12,
+      right: 12,
+      itemWidth: 10,
+      itemHeight: 7,
+      textStyle: { color: colors.muted, fontSize: 10 },
+    },
+    grid: { top: 56, right: 14, bottom: 54, left: 12, containLabel: true },
+    tooltip: {
+      trigger: 'axis',
+      appendToBody: true,
+      formatter: (params) => {
+        const date = params[0]?.axisValue;
+        const snapshot = snapshots.find((item) => item.date === date);
+        return [
+          formatSnapshotDate(date),
+          `Total borrowed TVL: ${formatUsd(snapshot?.totalActiveLoans)}`,
+          ...params
+            .filter((item) => item.value?.[1] !== null && item.value?.[1] !== undefined)
+            .sort((a, b) => b.value[1] - a.value[1])
+            .map((item) => `${item.marker}${item.seriesName}: ${formatPercent(item.value[1], 1)}`),
+        ].join('<br>');
+      },
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: snapshots.map((snapshot) => snapshot.date),
+      axisLine: { lineStyle: { color: colors.chartAxis } },
+      axisTick: { show: false },
+      axisLabel: { color: colors.muted2, fontSize: 10, formatter: (value) => formatSnapshotDate(value), hideOverlap: true },
+    },
+    yAxis: {
+      type: 'value',
+      min: 0,
+      max: 1,
+      interval: 0.25,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: colors.muted2, fontSize: 10, formatter: (value) => formatPercent(value, 0) },
+      splitLine: { lineStyle: { color: colors.chartGrid } },
+      name: 'SHARE OF TOTAL BORROWS',
+      nameLocation: 'end',
+      nameGap: 16,
+      nameTextStyle: { color: colors.muted2, fontSize: 10, fontWeight: 700, letterSpacing: 1 },
+    },
+    series,
+  });
+}
+
+function trailingDriverHistory(months, metric, days, scaleHistory = null) {
+  const sortedMonths = [...months.keys()].sort();
+  const output = new Map();
+  for (const month of sortedMonths) {
+    const end = monthDate(month);
+    if (!end) continue;
+    const start = new Date(end);
+    start.setUTCDate(start.getUTCDate() - (metric === 'price' || metric === 'capture' ? 92 : days));
+    const trailing = sortedMonths.filter((candidate) => {
+      const date = monthDate(candidate);
+      return date && date >= start && date <= end;
+    });
+    const values = new Map();
+    const ids = new Set(trailing.flatMap((candidate) => [...(months.get(candidate)?.keys() || [])]));
+    for (const id of ids) {
+      if (metric === 'scale') {
+        values.set(id, months.get(month)?.get(id) ?? null);
+        continue;
+      }
+      const rows = trailing.map((candidate) => months.get(candidate)?.get(id)).filter(Boolean);
+      const borrowInterest = rows.reduce((sum, row) => sum + row.borrowInterest, 0);
+      const averageActiveLoans = trailing
+        .map((candidate) => scaleHistory?.get(candidate)?.get(id))
+        .filter((value) => value !== null && value !== undefined)
+        .reduce((sum, value) => sum + value, 0);
+      const grossProfit = rows.reduce((sum, row) => sum + row.grossProfit, 0);
+      values.set(id, metric === 'price'
+        ? (borrowInterest > 0 && averageActiveLoans > 0 ? (borrowInterest / averageActiveLoans) * 12 : null)
+        : (borrowInterest > 0 ? grossProfit / borrowInterest : null));
+    }
+    output.set(month, values);
+  }
+  return output;
+}
+
+function renderScorecardDriverChart(metric, history, protocolIds, selectedId, selectedName) {
+  const config = SCORECARD_DRIVER_CONFIG[metric];
+  const suffix = metric[0].toUpperCase() + metric.slice(1);
+  const chartElement = els[`scorecard${suffix}Chart`];
+  const currentElement = els[`scorecard${suffix}Current`];
+  const rankElement = els[`scorecard${suffix}Rank`];
+  if (!chartElement || !currentElement || !rankElement) return;
+  chartElement.replaceChildren();
+  currentElement.textContent = '';
+  rankElement.textContent = '';
+
+  const availableMonths = [...history.keys()].sort();
+  const latestMonth = availableMonths.at(-1);
+  const latestDate = monthDate(latestMonth);
+  const cutoff = latestDate ? new Date(latestDate) : null;
+  cutoff?.setUTCDate(cutoff.getUTCDate() - SCORECARD_TIMEFRAMES[state.scorecardTimeframe]);
+  const months = availableMonths.filter((month) => {
+    const date = monthDate(month);
+    return date && (!cutoff || date >= cutoff);
+  });
+  const hasData = months.some((month) => [...(history.get(month)?.values() || [])].some((value) => value !== null));
+
+  if (!hasData) {
+    const empty = document.createElement('div');
+    empty.className = 'pool-empty';
+    empty.textContent = config.empty;
+    chartElement.appendChild(empty);
+    return;
+  }
+
+  const latestValue = history.get(latestMonth)?.get(selectedId);
+  currentElement.textContent = latestValue === null || latestValue === undefined ? '' : formatDriverValue(latestValue, config.type);
+  const rankedProtocols = protocolIds
+    .map((id) => ({ id, value: history.get(latestMonth)?.get(id) }))
+    .filter((row) => row.value !== null && row.value !== undefined)
+    .sort((a, b) => b.value - a.value);
+  const rank = rankedProtocols.findIndex((row) => row.id === selectedId);
+  rankElement.textContent = rank === -1 ? '' : ordinal(rank + 1);
+  if (!window.echarts) {
+    const empty = document.createElement('div');
+    empty.className = 'pool-empty';
+    empty.textContent = 'Could not load the ECharts library.';
+    chartElement.appendChild(empty);
+    return;
+  }
+
+  const colors = {
+    ...chartColors(),
+    ...(document.documentElement.dataset.theme === 'dark'
+      ? {
+        accent: '#0f67d5',
+        muted: '#697386',
+        muted2: '#8a94a6',
+        chartGrid: 'rgba(116, 128, 151, 0.16)',
+        chartAxis: '#c4ccd9',
+      }
+      : {}),
+    chartMedian: '#9ccff3',
+  };
+  const peerColor = colors.chartAxis;
+  const valuesByMonth = months.map((month) => {
+    const values = [...(history.get(month)?.values() || [])].filter((value) => value !== null);
+    return { month, median: median(values) };
+  });
+  const series = protocolIds.map((id) => ({
+    name: fundamentalsProtocolNames[id] || id,
+    type: 'line',
+    showSymbol: false,
+    connectNulls: false,
+    z: id === selectedId ? 5 : 2,
+    emphasis: { focus: 'series' },
+    lineStyle: {
+      color: id === selectedId ? colors.accent : peerColor,
+      width: id === selectedId ? 2.8 : 1.1,
+      opacity: id === selectedId ? 1 : 0.42,
+    },
+    itemStyle: { color: id === selectedId ? colors.accent : peerColor },
+    data: months.map((month) => [month, history.get(month)?.get(id) ?? null]),
+  }));
+  series.push({
+    name: 'Cohort median',
+    type: 'line',
+    showSymbol: false,
+    data: valuesByMonth.map(({ month, median: value }) => [month, value]),
+    lineStyle: { color: colors.chartMedian, width: 1, type: 'dashed' },
+    itemStyle: { color: colors.chartMedian },
+    z: 3,
+  });
+
+  chartElement.setAttribute('aria-label', `${config.label} history for ${selectedName} and the direct-competitor cohort.`);
+  scorecardDriverCharts[metric] = window.echarts.init(chartElement, null, { renderer: 'canvas' });
+  scorecardDriverCharts[metric].setOption({
+    animation: false,
+    legend: {
+      type: 'scroll',
+      top: 0,
+      left: 12,
+      right: 12,
+      itemWidth: 9,
+      itemHeight: 6,
+      textStyle: { color: colors.muted, fontSize: 9 },
+    },
+    grid: { top: 30, right: 12, bottom: 30, left: 12, containLabel: true },
+    tooltip: {
+      trigger: 'axis',
+      appendToBody: true,
+      formatter: (params) => [
+        formatSnapshotMonth(`${params[0]?.axisValue}-01`),
+        ...params
+          .filter((item) => item.value?.[1] !== null && item.value?.[1] !== undefined)
+          .sort((a, b) => b.value[1] - a.value[1])
+          .map((item) => `${item.marker}${item.seriesName}: ${formatDriverValue(item.value[1], config.type)}`),
+      ].join('<br>'),
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: months,
+      axisLine: { lineStyle: { color: colors.chartAxis } },
+      axisTick: { show: false },
+      axisLabel: { color: colors.muted2, fontSize: 10, formatter: (value) => value.slice(2) },
+    },
+    yAxis: {
+      type: 'value',
+      min: (value) => value.min >= 0 ? 0 : undefined,
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: colors.muted2, fontSize: 10, formatter: (value) => config.type === 'usd' ? formatUsd(value) : `${(value * 100).toFixed(0)}%` },
+      splitLine: { lineStyle: { color: colors.chartGrid } },
+    },
+    series,
+  });
+}
+
+function renderScorecardDriverCharts() {
+  disposeScorecardDriverCharts();
+  const protocolIds = state.fundamentals.map((row) => row.id);
+  const selected = state.fundamentals.find((row) => row.id === state.scorecardProtocolId);
+  const selectedName = selected?.name || state.scorecardProtocolId || 'selected protocol';
+  const scaleHistory = monthlyScaleHistory();
+  const scale = trailingDriverHistory(scaleHistory, 'scale', SCORECARD_TIMEFRAMES[state.scorecardTimeframe]);
+  const driverRows = monthlyDriverHistory();
+  const price = trailingDriverHistory(driverRows, 'price', SCORECARD_TIMEFRAMES[state.scorecardTimeframe], scaleHistory);
+  const capture = trailingDriverHistory(driverRows, 'capture', SCORECARD_TIMEFRAMES[state.scorecardTimeframe]);
+  renderScorecardDriverChart('scale', scale, protocolIds, state.scorecardProtocolId, selectedName);
+  renderScorecardDriverChart('price', price, protocolIds, state.scorecardProtocolId, selectedName);
+  renderScorecardDriverChart('capture', capture, protocolIds, state.scorecardProtocolId, selectedName);
+}
+
 function renderScorecardProtocolOptions() {
+  if (!els.scorecardProtocol) return;
   els.scorecardProtocol.replaceChildren();
   for (const fundamental of state.fundamentals) {
     const option = document.createElement('option');
@@ -753,25 +1469,26 @@ function renderScorecardProtocolOptions() {
 }
 
 function renderScorecard() {
+  if (!els.scorecardProtocol) return;
   disposeScorecardChart();
-  els.scorecardTable.replaceChildren();
+  disposeScorecardBorrowShareChart();
+  disposeScorecardDriverCharts();
+  els.scorecardHero?.replaceChildren();
   renderScorecardProtocolOptions();
 
   if (state.fundamentals.length === 0) {
-    els.scorecardContext.textContent = 'Scorecard data unavailable';
-    const row = document.createElement('tr');
-    const cell = document.createElement('td');
-    cell.colSpan = 5;
-    cell.className = 'scorecard-empty';
-    cell.textContent = 'Scorecard data unavailable.';
-    row.appendChild(cell);
-    els.scorecardTable.appendChild(row);
-    els.scorecardChart.replaceChildren();
+    els.scorecardContext?.replaceChildren();
+    renderScorecardHero({ currentMetrics: new Map() });
+    els.scorecardBorrowShareChart?.replaceChildren();
+    els.scorecardChart?.replaceChildren();
+    renderScorecardDriverCharts();
     return;
   }
 
   const protocolIds = state.fundamentals.map((row) => row.id);
+  if (!state.scorecardProtocolId) state.scorecardProtocolId = readSelectedProtocol();
   if (!protocolIds.includes(state.scorecardProtocolId)) state.scorecardProtocolId = protocolIds[0];
+  publishSelectedProtocol(state.scorecardProtocolId);
   els.scorecardProtocol.value = state.scorecardProtocolId;
   els.scorecardTimeframe.value = state.scorecardTimeframe;
 
@@ -785,35 +1502,113 @@ function renderScorecard() {
   const currentMetrics = scorecardMetricsFor(currentFundamentals, currentMarket, priorMarket);
   const priorMarketMetrics = scorecardMetricsFor(currentFundamentals, priorMarket, priorPriorMarket);
   const priorFundamentalsMetrics = scorecardMetricsFor(priorFundamentals, priorMarket, priorPriorMarket);
-  const context = { currentMetrics, priorMarketMetrics, priorFundamentalsMetrics };
+  const priorApiMetrics = scorecardApiMetrics();
+  const context = { currentMetrics, priorMarketMetrics, priorFundamentalsMetrics, priorApiMetrics };
   const selected = state.fundamentals.find((row) => row.id === state.scorecardProtocolId);
   const selectedName = selected?.name || state.scorecardProtocolId;
 
-  for (const metric of SCORECARD_METRICS) {
-    const protocolValue = currentMetrics.get(state.scorecardProtocolId)?.[metric.key] ?? null;
-    const sectorMedian = median([...currentMetrics.values()].map((values) => values[metric.key]));
-    const row = document.createElement('tr');
-    const name = document.createElement('th');
-    name.scope = 'row';
-    name.textContent = metric.label;
-    row.appendChild(name);
-    appendFundamentalsCell(row, scorecardFormatValue(protocolValue, metric));
-    appendFundamentalsCell(row, scorecardFormatValue(sectorMedian, metric));
-    appendFundamentalsCell(row, scorecardRank(metric, state.scorecardProtocolId, currentMetrics));
-    const periodDelta = scorecardPeriodDelta(metric, state.scorecardProtocolId, context);
-    appendFundamentalsCell(row, scorecardFormatDelta(periodDelta, metric), deltaClass(periodDelta));
-    els.scorecardTable.appendChild(row);
+  if (els.scorecardContext) {
+    els.scorecardContext.textContent = `${selectedName} | ${state.scorecardTimeframe} | ${protocolIds.length} direct competitors`;
+  }
+  renderScorecardHero(context);
+  renderScorecardBorrowShareChart(state.scorecardProtocolId, selectedName);
+  const grossBorrowYieldMetrics = scorecardGrossBorrowYieldMetrics();
+  const benchmarkMetrics = new Map([...currentMetrics.entries()].map(([protocolId, values]) => [protocolId, {
+    ...values,
+    grossBorrowYield: grossBorrowYieldMetrics.get(protocolId),
+  }]));
+  const benchmarkContext = { ...context, currentMetrics: benchmarkMetrics };
+  renderScorecardChart(SCORECARD_BENCHMARK_METRICS.map((metric) => ({
+    metric,
+    protocolValue: benchmarkMetrics.get(state.scorecardProtocolId)?.[metric.key] ?? null,
+    sectorMedian: median([...benchmarkMetrics.values()].map((values) => values[metric.key])),
+  })), benchmarkContext, selectedName);
+  renderScorecardDriverCharts();
+}
+
+function renderMarketUtilization() {
+  if (!els.marketUtilizationChart) return;
+  disposeMarketUtilizationChart();
+  els.marketUtilizationChart.replaceChildren();
+
+  const latestDate = [...new Set(state.marketUtilizationHistory.map((row) => row.date).filter(Boolean))].sort().at(-1);
+  const cutoffDate = dateDaysAgo(latestDate, 730);
+  const snapshots = state.marketUtilizationHistory
+    .filter((row) => row.date && row.date >= cutoffDate && row.utilization !== null && row.utilization >= 0);
+  if (snapshots.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'pool-empty';
+    empty.textContent = 'Market utilization history unavailable.';
+    els.marketUtilizationChart.appendChild(empty);
+    return;
   }
 
-  els.scorecardContext.textContent = `${selectedName} | ${state.scorecardTimeframe} | ${protocolIds.length} direct competitors`;
-  renderScorecardChart(SCORECARD_METRICS.map((metric) => ({
-    metric,
-    protocolValue: currentMetrics.get(state.scorecardProtocolId)?.[metric.key] ?? null,
-    sectorMedian: median([...currentMetrics.values()].map((values) => values[metric.key])),
-  })), context, selectedName);
+  if (!window.echarts) {
+    const empty = document.createElement('div');
+    empty.className = 'pool-empty';
+    empty.textContent = 'Could not load the ECharts library.';
+    els.marketUtilizationChart.appendChild(empty);
+    return;
+  }
+
+  const colors = chartColors();
+  const snapshotsByDate = new Map(snapshots.map((snapshot) => [snapshot.date, snapshot]));
+  els.marketUtilizationChart.setAttribute('aria-label', 'Daily aggregate borrow utilization, calculated as total borrowed TVL divided by total protocol TVL across lending venues.');
+  marketUtilizationChart = window.echarts.init(els.marketUtilizationChart, null, { renderer: 'canvas' });
+  marketUtilizationChart.setOption({
+    animation: false,
+    grid: { top: 18, right: 26, bottom: 54, left: 18, containLabel: true },
+    tooltip: {
+      trigger: 'axis',
+      appendToBody: true,
+      formatter: (params) => {
+        const date = params[0]?.axisValue;
+        const snapshot = snapshotsByDate.get(date);
+        return [
+          formatSnapshotDate(date),
+          `Utilization: ${formatPercent(snapshot?.utilization, 1)}`,
+          `Borrowed TVL: ${formatUsd(snapshot?.totalActiveLoans)}`,
+          `Total TVL: ${formatUsd(snapshot?.totalTvl)}`,
+          `Coverage: ${snapshot?.borrowedVenues || 0} borrowed / ${snapshot?.tvlVenues || 0} TVL venues`,
+        ].join('<br>');
+      },
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: snapshots.map((snapshot) => snapshot.date),
+      axisLine: { lineStyle: { color: colors.chartAxis } },
+      axisTick: { show: false },
+      axisLabel: { color: colors.muted2, fontSize: 10, formatter: (value) => formatSnapshotDate(value), hideOverlap: true },
+    },
+    yAxis: {
+      type: 'value',
+      min: 0,
+      max: (value) => Math.max(1, Math.ceil(value.max * 10) / 10),
+      axisLine: { show: false },
+      axisTick: { show: false },
+      axisLabel: { color: colors.muted2, fontSize: 10, formatter: (value) => formatPercent(value, 0) },
+      splitLine: { lineStyle: { color: colors.chartGrid } },
+      name: 'BORROWED TVL / TOTAL TVL',
+      nameLocation: 'end',
+      nameGap: 16,
+      nameTextStyle: { color: colors.muted2, fontSize: 10, fontWeight: 700, letterSpacing: 1 },
+    },
+    series: [{
+      name: 'Borrow utilization',
+      type: 'line',
+      showSymbol: false,
+      connectNulls: false,
+      smooth: 0.12,
+      lineStyle: { color: colors.accent, width: 2 },
+      itemStyle: { color: colors.accent },
+      data: snapshots.map((snapshot) => [snapshot.date, snapshot.utilization]),
+    }],
+  });
 }
 
 function renderMarketShare() {
+  if (!els.marketShareChart) return;
   disposeMarketShareChart();
   els.marketShareChart.replaceChildren();
   els.marketShareNote.hidden = true;
@@ -939,11 +1734,47 @@ function renderMarketShare() {
   }
 }
 
-function appendFundamentalsCell(row, value, className = '') {
+function appendFundamentalsCell(row, value, className = '', columnKey = '', sortValue = null) {
   const cell = document.createElement('td');
   if (className) cell.className = className;
+  if (columnKey) cell.dataset.column = columnKey;
+  if (sortValue !== null && sortValue !== undefined) cell.dataset.sortValue = String(sortValue);
   cell.textContent = value;
   row.appendChild(cell);
+}
+
+function fundamentalsSortValue(row, columnKey) {
+  return [...row.children].find((cell) => cell.dataset.column === columnKey)?.dataset.sortValue ?? null;
+}
+
+function updateFundamentalsSortIndicators() {
+  const table = els.fundamentalsTable?.closest('table');
+  if (!table) return;
+  table.querySelectorAll('thead th[data-column]').forEach((header) => {
+    const active = header.dataset.column === state.fundamentalsSortKey;
+    header.setAttribute('aria-sort', active ? state.fundamentalsSortDirection === 'asc' ? 'ascending' : 'descending' : 'none');
+  });
+}
+
+function applyFundamentalsSort() {
+  if (!els.fundamentalsTable || !state.fundamentalsSortKey) {
+    updateFundamentalsSortIndicators();
+    return;
+  }
+  const direction = state.fundamentalsSortDirection === 'desc' ? -1 : 1;
+  const columnKey = state.fundamentalsSortKey;
+  const rows = [...els.fundamentalsTable.rows];
+  rows.sort((rowA, rowB) => {
+    const valueA = fundamentalsSortValue(rowA, columnKey);
+    const valueB = fundamentalsSortValue(rowB, columnKey);
+    if (valueA === null && valueB === null) return 0;
+    if (valueA === null) return 1;
+    if (valueB === null) return -1;
+    if (columnKey === 'protocol') return direction * valueA.localeCompare(valueB, undefined, { numeric: true, sensitivity: 'base' });
+    return direction * (Number(valueA) - Number(valueB));
+  });
+  els.fundamentalsTable.append(...rows);
+  updateFundamentalsSortIndicators();
 }
 
 function dateDaysAgo(value, days) {
@@ -984,6 +1815,10 @@ function deltaClass(value) {
 }
 
 function renderFundamentals() {
+  if (!els.fundamentalsTable) {
+    renderScorecard();
+    return;
+  }
   const snapshotDate = state.fundamentalsDate;
   const currentMarketSnapshot = findMarketShareSnapshot(snapshotDate);
   els.fundamentalsDate.textContent = snapshotDate
@@ -999,80 +1834,109 @@ function renderFundamentals() {
     const row = document.createElement('tr');
     const name = document.createElement('th');
     name.scope = 'row';
+    name.dataset.column = 'protocol';
+    name.dataset.sortValue = fundamental.name;
     name.textContent = fundamental.name;
     row.appendChild(name);
-    appendFundamentalsCell(row, formatUsd(fundamental.activeLoans));
+    appendFundamentalsCell(row, formatUsd(fundamental.activeLoans), '', 'activeLoans', fundamental.activeLoans);
     appendFundamentalsCell(
       row,
       totalActiveLoans > 0 && fundamental.activeLoans !== null ? formatPercent(fundamental.activeLoans / totalActiveLoans, 1) : '--',
+      '',
+      'loanShare',
+      totalActiveLoans > 0 && fundamental.activeLoans !== null ? fundamental.activeLoans / totalActiveLoans : null,
     );
-    appendFundamentalsCell(row, formatUsd(fundamental.revenue));
-    appendFundamentalsCell(row, formatUsd(fundamental.earnings));
-    appendFundamentalsCell(row, formatPercent(fundamental.takeRate, 2));
+    appendFundamentalsCell(row, formatUsd(fundamental.revenue), '', 'revenue', fundamental.revenue);
+    appendFundamentalsCell(row, formatUsd(fundamental.earnings), '', 'earnings', fundamental.earnings);
+    appendFundamentalsCell(row, formatPercent(fundamental.takeRate, 2), '', 'takeRate', fundamental.takeRate);
     const currentMarketRow = currentMarketSnapshot?.rowsByProtocol.get(fundamental.id);
     for (const days of [90]) {
       const priorSnapshot = findMarketShareSnapshot(dateDaysAgo(currentMarketSnapshot?.date, days));
       const priorMarketRow = priorSnapshot?.rowsByProtocol.get(fundamental.id);
       const loanDelta = currentMarketRow && priorMarketRow ? currentMarketRow.activeLoans - priorMarketRow.activeLoans : null;
-      appendFundamentalsCell(row, formatDeltaUsd(loanDelta), deltaClass(loanDelta));
+      appendFundamentalsCell(row, formatDeltaUsd(loanDelta), deltaClass(loanDelta), 'loanDelta', loanDelta);
     }
     const priorShareSnapshot = findMarketShareSnapshot(dateDaysAgo(currentMarketSnapshot?.date, 90));
     const priorShare = snapshotMarketShare(priorShareSnapshot?.rowsByProtocol.get(fundamental.id), priorShareSnapshot);
     const currentShare = snapshotMarketShare(currentMarketRow, currentMarketSnapshot);
     const shareDelta = currentShare === null || priorShare === null ? null : currentShare - priorShare;
-    appendFundamentalsCell(row, formatPercent(shareDelta, 1, true), deltaClass(shareDelta));
+    appendFundamentalsCell(row, formatPercent(shareDelta, 1, true), deltaClass(shareDelta), 'shareDelta', shareDelta);
     els.fundamentalsTable.appendChild(row);
   }
+  applyFundamentalsSort();
 
-  renderProfitPool();
-  renderScorecard();
-  renderMarketShare();
+  if (els.profitPool) renderProfitPool();
+  if (els.scorecardProtocol) renderScorecard();
+  if (els.marketShareChart) renderMarketShare();
+  if (els.marketUtilizationChart) renderMarketUtilization();
 }
 
 function renderFundamentalsError() {
   disposeProfitPoolChart();
   disposeScorecardChart();
+  disposeScorecardBorrowShareChart();
   disposeMarketShareChart();
-  els.fundamentalsDate.textContent = 'Snapshot unavailable';
-  els.fundamentalsSource.textContent = 'Could not load data/fundamentals.csv';
-  els.scorecardContext.textContent = 'Scorecard unavailable';
-  els.profitPool.replaceChildren();
-  const message = document.createElement('div');
-  message.className = 'pool-empty';
-  message.textContent = 'Could not load the monthly fundamentals snapshot.';
-  els.profitPool.appendChild(message);
-  els.scorecardTable.replaceChildren();
-  const scorecardRow = document.createElement('tr');
-  const scorecardMessage = document.createElement('td');
-  scorecardMessage.colSpan = 5;
-  scorecardMessage.className = 'scorecard-empty';
-  scorecardMessage.textContent = 'Could not load the competitive scorecard.';
-  scorecardRow.appendChild(scorecardMessage);
-  els.scorecardTable.appendChild(scorecardRow);
-  els.scorecardChart.replaceChildren();
-  const scorecardChartMessage = document.createElement('div');
-  scorecardChartMessage.className = 'pool-empty';
-  scorecardChartMessage.textContent = 'Could not load the sector benchmark chart.';
-  els.scorecardChart.appendChild(scorecardChartMessage);
-  els.marketShareChart.replaceChildren();
-  const marketShareMessage = document.createElement('div');
-  marketShareMessage.className = 'pool-empty';
-  marketShareMessage.textContent = 'Could not load active loan market-share history.';
-  els.marketShareChart.appendChild(marketShareMessage);
-  els.marketShareNote.hidden = true;
+  disposeMarketUtilizationChart();
+  if (els.fundamentalsDate) els.fundamentalsDate.textContent = 'Snapshot unavailable';
+  if (els.fundamentalsSource) els.fundamentalsSource.textContent = 'Could not load data/fundamentals.csv';
+  if (els.profitPool) {
+    els.profitPool.replaceChildren();
+    const message = document.createElement('div');
+    message.className = 'pool-empty';
+    message.textContent = 'Could not load the monthly fundamentals snapshot.';
+    els.profitPool.appendChild(message);
+  }
+  if (els.scorecardHero) {
+    if (els.scorecardContext) els.scorecardContext.textContent = 'Scorecard unavailable';
+    els.scorecardHero.replaceChildren();
+    const scorecardMessage = document.createElement('div');
+    scorecardMessage.className = 'scorecard-empty';
+    scorecardMessage.textContent = 'Could not load the competitive scorecard.';
+    els.scorecardHero.appendChild(scorecardMessage);
+    els.scorecardBorrowShareChart?.replaceChildren();
+    const borrowShareChartMessage = document.createElement('div');
+    borrowShareChartMessage.className = 'pool-empty';
+    borrowShareChartMessage.textContent = 'Could not load the borrow-share history chart.';
+    els.scorecardBorrowShareChart?.appendChild(borrowShareChartMessage);
+    els.scorecardChart?.replaceChildren();
+    const scorecardChartMessage = document.createElement('div');
+    scorecardChartMessage.className = 'pool-empty';
+    scorecardChartMessage.textContent = 'Could not load the sector benchmark chart.';
+    els.scorecardChart?.appendChild(scorecardChartMessage);
+    disposeScorecardDriverCharts();
+    [els.scorecardScaleChart, els.scorecardPriceChart, els.scorecardCaptureChart].forEach((element) => element?.replaceChildren());
+  }
+  if (els.marketShareChart) {
+    els.marketShareChart.replaceChildren();
+    const marketShareMessage = document.createElement('div');
+    marketShareMessage.className = 'pool-empty';
+    marketShareMessage.textContent = 'Could not load active loan market-share history.';
+    els.marketShareChart.appendChild(marketShareMessage);
+    els.marketShareNote.hidden = true;
+  }
+  if (els.marketUtilizationChart) {
+    els.marketUtilizationChart.replaceChildren();
+    const utilizationMessage = document.createElement('div');
+    utilizationMessage.className = 'pool-empty';
+    utilizationMessage.textContent = 'Could not load market utilization history.';
+    els.marketUtilizationChart.appendChild(utilizationMessage);
+  }
   syncMethodologyHeight();
 }
 
 function bindThemeToggle() {
   applyTheme(document.documentElement.dataset.theme, false);
+  if (!els.themeToggle) return;
   els.themeToggle.addEventListener('click', () => {
     applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
   });
 }
 
 function bindScorecardControls() {
+  if (!els.scorecardProtocol || !els.scorecardTimeframe) return;
   els.scorecardProtocol.addEventListener('change', () => {
     state.scorecardProtocolId = els.scorecardProtocol.value;
+    publishSelectedProtocol(state.scorecardProtocolId);
     renderScorecard();
   });
 
@@ -1082,12 +1946,31 @@ function bindScorecardControls() {
   });
 }
 
+function bindFundamentalsSorting() {
+  const table = els.fundamentalsTable?.closest('table');
+  if (!table) return;
+  table.querySelectorAll('.table-sort[data-sort-key]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const nextKey = button.dataset.sortKey;
+      if (state.fundamentalsSortKey === nextKey) {
+        state.fundamentalsSortDirection = state.fundamentalsSortDirection === 'asc' ? 'desc' : 'asc';
+      } else {
+        state.fundamentalsSortKey = nextKey;
+        state.fundamentalsSortDirection = 'asc';
+      }
+      applyFundamentalsSort();
+    });
+  });
+}
+
 async function init() {
   try {
-    const [fundamentalsResponse, marketShareResponse, lendingVenuesResponse] = await Promise.all([
+    const [fundamentalsResponse, marketShareResponse, lendingVenuesResponse, scorecardDriversResponse, marketUtilizationResponse] = await Promise.all([
       fetch('./data/fundamentals.csv', { cache: 'no-store' }),
       fetch('./data/active-loan-market-share.csv', { cache: 'no-store' }),
       fetch('./data/lending-venue-stats.csv', { cache: 'no-store' }),
+      fetch('./data/scorecard-drivers.csv', { cache: 'no-store' }),
+      fetch('./data/market-utilization.csv', { cache: 'no-store' }),
     ]);
 
     if (marketShareResponse.ok) {
@@ -1100,6 +1983,33 @@ async function init() {
           marketShare: parseNumber(row.market_share),
         }))
         .filter((row) => row.date && row.activeLoans !== null && row.activeLoans > 0);
+    }
+
+    if (scorecardDriversResponse.ok) {
+      const rows = parseFundamentalsCsv(await scorecardDriversResponse.text());
+      state.scorecardDriverHistory = rows
+        .map((row) => ({
+          id: row.protocol,
+          date: row.date,
+          borrowInterest: parseNumber(row.borrow_interest_usd),
+          averageActiveLoans: parseNumber(row.average_active_loans_usd),
+          grossProfit: parseNumber(row.gross_profit_usd),
+        }))
+        .filter((row) => row.date && row.id);
+    }
+
+    if (marketUtilizationResponse.ok) {
+      const rows = parseFundamentalsCsv(await marketUtilizationResponse.text());
+      state.marketUtilizationHistory = rows
+        .map((row) => ({
+          date: row.date,
+          totalActiveLoans: parseNumber(row.total_active_loans),
+          totalTvl: parseNumber(row.total_tvl),
+          utilization: parseNumber(row.utilization),
+          borrowedVenues: parseNumber(row.borrowed_venues),
+          tvlVenues: parseNumber(row.tvl_venues),
+        }))
+        .filter((row) => row.date && row.totalActiveLoans !== null && row.totalTvl !== null && row.utilization !== null);
     }
 
     if (lendingVenuesResponse.ok) {
@@ -1139,4 +2049,5 @@ async function init() {
 
 bindThemeToggle();
 bindScorecardControls();
+bindFundamentalsSorting();
 init();

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Competitive benchmarking and protocol-specific governance intelligence for DeFi lending venues." />
+  <title>Competitive Analysis | DeFi Credit Market Dashboard</title>
+  <link rel="stylesheet" href="./styles.css?v=20260903-20" />
+  <script>
+    (() => {
+      try {
+        const savedTheme = window.localStorage.getItem('defi-dashboard-theme');
+        document.documentElement.dataset.theme = savedTheme === 'dark' ? 'dark' : 'light';
+      } catch {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
+</head>
+<body class="competitive-analysis-page">
+  <main class="shell">
+    <div class="workspace">
+      <aside class="side-nav" aria-label="Dashboard sections">
+        <a class="side-nav-brand" href="./index.html">
+          <span class="brand-mark" aria-hidden="true">D</span>
+          <span>
+            <strong>DeFi Credit</strong>
+            <small>Market dashboard</small>
+          </span>
+        </a>
+        <nav class="side-nav-links">
+          <a class="side-nav-page" href="./index.html">Sector overview</a>
+          <div class="side-nav-subnav">
+            <a href="./index.html#market-summary">Market summary</a>
+            <a href="./index.html#economics-section">Protocol fundamentals</a>
+          </div>
+          <a class="side-nav-page" href="./competitive-analysis.html" aria-current="page">Competitive analysis</a>
+          <div class="side-nav-subnav">
+            <a href="#scorecard-section">Scorecard</a>
+          </div>
+        </nav>
+      </aside>
+
+      <div class="content-column">
+        <header class="site-header">
+          <div>
+            <p class="eyebrow">DeFi Credit Markets</p>
+            <h1>Competitive analysis</h1>
+            <p class="lede">Compare one lending venue with its direct-competitor cohort.</p>
+          </div>
+          <div class="header-actions">
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+              <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle class="theme-sun" cx="12" cy="12" r="4" />
+                <path class="theme-sun" d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
+                <path class="theme-moon" d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z" />
+              </svg>
+            </button>
+            <div class="freshness" id="freshness">Loading market data…</div>
+          </div>
+        </header>
+
+        <div class="dashboard-grid competitive-grid">
+          <section class="scorecard-panel" id="scorecard-section" aria-label="Protocol competitive comparison">
+            <div class="scorecard-controls" aria-label="Scorecard controls">
+              <label for="scorecard-protocol">Protocol</label>
+              <select id="scorecard-protocol" class="scorecard-select">
+                <option value="">Loading protocols...</option>
+              </select>
+              <label for="scorecard-timeframe">Timeframe</label>
+              <select id="scorecard-timeframe" class="scorecard-select">
+                <option value="60D">60D</option>
+                <option value="90D" selected>90D</option>
+                <option value="1Y">1Y</option>
+              </select>
+            </div>
+            <div class="scorecard-hero" id="scorecard-hero" aria-label="Selected protocol scorecard highlights">
+              <div class="scorecard-loading">Loading scorecard...</div>
+            </div>
+            <div class="scorecard-borrow-share-box">
+              <div class="scorecard-visual-heading">
+                <h3>Share of borrows over time</h3>
+                <p class="scorecard-visual-note">100% normalized. One band per protocol, with the selected protocol highlighted.</p>
+              </div>
+              <div class="scorecard-chart" id="scorecard-borrow-share-chart" role="img" aria-label="100 percent normalized stacked area chart of share of borrows by lending protocol.">
+                <div class="scorecard-loading">Loading borrow-share history...</div>
+              </div>
+            </div>
+            <div class="scorecard-driver-charts" aria-label="Protocol earnings driver charts">
+              <article class="scorecard-driver-card">
+                <div class="scorecard-driver-heading">
+                  <div>
+                    <p class="eyebrow">Monthly average</p>
+                    <h3>Active loans <span class="scorecard-driver-current" id="scorecard-scale-current"></span><span class="scorecard-driver-rank" id="scorecard-scale-rank"></span></h3>
+                  </div>
+                  <p class="scorecard-driver-note">Scale</p>
+                </div>
+                <div class="scorecard-driver-chart" id="scorecard-scale-chart" role="img" aria-label="Monthly active loans by lending venue.">
+                  <div class="scorecard-loading">Loading scale history...</div>
+                </div>
+              </article>
+              <article class="scorecard-driver-card">
+                <div class="scorecard-driver-heading">
+                  <div>
+                    <p class="eyebrow">Trailing 3M annualized</p>
+                    <h3>Gross borrow yield <span class="scorecard-driver-current" id="scorecard-price-current"></span><span class="scorecard-driver-rank" id="scorecard-price-rank"></span></h3>
+                  </div>
+                  <p class="scorecard-driver-note">Price</p>
+                </div>
+                <div class="scorecard-driver-chart" id="scorecard-price-chart" role="img" aria-label="Trailing three-month annualized gross borrow yield by lending venue.">
+                  <div class="scorecard-loading">Loading price history...</div>
+                </div>
+              </article>
+              <article class="scorecard-driver-card">
+                <div class="scorecard-driver-heading">
+                  <div>
+                    <p class="eyebrow">Trailing 3M</p>
+                    <h3>Take rate <span class="scorecard-driver-current" id="scorecard-capture-current"></span><span class="scorecard-driver-rank" id="scorecard-capture-rank"></span></h3>
+                  </div>
+                  <p class="scorecard-driver-note">Capture</p>
+                </div>
+                <div class="scorecard-driver-chart" id="scorecard-capture-chart" role="img" aria-label="Trailing three-month protocol gross profit capture by lending venue.">
+                  <div class="scorecard-loading">Loading capture history...</div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="dashboard-panel feed-section governance-panel governance-page-panel" id="governance-section" aria-labelledby="feed-heading" hidden>
+            <div class="section-heading feed-heading-row" id="feed-heading-row">
+              <div>
+                <h2 id="feed-heading">Protocol activity feed</h2>
+              </div>
+              <div class="feed-heading-meta">
+                <span class="feed-protocol" id="feed-protocol">Loading protocol...</span>
+                <span class="feed-count" id="feed-count"></span>
+                <span class="feed-ai-note">Summaries refresh every 6 hours</span>
+              </div>
+            </div>
+
+            <div id="feed" class="feed" aria-live="polite"></div>
+            <div id="empty-state" class="empty-state" hidden>No governance posts match the selected protocol and filters.</div>
+          </section>
+        </div>
+
+        <footer class="site-footer">
+          All data sourced from
+          <a class="site-footer-link" href="https://defillama.com/" target="_blank" rel="noopener noreferrer">
+            DeFiLlama
+            <svg class="external-link-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M9 2h5v5M14 2 7 9" />
+              <path d="M13 9v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3" />
+            </svg>
+          </a>
+        </footer>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+  <script type="module" src="./app.js?v=20260903-20"></script>
+  <script type="module" src="./governance.js?v=20260902-44"></script>
+</body>
+</html>
